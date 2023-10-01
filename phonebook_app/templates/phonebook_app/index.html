@@ -25,9 +25,10 @@
         <div class="col">
             <div class="row">
                 <div class="col">{{ dep_form.department_field }}</div>
-                <div class="col"><input type="text" id="myInput" onkeyup="mySearchFunction()" placeholder="Имя/Отдел/Тел."
+                <div class="col"><input type="text" id="myInput" onkeyup="mySearchFunction()"
+                                        placeholder="Имя/Отдел/Тел."
                                         class="form-control form-control-blue"></div>
-{#                <div class="col">{{ dep_form.search_text_field }}</div>#}
+                {#                <div class="col">{{ dep_form.search_text_field }}</div>#}
             </div>
         </div>
         <div class="col" style="display:flex; align-items: center; justify-content: end">
@@ -58,6 +59,18 @@
 
 
     <script>
+
+        $("#id_department_field").change(function (){
+            var listview = document.getElementById('icon-list-view')
+            if ($(listview).hasClass('active')){
+                onClickList()
+            }
+            else {
+                onClickGrid()
+            }
+        });
+
+
         function onClickDetailView(id) {
             var url = $("#modal_fade_details").attr("data-details-url");
 
@@ -78,12 +91,14 @@
 
         function onClickGrid() {
             var url = $("#person_view").attr("data-grid-url");
-
+            var dep_field = $('#id_department_field').val();
+            console.log(dep_field)
             console.log(url)
 
             $.ajax({                       // формируем AJAX запрос
                 url: url,                    // подгружаем URL адрес для запроса
                 data: {
+                    'dep_field': dep_field
                     // добавляем objectID в query параметры GET запроса
                 },
                 success: function (data) {
@@ -96,12 +111,12 @@
 
         function onClickList() {
             var url = $("#person_view").attr("data-list-url");
-            console.log(url)
+            var dep_field = $('#id_department_field').val();
 
             $.ajax({                       // формируем AJAX запрос
                 url: url,                    // подгружаем URL адрес для запроса
                 data: {
-                    // добавляем objectID в query параметры GET запроса
+                    'dep_field': dep_field
                 },
                 success: function (data) {
                     $(".icon-app-view").removeClass("active");
@@ -113,7 +128,7 @@
         // после загрузки страницы
         document.addEventListener("DOMContentLoaded", function () {
             // инициализации подсказок для всех элементов на странице, имеющих атрибут data-toggle="tooltip"
-            console.log('загрузилось')
+            console.log('Load tooltips')
             $('[data-toggle="tooltip"]').tooltip();
         });
 

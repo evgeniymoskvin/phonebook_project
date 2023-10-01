@@ -16,8 +16,14 @@ class IndexPageView(View):
 
 
 def get_grid_view(request):
-    employees = EmployeeModel.objects.get_queryset().filter(work_status=True).order_by('last_name', 'first_name',
-                                                                                       'middle_name')
+    dep_field = request.GET.get('dep_field')
+    if dep_field:
+        employees = EmployeeModel.objects.get_queryset().filter(work_status=True).filter(department_group_id=dep_field).order_by('last_name', 'first_name',
+                                                                                           'middle_name')
+    else:
+        employees = EmployeeModel.objects.get_queryset().filter(work_status=True).order_by('last_name', 'first_name',
+                                                                                           'middle_name')
+
     count = employees.count()
     content = {
         'count': count,
@@ -25,8 +31,13 @@ def get_grid_view(request):
     return render(request, 'phonebook_app/grid_view.html', content)
 
 def get_list_view(request):
-    employees = EmployeeModel.objects.get_queryset().filter(work_status=True).order_by('last_name', 'first_name',
-                                                                                       'middle_name')
+    dep_field = request.GET.get('dep_field')
+    if dep_field:
+        employees = EmployeeModel.objects.get_queryset().filter(work_status=True).filter(department_group_id=dep_field).order_by('last_name', 'first_name',
+                                                                                           'middle_name')
+    else:
+        employees = EmployeeModel.objects.get_queryset().filter(work_status=True).order_by('last_name', 'first_name',
+                                                                                           'middle_name')
     content = {
         'employees': employees}
     return render(request, 'phonebook_app/table_view.html', content)
