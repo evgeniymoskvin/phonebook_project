@@ -28,11 +28,16 @@
     <div class="header-inside">
         <div class="header_logo">
             <a href="{% url 'index' %}"><img src="{% static 'admin_panel_app/icons/logo.png' %}" width="88px"
-                                             height="40px"></a>
+                                                height="40px"></a>
         </div>
+        <div>
+            <div class="text-1-admin" onclick="location.href='{% url 'index' %}'">
+                Справочник
+            </div>
 
-        <div class="text-1" style="text-transform: uppercase; font-size: 14px">
-            Управление персоналом
+            <div class="text-1-admin" onclick="location.href='{% url 'admin_hr' %}'">
+                Управление персоналом
+            </div>
         </div>
 
     </div>

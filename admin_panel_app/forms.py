@@ -46,6 +46,8 @@ class EmployeeForm(ModelForm):
         self.fields['department_group'].queryset = GroupDepartmentModel.objects.filter(show=True).order_by(
             'group_dep_abr')
 
+class DateInputNew(DateInput):
+    input_type = 'date'
 
 class MoreDetailsEmployeeForm(ModelForm):
     class Meta:
@@ -57,8 +59,8 @@ class MoreDetailsEmployeeForm(ModelForm):
                                                     "placeholder": "Мобильный телефон"}),
                    'city_dep': Select(attrs={"class": "form-select",
                                              "aria-label": "Город/Подразделение"}),
-                   'date_birthday': DateInput(format='%Y-%m-%d',
-                                              attrs={"class": "form-control",
+                   'date_birthday': DateInputNew(format='%Y-%m-%d',
+                                              attrs={"class": "form-control datepicker",
                                                      "aria-label": "День рождения"}),
                    'date_birthday_show': CheckboxInput(),
                    'photo': ClearableFileInput(attrs={"class": "form-control",

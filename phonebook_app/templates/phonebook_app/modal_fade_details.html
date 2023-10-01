@@ -8,7 +8,7 @@
 {#                </h1>#}
 {#    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
 {#</div>#}
-<div style="display: flex;flex-direction: column; justify-content: space-between; height: 100%;">
+<div class="all-modal">
     <div style="display: flex; flex-direction: column">
         <div class="model-inside">
 
@@ -82,7 +82,7 @@
             </div>
         </div>
         <div class="model-right-content">
-            <div style=" display: flex; flex-direction: row; justify-content: end; align-items: center; padding-right: 17px">
+            <div class="model-hb-days-out">
                 <div class="text-p-15">До дня рождения&nbsp;</div>
                 {% if more_details.date_birthday_show is True %}
                     <div class="text-p-15-bold">{% get_days_to_birthday more_details.date_birthday %}</div>

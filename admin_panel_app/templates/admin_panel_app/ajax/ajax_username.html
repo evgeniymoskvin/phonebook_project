@@ -1,0 +1,12 @@
+{% if username_back %}
+    <span class="text-attention">Это имя уже занято</span>
+    <script>
+        var submit_button = $("#submit_button");
+        submit_button.attr('disabled', true);
+    </script>
+{% else %}
+    <script>
+        var submit_button = $("#submit_button");
+        submit_button.attr('disabled', false);
+    </script>
+{% endif %}

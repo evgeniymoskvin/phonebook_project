@@ -50,8 +50,8 @@ class AllEmployeeView(View):
             check_user = False
         employees = EmployeeModel.objects.get_queryset().order_by('last_name')
         content = {
-            'employees': employees
-        }
+            'employees': employees,
+            'permission': check_user}
         return render(request, 'admin_panel_app/all_employee.html', content)
 
 
@@ -145,6 +145,40 @@ class EditEmployee(View):
 
     @method_decorator(login_required(login_url='login'))
     def post(self, request, pk):
-        print(pk)
+        employee_form = EmployeeForm(request.POST)
+        details_form = MoreDetailsEmployeeForm(request.POST, request.FILES)
         emp = EmployeeModel.objects.get(id=pk)
-        return redirect('index')
+        more_information_emp = MoreDetailsEmployeeModel.objects.get(emp_id=emp.id)
+        more_information_emp.photo = request.FILES['photo']
+        more_information_emp.save()
+        # if employee_form.is_valid():
+        #     employee = employee_form.save(commit=False)
+        #     employee.user_id = emp.id
+        #     employee_form.save()
+        # try:
+        #     more_information_emp = MoreDetailsEmployeeModel.objects.get(emp_id=emp.id)
+        #     if details_form.is_valid():
+        #         details = details_form.save(commit=False)
+        #         details.id = more_information_emp.id
+        #         details_form.save()
+        # except:
+        #     more_information = MoreDetailsEmployeeModel(emp_id=emp.id)
+        #     if details_form.is_valid():
+        #         details = details_form.save(commit=False)
+        #         details.emp_id = emp.id
+        #         details_form.save()
+        # print(emp)
+        # print(more_information)
+        return redirect('all_employee')
+
+def username_exists(request):
+    username = request.GET.get('username')
+    print(username)
+    if User.objects.filter(username=username).exists():
+        username_back = True
+    else:
+        username_back = False
+    content = {
+        'username_back': username_back
+    }
+    return render(request, 'admin_panel_app/ajax/ajax_username.html', content)
