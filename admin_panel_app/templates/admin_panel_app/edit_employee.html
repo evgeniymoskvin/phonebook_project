@@ -1,0 +1,143 @@
+{% extends "admin_panel_app/base.html" %}
+{% load static %}
+
+{% block title %}
+    Добавить сотрудника
+{% endblock %}
+
+{% block body %}
+    <div class="allign-center-admin">
+        <div class="container-admin-panel">
+            <div class="content-div">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col">
+                            <div style="margin-bottom: 10px">
+                                <span class="text-3-regular" style="text-transform: uppercase">Фамилия:</span>
+                                {{ emp_form.last_name }}
+                                <span class="text-3-regular" style="text-transform: uppercase">Имя:</span>
+                                {{ emp_form.first_name }}
+                                <span class="text-3-regular" style="text-transform: uppercase">Отчество:</span>
+                                {{ emp_form.middle_name }}
+                                <span class="text-3-regular" style="text-transform: uppercase">Табельный номер:</span>
+                                {{ emp_form.personnel_number }}
+                                <span class="text-3-regular" style="text-transform: uppercase">Фотография:</span>
+                                {{ more_details.photo }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div style="margin-bottom: 10px">
+                                <span class="text-3-regular" style="text-transform: uppercase">Внешняя почта:</span>
+                                {{ more_details.outside_email }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 25px">
+                        <div class="col">
+                            <span class="text-3-regular" style="text-transform: uppercase">Город/подразделение:</span>
+                            {{ more_details.city_dep }}
+                            <span class="text-3-regular" style="text-transform: uppercase">Управление:</span>
+                            {{ emp_form.department_group }}
+                            <span class="text-3-regular" style="text-transform: uppercase">Отдел:</span>
+                            {{ emp_form.department }}
+                            <span class="text-3-regular" style="text-transform: uppercase">Должность:</span>
+                            {{ emp_form.job_title }}
+                            <div class="row" style="margin-top: 25px">
+                                <div class="col">
+                                    <span class="text-3-regular"
+                                          style="text-transform: uppercase">Внутренний телефон:</span>
+                                    {{ emp_form.user_phone }}
+                                </div>
+                                <div class="col">
+                                    <span class="text-3-regular"
+                                          style="text-transform: uppercase">Мобильный телефон:</span>
+                                    {{ more_details.mobile_phone }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <span class="text-3-regular"
+                                          style="text-transform: uppercase">День рождения:</span>
+                                    {{ more_details.date_birthday }}
+
+                                </div>
+                                <div class="col" style="display: flex; align-items: center">
+                                    <span class="text-3-regular"
+                                          style="text-transform: uppercase; margin-right: 15px">Показывать день рождения:</span>
+                                    {{ more_details.date_birthday_show }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                <span class="text-3-regular"
+                                      style="text-transform: uppercase">Кабинет:</span>
+                                    {{ more_details.room }}
+                                </div>
+                                <div class="col"></div>
+                            </div>
+                            <div class="row" style="margin-top: 25px">
+                                <div class="col" style="display: flex; align-items: center">
+                                <span class="text-3-regular"
+                                      style="text-transform: uppercase; margin-right: 15px">Возможность подписывать задания исходящие из отдела:</span>
+                                    {{ emp_form.right_to_sign }}
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 25px">
+                                <div class="col" style="display: flex; align-items: center">
+                                <span class="text-3-regular"
+                                      style="text-transform: uppercase; margin-right: 15px">Возможность выдавать задания:</span>
+                                    {{ emp_form.can_make_task }}
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 25px">
+                                <div class="col" style="display: flex; align-items: center">
+                                <span class="text-3-regular"
+                                      style="text-transform: uppercase; margin-right: 15px">Возможность редактировать задания:</span>
+                                    {{ emp_form.check_edit }}
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 25px">
+                                <div class="col" style="display: flex; align-items: center">
+                                <span class="text-3-regular"
+                                      style="text-transform: uppercase; margin-right: 15px">ГИП (для корректного отображения меню):</span>
+                                    {{ emp_form.cpe_flag }}
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 25px">
+                                <div class="col" style="display: flex; align-items: center">
+                                <span class="text-3-regular"
+                                      style="text-transform: uppercase; margin-right: 15px">Включить рассылку:</span>
+                                    {{ emp_form.mailing_list_check }}
+                                </div>
+                            </div>
+
+
+                            <div class="row" style="margin-top: 25px">
+                                <div class="col" style="display: flex; align-items: center">
+                                <span class="text-3-regular"
+                                      style="text-transform: uppercase; margin-right: 15px">Сотрудник работает:</span>
+                                    {{ emp_form.work_status }}
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="row" style="margin-top: 15px">
+                        <div class="col" style="display: flex; justify-content: center">
+                            <button type="submit" class="button-primary-rusatom" style="width: 1200px">Сохранить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

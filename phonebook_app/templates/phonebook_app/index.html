@@ -1,0 +1,125 @@
+{% extends "phonebook_app/base.html" %}
+{% load static %}
+{% load phonebook_tags %}
+{% block title %}
+    Справочник сотрудников
+{% endblock %}
+
+{% block content %}
+
+    <div class="row" style="margin-top: 25px">
+        <div class="col">
+            <h3 class="text-h3">Справочник сотрудников</h3>
+            <p class="text-p-16">Проектно-изыскательский центр г. Санкт-Петербург АО КИС “ИСТОК”</p>
+        </div>
+        <div class="col" style="display:flex; align-items: center; justify-content: end">
+            <div style="display: flex; justify-content: end; align-items: center">
+                <div id="icon-list-view" class="icon-list-view active" onclick="onClickList()" data-toggle="tooltip"
+                     title="Список"></div>
+                <div id="icon-app-view" class="icon-app-view" onclick="onClickGrid()" data-toggle="tooltip"
+                     title="Таблица"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col">{{ dep_form.department_field }}</div>
+                <div class="col"><input type="text" id="myInput" onkeyup="mySearchFunction()" placeholder="Имя/Отдел/Тел."
+                                        class="form-control form-control-blue"></div>
+{#                <div class="col">{{ dep_form.search_text_field }}</div>#}
+            </div>
+        </div>
+        <div class="col" style="display:flex; align-items: center; justify-content: end">
+            <div style="display: flex; justify-content: end; align-items: center">
+                <div style="margin-right: 15px">
+                    <div class="text-p-10" style="text-align: right">Календарь дней</div>
+                    <div class="text-p-10" style="text-align: right; margin-top: -5px">рождения</div>
+                </div>
+                <div id="icon-hb-view" class="icon-hb-view" data-toggle="tooltip"
+                     title="Не работает"></div>
+            </div>
+        </div>
+    </div>
+    <div id="person_view" data-grid-url="{% url 'get_grid' %}" data-list-url="{% url 'get_list' %}">
+        {% include 'phonebook_app/table_view.html' %}
+    </div>
+
+
+    <div class="modal fade" id="detailEmpView" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="width: 900px">
+            <div class="modal-content" style='border: 2px solid #025EA1;'>
+                <div id="modal_fade_details" data-details-url="{% url 'get_details' %}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function onClickDetailView(id) {
+            var url = $("#modal_fade_details").attr("data-details-url");
+
+            console.log(url)
+            console.log(id)
+
+            $.ajax({                       // формируем AJAX запрос
+                url: url,                    // подгружаем URL адрес для запроса
+                data: {
+                    'emp_id': id
+                },
+                success: function (data) {
+                    $("#modal_fade_details").html(data)
+                }
+            })
+            $('#detailEmpView').modal('show');
+        };
+
+        function onClickGrid() {
+            var url = $("#person_view").attr("data-grid-url");
+
+            console.log(url)
+
+            $.ajax({                       // формируем AJAX запрос
+                url: url,                    // подгружаем URL адрес для запроса
+                data: {
+                    // добавляем objectID в query параметры GET запроса
+                },
+                success: function (data) {
+                    $(".icon-app-view").addClass("active");
+                    $(".icon-list-view").removeClass("active");
+                    $("#person_view").html(data)
+                }
+            })
+        };
+
+        function onClickList() {
+            var url = $("#person_view").attr("data-list-url");
+            console.log(url)
+
+            $.ajax({                       // формируем AJAX запрос
+                url: url,                    // подгружаем URL адрес для запроса
+                data: {
+                    // добавляем objectID в query параметры GET запроса
+                },
+                success: function (data) {
+                    $(".icon-app-view").removeClass("active");
+                    $(".icon-list-view").addClass("active");
+                    $("#person_view").html(data)
+                }
+            })
+        };
+        // после загрузки страницы
+        document.addEventListener("DOMContentLoaded", function () {
+            // инициализации подсказок для всех элементов на странице, имеющих атрибут data-toggle="tooltip"
+            console.log('загрузилось')
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+
+    </script>
+
+
+
+{% endblock %}

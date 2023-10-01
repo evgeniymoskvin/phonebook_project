@@ -1,0 +1,99 @@
+{% load static %}
+{% load phonebook_tags %}
+
+{#<div class="modal-header">#}
+{#                <h1 class="modal-title fs-5" id="staticBackdropLabel">#}
+{#                                                            <span class="text-3"#}
+{#                                                                  style="display: inline-block; text-transform: uppercase;">Удаление</span>#}
+{#                </h1>#}
+{#    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
+{#</div>#}
+<div style="display: flex;flex-direction: column; justify-content: space-between; height: 100%;">
+    <div style="display: flex; flex-direction: column">
+        <div class="model-inside">
+
+            <div class="model-left-content">
+                <div style="justify-content: center; align-items: center">
+                    <img class="b-img-radius" src="{% get_photo_url emp.id %}" style="height: 250px">
+                </div>
+            </div>
+            <div class="model-right-content">
+                <div>
+                    <div class="text-p-30-bold">{{ emp.last_name }}</div>
+                    <div class="text-p-30" style="margin-top: -15px">{{ emp.first_name }} {{ emp.middle_name }}</div>
+                    <div class="hr-line"></div>
+                    <div class="text-p-18">{{ emp.department_group.group_dep_name }}</div>
+                    <div class="text-p-18">{{ emp.department.command_name }}</div>
+                </div>
+
+                    <div class="text-p-18-bold">{{ emp.job_title }}</div>
+
+                {% if more_details.room %}
+                    <div class="text-p-18-bold" style="justify-self: flex-end">каб. {{ more_details.room }}</div>
+                {% else %}
+                    <div class="text-p-18-bold" style="justify-self: flex-end">каб. ---</div>
+                {% endif %}
+            </div>
+
+        </div>
+        <div class="model-inside">
+            <div class="model-left-content">
+                <div class="text-p-18">Телефон:</div>
+                <div style=" display: flex; flex-direction: row; justify-content: start; align-items: center">
+                    <div class="text-p-16">тел.&nbsp;</div>
+                    <div class="text-p-16-bold">{{ emp.user_phone }}</div>
+                </div>
+                <div style=" display: flex; flex-direction: row; justify-content: start; align-items: center">
+                    <div class="text-p-16">моб. тел.&nbsp;</div>
+                    {% if more_details.mobile_phone %}
+                        <div class="text-p-16-bold">{{ more_details.mobile_phone }}</div>
+                    {% else %}
+                        <div class="text-p-16-bold">---</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="vl-line"></div>
+            <div class="model-right-content">
+                <div>
+                    <div class="text-p-18">Почта:</div>
+                    {% if  user_info.email %}
+                        <div class="text-p-16-bold">{{ user_info.email }}</div>
+                    {% else %}
+                        <div class="text-p-16-bold">---</div>
+                    {% endif %}
+                    {% if more_details.outside_email %}
+                        <div class="text-p-16-bold">{{ more_details.outside_email }}</div>
+                    {% else %}
+                        <div class="text-p-16-bold">---</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="model-inside" style="margin-top: 25px">
+        <div class="model-left-content">
+            <div style=" display: flex; flex-direction: row; justify-content: start; align-items: center">
+                <div class="text-p-15">День рождения:&nbsp;</div>
+                {% if more_details.date_birthday_show is True %}
+                    <div class="text-p-15-bold">{{ more_details.date_birthday }}</div>
+                {% else %}
+                    <div class="text-p-1е-bold">Скрыт</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="model-right-content">
+            <div style=" display: flex; flex-direction: row; justify-content: end; align-items: center; padding-right: 17px">
+                <div class="text-p-15">До дня рождения&nbsp;</div>
+                {% if more_details.date_birthday_show is True %}
+                    <div class="text-p-15-bold">{% get_days_to_birthday more_details.date_birthday %}</div>
+                {% else %}
+                    <div class="text-p-14-bold">Неизвестно</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{#            <div class="modal-footer">#}
+{#                    <input type="submit" class="button-danger" name="delete_number" value="Удалить">#}
+{#                    <button type="button" class="button-cancel" data-bs-dismiss="modal">Отмена</button>#}
+{#            </div>#}

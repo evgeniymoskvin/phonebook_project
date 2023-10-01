@@ -1,0 +1,92 @@
+<div class="content-fade">
+    <table id="my_tasks_sign_table" class="table table-hover">
+        <thead>
+        <tr style="cursor: context-menu">
+            <th class="th_tables" scope="col">#</th>
+            <th class="th_tables" scope="col">Ф.И.О.</th>
+            <th class="th_tables" scope="col">Должность</th>
+            <th class="th_tables" scope="col">Управление</th>
+            <th class="th_tables" scope="col">Отдел</th>
+            <th class="th_tables" scope="col" style="width: 50px; text-align: right; padding-right: 0">Тел.</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for emp in employees %}
+            <tr class="tr-tables" style="cursor: context-menu" onclick="onClickDetailView({{ emp.id }})">
+                <th class="th_tables" scope="row" style="width: 30px">{{ forloop.counter }}</th>
+                <td class="td_tables">
+                    {{ emp.last_name }} {{ emp.first_name }} {{ emp.middle_name }}</td>
+                <td class="td_tables" style="width: 250px; text-align: left">
+                    {{ emp.job_title }}
+                </td>
+                <td class="td_tables" style="width: 50px; text-align: center">
+                    {{ emp.department_group.group_dep_abr }}</td>
+
+                <td class="td_tables" style="width: 50px; text-align: center">
+                    {{ emp.department.command_number }}
+                </td>
+                <td class="td_tables" style="width: 50px; text-align: right; padding-right: 0">
+                    {{ emp.user_phone }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        var table = $('#my_tasks_sign_table').DataTable({
+                {#order: [[1, 'asc']],#}
+                dom:
+                    {#"<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +#}
+                    {#"<'row'<'col-sm-12 col-md-6'f>>" +#}
+                    "<'row'<'col-sm-12'tr>>",
+                /*"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",*/
+                "language": {
+                    "lengthMenu": "Показать _MENU_",
+                    "zeroRecords": "Записи не найдены",
+                    "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
+                    "search": "Поиск:",
+                    "paginate": {
+                        "next": "Следующая",
+                        "previous": "Предыдущая"
+                    }
+                },
+                "aLengthMenu": [[1, 5, 10, 15, 20, 25, -1], [1, 5, 10, 15, 20, 25, "Все"]],
+                "iDisplayLength": -1,
+                buttons: ['pdf', 'excel']
+            }
+        );
+        table.buttons().container()
+            .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+    });
+
+    function mySearchFunction() {
+        // Объявить переменные
+        var input, filter, table, tr, td, td_1, td_2, i, txtValue, txtValue2, txtValue3;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("my_tasks_sign_table");
+        tr = table.getElementsByTagName("tr");
+
+        // Перебирайте все строки таблицы и скрывайте тех, кто не соответствует поисковому запросу
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            td_1 = tr[i].getElementsByTagName("td")[4];
+            td_2 = tr[i].getElementsByTagName("td")[3];
+            if (td || td_1) {
+                txtValue = td.textContent || td.innerText;
+                txtValue2 = td_1.textContent || td_1.innerText;
+                txtValue3 = td_2.textContent || td_2.innerText;
+                if ((txtValue.toUpperCase().indexOf(filter) > -1) || (txtValue2.toUpperCase().indexOf(filter) > -1) || (txtValue3.toUpperCase().indexOf(filter) > -1)) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", mySearchFunction());
+</script>

@@ -1,0 +1,132 @@
+{% load static %}
+{% load orders_tags %}
+
+<div>
+
+    <nav class="main-menu">
+        <ul>
+            <li>
+                <a href="{% url 'index' %}" style="vertical-align: top">
+
+                    <i class="fa">
+                        <div class="icon-home"></div>
+                    </i>
+
+                    <span class="nav-text text-menu-sidebar" style="text-transform: uppercase">
+                           Главная страница
+                        </span>
+                </a>
+
+            </li>
+            {% if user_flag is True and user_add_flag is True %}
+                <li>
+                    <a href="{% url 'add_order' %}">
+                        <i class="fa">
+                            <div class="icon-pen-menu"></div>
+                        </i>
+                        <span class="nav-text text-menu-sidebar" style="text-transform: uppercase">
+                            Добавить приказ
+                        </span>
+                    </a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{% url 'orders' %}">
+                    <i class="fa">
+                        <div class="icon-box-menu"></div>
+                    </i>
+                    <span class="nav-text text-menu-sidebar" style="text-transform: uppercase">
+                           Посмотреть все
+                        </span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'advenced_search' %}">
+                    <i class="fa">
+                        <div class="icon-search-menu"></div>
+                    </i>
+                    <span class="nav-text text-menu-sidebar" style="text-transform: uppercase">
+                            Расширенный поиск
+                        </span>
+                </a>
+            </li>
+        </ul>
+
+        {% if user_flag is True %}
+            <ul class="logout">
+                <li>
+                    <a href="{% url 'index' %}">
+                        <i class="fa">
+                            <div class="icon-user-menu"></div>
+                        </i>
+                        <span class="nav-text text-menu-sidebar" style="text-transform: uppercase">
+                            {{ user.last_name }} {{ user.first_name|slice:"0:1" }}.{{ user.middle_name|slice:"0:1" }}.
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'logout' %}">
+                        <i class="fa">
+                            <div class="icon-power-off-menu"></div>
+                        </i>
+                        <span class="nav-text text-menu-sidebar" style="text-transform: uppercase">
+                            Выйти
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        {% else %}
+            <ul class="logout">
+                <li>
+                    <a href="#" onclick="openLoginModal()">
+                        <i class="fa">
+                            <div class="icon-power-off-menu"></div>
+                        </i>
+                        <span class="nav-text text-menu-sidebar" style="text-transform: uppercase">
+                            Войти
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        {% endif %}
+    </nav>
+    <script type="text/javascript">
+        hidecircle()
+    </script>
+</div>
+
+{% if user_flag is False %}
+    <!-- Модальное окно логина -->
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" style="text-transform: uppercase;">Вход</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="modal-body" id="modalBody">
+                        <p class="text-3" style="text-transform: uppercase;">Имя пользователя</p>
+                        {{ login_form.username }}
+                        <p class="text-3" style="text-transform: uppercase; margin-top: 25px">Пароль</p>
+                        {{ login_form.password }}
+                        <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <input type="submit" class="btn btn-outline-primary" value="Войти">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<script>
+    function openLoginModal() {
+        $('#loginModal').modal('show');
+    }
+</script>

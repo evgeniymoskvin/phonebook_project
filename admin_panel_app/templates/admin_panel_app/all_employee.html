@@ -1,0 +1,88 @@
+{% extends "admin_panel_app/base.html" %}
+{% load static %}
+
+{% block title %}
+    Главная
+{% endblock %}
+
+{% block body %}
+    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+        <div class="text-1" style="display: flex; text-transform: uppercase">
+            Сотрудники
+        </div>
+        <div style="display: flex">
+            <a class="button-primary-rusatom-v2" href="{% url 'new_employee' %}">Добавить</a>
+        </div>
+    </div>
+
+    <table id="my_tasks_sign_table" class="table table-hover">
+        <thead>
+        <tr>
+            <th class="th_tables" scope="col">#</th>
+            <th class="th_tables" scope="col">Ф.И.О.</th>
+            <th class="th_tables" scope="col">Управление</th>
+            <th class="th_tables" scope="col">Отдел</th>
+            <th class="th_tables" scope="col">Телефон</th>
+            <th class="th_tables" scope="col">Работает</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for emp in employees %}
+            <tr class="tr-tables" onclick="location.href='{% url 'edit_employee' pk=emp.id  %}'" style="cursor: context-menu">
+                <th class="th_tables" scope="row" style="width: 30px">{{ forloop.counter }}</th>
+                <td class="td_tables">
+                    {{ emp.last_name }} {{ emp.first_name }} {{ emp.middle_name }}</td>
+                <td class="td_tables" style="width: 50px; text-align: center">
+                    {{ emp.department_group.group_dep_abr }}</td>
+
+                <td class="td_tables" style="width: 50px; text-align: center">
+                    {{ emp.department.command_number }}
+                </td>
+                <td class="td_tables" style="width: 50px; text-align: center">
+                    {{ emp.user_phone }}
+                </td>
+                <td class="td_tables" style="width: 50px; text-align: center">
+                    {% if emp.work_status is True %}
+                        Да
+                    {% else %}
+                        Нет
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#my_tasks_sign_table').DataTable({
+                    {#order: [[1, 'asc']],#}
+                    dom:
+                        "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    "language": {
+                        "lengthMenu": "Показать _MENU_",
+                        "zeroRecords": "Записи не найдены",
+                        "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
+                        "search": "Поиск:",
+                        "paginate": {
+                            "next": "Следующая",
+                            "previous": "Предыдущая"
+                        }
+                    },
+                    "aLengthMenu": [[1, 5, 10, 15, 20, 25, -1], [1, 5, 10, 15, 20, 25, "Все"]],
+                    "iDisplayLength": 15,
+                    buttons: ['pdf', 'excel']
+                }
+            );
+            table.buttons().container()
+                .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+        });
+    </script>
+
+{% endblock %}
+

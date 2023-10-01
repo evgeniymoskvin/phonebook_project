@@ -1,0 +1,251 @@
+/*@font-face {*/
+/*    font-family: 'p22_underground_cy_prodemi';*/
+/*    src: url('../fonts/P22UndergroundCYPro-Demi.woff2') format('woff2'),*/
+/*    url('../fonts/P22UndergroundCYPro-Demi.woff') format('woff'),*/
+/*    url('../fonts/P22UndergroundCYPro-Demi.otf') format('otf');*/
+/*    font-weight: normal;*/
+/*    font-style: normal;*/
+
+/*}*/
+
+/*@font-face {*/
+/*    font-family: 'p22_underground_cy_probook';*/
+/*    src: url('../fonts/P22UndergroundCYPro-Book.woff2') format('woff2'),*/
+/*    url('../fonts/P22UndergroundCYPro-Book.woff') format('woff'),*/
+/*    url('../fonts/P22UndergroundCYPro-Book.otf') format('otf');*/
+/*    font-weight: bold;*/
+/*    font-style: normal;*/
+/*}*/
+
+@font-face {
+    font-family: 'p22_underground_cy_prodemi';
+    src: url('../fonts/golos/500/font.woff2') format('woff2'),
+    url('../fonts/golos/500/font.woff') format('woff'),
+    url('../fonts/golos/500/font.ttf') format('ttf');
+url('../fonts/golos/500/font.eot') format('eot');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'p22_underground_cy_probook';
+    src: url('../fonts/golos/400/font.woff2') format('woff2'),
+    url('../fonts/golos/400/font.woff') format('woff'),
+    url('../fonts/golos/400/font.ttf') format('ttf');
+url('../fonts/golos/400/font.eot') format('eot');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Теперь можно использовать шрифт */
+
+
+.content-fade {
+    scroll-behavior: smooth;
+    animation: fade-in .4s ease;
+}
+
+
+.centered_div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /*min-height: 100vh;*/
+}
+
+
+#sec {
+    background: #fff;
+    text-align: center;
+    vertical-align: center;
+    align-items: center;
+    word-wrap: break-word;
+    transition: all .3s linear;
+
+}
+
+#sec ul {
+    margin: 0 0 20px 0;
+    display: grid;
+    gap: 10%;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    transition: all .3s linear;
+}
+
+#sec ul li {
+    text-align: center;
+    height: 150px;
+    width: 150px;
+    vertical-align: middle;
+    transition: all .3s linear;
+    filter: grayscale(100%);
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    transition: all .3s linear;
+}
+
+#sec ul:hover li {
+    transition: all .3s linear;
+
+
+}
+
+#sec ul li:hover {
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    scale: 110%;
+    filter: blur(0) grayscale(0);
+    transition: all .3s linear;
+
+}
+
+
+#sec ul li p {
+    font-family: "p22_underground_cy_probook", serif;
+    font-size: 16px;
+    margin-top: 15px;
+    transition: .05s ease-in-out;
+    color: #5c636a;
+    text-transform: uppercase;
+}
+
+#sec ul li:hover p {
+    font-family: "p22_underground_cy_probook", serif;
+    font-size: 16px;
+    margin-top: 15px;
+    transition: color 0.3s ease-in-out;
+    color: black;
+    text-transform: uppercase;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+
+}
+
+.header {
+    overflow: hidden;
+    height: 50px;
+    background-color: rgba(245, 245, 245, 0.9);
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    z-index: 100;
+}
+
+.header-fixed{
+    position: fixed;
+    top: 0;
+}
+
+.header-inside {
+    /*background-color: #ffffff;*/
+    display: flex;
+    width: 1200px;
+    height: 50px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_logo {
+
+    height: 40px;
+    width: 88px;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-title {
+    font-family: "p22_underground_cy_probook", serif;
+    font-size: 14px;
+    word-wrap: break-word;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.container-admin-panel {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    padding-top: 15px;
+    padding-bottom: 75px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.content-div {
+    width: 1200px;
+    display: flex;
+    flex-flow: column;
+    justify-content: start;
+}
+
+.text-1 {
+    font-family: "p22_underground_cy_prodemi", serif;
+    font-size: 25px;
+    display: inline;
+}
+
+
+.text-3-bold {
+    font-family: "p22_underground_cy_prodemi", serif;
+    font-size: 15px;
+    margin-top: 15px;
+    transition: .05s ease-in-out;
+}
+
+.text-3-regular {
+    font-family: "p22_underground_cy_probook", serif;
+    font-size: 15px;
+    transition: .05s ease-in-out;
+}
+
+.hover-mouse {
+    transition-duration: .2s;
+}
+
+.hover-mouse:hover {
+    background-color: #F2F2F2;
+}

@@ -1,0 +1,57 @@
+{% extends "admin_panel_app/base.html" %}
+{% load static %}
+
+{% block title %}
+    Главная
+{% endblock %}
+
+{% block body %}
+    {#    <div style="width: 100%; display: flex; justify-content: center">#}
+    {#        <img src="{% static 'admin_panel_app/icons/logo.png' %}" width="154px" height="70px">#}
+    {#    </div>#}
+    <div class="text-1" style="text-transform: uppercase">
+        Управление персоналом
+    </div>
+
+    <div class="text-3-bold" style="text-transform: uppercase">
+        Сотрудники
+    </div>
+    <div class="text-3-regular">
+        Всего записей: {{ count_emp }}
+    </div>
+    <div class="text-3-regular">
+        Сотрудников работает: {{ count_work_emp }}
+    </div>
+    <div class="text-3-regular">
+        Сотрудников не работает: {{ count_not_work_emp }}
+    </div>
+    <div>
+        <a href="{% url 'all_employee' %}">Редактирование</a>
+        <a href="{% url 'new_employee' %}">Добавить</a>
+    </div>
+    {#    <div style="margin-top: 20px">#}
+    {#        <ul class="list-group">#}
+    {#            {% for emp in employyes %}#}
+    {#                <li class="list-group-item d-flex justify-content-start align-items-center hover-mouse"#}
+    {#                    style="cursor: context-menu">{{ emp }}#}
+    {#                </li>#}
+    {#            {% endfor %}#}
+    {#        </ul>#}
+    {#    </div>#}
+
+
+    <div class="text-3-bold" style="text-transform: uppercase">
+        Управления
+    </div>
+    <div class="text-3-bold" style="text-transform: uppercase">
+        Отделы
+    </div>
+
+{#    {% for obj in det %}#}
+{#        {% if obj.photo %}#}
+{#            {{ obj.photo.url }}#}
+{#        {% endif %}#}
+{#    {% endfor %}#}
+
+{% endblock %}
+
