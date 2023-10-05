@@ -37,6 +37,7 @@
                                 {{ new_user.password1 }}
                                 <span class="text-3-regular" style="text-transform: uppercase">Повторить пароль:</span>
                                 {{ new_user.password2 }}
+                                <div id="divCheckPasswordMatch"></div>
                                 <span class="text-3-regular" style="text-transform: uppercase">Внутренняя почта:</span>
                                 {{ new_user.email }}
                                 <span class="text-3-regular" style="text-transform: uppercase">Внешняя почта:</span>
@@ -143,7 +144,9 @@
                     </div>
                     <div class="row" style="margin-top: 15px">
                         <div class="col" style="display: flex; justify-content: center">
-                            <button id="submit_button" type="submit" class="button-primary-rusatom" style="width: 1200px">Создать</button>
+                            <button id="submit_button" type="submit" class="button-primary-rusatom"
+                                    style="width: 1200px">Создать
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -169,6 +172,33 @@
             })
         });
 
+        var password2 = document.getElementById('id_password2')
+        var password1 = document.getElementById('id_password1')
+        password2.addEventListener("change", (event) => {
+            verifyPassword()
+        });
+        password1.addEventListener("change", (event) => {
+            verifyPassword()
+        });
+
+        function verifyPassword() {
+            let pass1 = document.getElementById("id_password1").value;
+            let pass2 = document.getElementById("id_password2").value;
+            var submit_button = $("#submit_button");
+            let match = true;
+            if (pass1 != pass2) {
+                //alert("Passwords Do not match");
+                document.getElementById("id_password1").style.borderColor = "#ff0000";
+                document.getElementById("id_password2").style.borderColor = "#ff0000";
+                submit_button.attr('disabled', true);
+                match = false;
+            } else {
+                document.getElementById("id_password1").style.borderColor = "#19a806";
+                document.getElementById("id_password2").style.borderColor = "#19a806";
+                submit_button.attr('disabled', false);
+            }
+            return match;
+        }
 
     </script>
 {% endblock %}

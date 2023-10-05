@@ -409,7 +409,7 @@ body {
     justify-content: start;
     align-items: center;
     width: 170px;
-    height: 230px;
+    height: 233px;
     transition: all .1s linear;
     cursor: context-menu;
     /*border: 1px solid #0c4128;*/
@@ -417,6 +417,7 @@ body {
 
 .element_full:hover {
     box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
 }
 
 
@@ -424,6 +425,11 @@ body {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+}
+
+.img-resize {
+    height: 170px;
+    max-width: 100%
 }
 
 .all-modal {

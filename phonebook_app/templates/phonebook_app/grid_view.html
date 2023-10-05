@@ -6,7 +6,7 @@
         {% for emp in employees %}
             <div class="element_full" onclick="onClickDetailView({{ emp.id }})">
                 <div style="justify-content: center; align-items: center">
-                    <img class="b-img-radius" src="{% get_photo_url emp.id %}" style="height: 170px">
+                    <img class="b-img-radius img-resize" src="{% get_photo_url emp.id %}">
                 </div>
                 <div style=" width: 100%; text-align: left; margin-left: 10px">
                     <div class="text-p-14-bold-card">{{ emp.last_name }}</div>
