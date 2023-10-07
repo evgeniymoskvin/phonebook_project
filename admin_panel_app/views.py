@@ -16,7 +16,7 @@ from django.utils.encoding import escape_uri_path
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 
-from .forms import MoreDetailsEmployeeForm, EmployeeForm, UserRegistration, NewGroupDepForm
+from .forms import MoreDetailsEmployeeForm, EmployeeForm, UserRegistration, NewGroupDepForm, NewCommandForm
 from .models import MoreDetailsEmployeeModel, EmployeeModel, CanEditEmployee, GroupDepartmentModel, CommandNumberModel
 
 
@@ -30,6 +30,7 @@ class IndexMainPage(View):
             check_user = False
         employees = EmployeeModel.objects.get_queryset().order_by('last_name')
         group_dep = GroupDepartmentModel.objects.get_queryset()
+        deps = CommandNumberModel.objects.get_queryset()
         content = {
             'count_emp': employees.count(),
             'count_work_emp': employees.filter(work_status=True).count(),
@@ -37,6 +38,9 @@ class IndexMainPage(View):
             'group_dep': group_dep.count(),
             'group_dep_show': group_dep.filter(show=True).count(),
             'group_dep_not_show': group_dep.filter(show=False).count(),
+            'deps': deps.count(),
+            'deps_show': deps.filter(show=True).count(),
+            'deps_not_show': deps.filter(show=False).count(),
             'permission': check_user}
         return render(request, 'admin_panel_app/index.html', content)
 
@@ -53,7 +57,7 @@ class AllEmployeeView(View):
         content = {
             'employees': employees,
             'permission': check_user}
-        return render(request, 'admin_panel_app/all_employee.html', content)
+        return render(request, 'admin_panel_app/employee/all_employee.html', content)
 
 
 class RegistrationNewUser(View):
@@ -72,7 +76,7 @@ class RegistrationNewUser(View):
                    'more_details': more_details,
                    'permission': check_user,
                    }
-        return render(request, 'admin_panel_app/new_employee.html', content)
+        return render(request, 'admin_panel_app/employee/new_employee.html', content)
 
     @method_decorator(login_required(login_url='login'))
     def post(self, request):
@@ -157,7 +161,7 @@ class EditEmployee(View):
             'new_user': new_user,
             'emp_id': emp.id,
             'login': emp.user}
-        return render(request, 'admin_panel_app/edit_employee.html', content)
+        return render(request, 'admin_panel_app/employee/edit_employee.html', content)
 
     @method_decorator(login_required(login_url='login'))
     def post(self, request, pk):
@@ -262,7 +266,7 @@ class AllDepGroupView(View):
         all_groupdep = GroupDepartmentModel.objects.get_queryset().order_by('group_dep_abr')
         content = {'permission': check_user,
                    'all_groupdep': all_groupdep}
-        return render(request, 'admin_panel_app/all_groupdep.html', content)
+        return render(request, 'admin_panel_app/group_dep/all_groupdep.html', content)
 
 
 class AddNewGroupDepView(View):
@@ -278,7 +282,7 @@ class AddNewGroupDepView(View):
                    'dep_form': dep_form,
                    'name_page': 'Добавить управление',
                    'button_text': 'Создать'}
-        return render(request, 'admin_panel_app/new_groupdep.html', content)
+        return render(request, 'admin_panel_app/group_dep/new_groupdep.html', content)
 
     def post(self, request):
         dep_form = NewGroupDepForm(request.POST)
@@ -291,6 +295,7 @@ class AddNewGroupDepView(View):
             }
             return render(request, 'admin_panel_app/ajax/error_list.html', content)
         return redirect('all_groupdep')
+
 
 class EditGroupDepView(View):
     @method_decorator(login_required(login_url='login'))
@@ -306,7 +311,7 @@ class EditGroupDepView(View):
                    'dep_form': dep_form,
                    'name_page': 'Редактировать управление',
                    'button_text': 'Сохранить'}
-        return render(request, 'admin_panel_app/new_groupdep.html', content)
+        return render(request, 'admin_panel_app/group_dep/new_groupdep.html', content)
 
     def post(self, request, pk):
         dep_form = NewGroupDepForm(request.POST)
@@ -322,6 +327,38 @@ class EditGroupDepView(View):
             }
             return render(request, 'admin_panel_app/ajax/error_list.html', content)
         return redirect('all_groupdep')
+
+
+class AllDepView(View):
+    """Просмотр всех отделов"""
+
+    @method_decorator(login_required(login_url='login'))
+    def get(self, request):
+        try:
+            user = EmployeeModel.objects.get(user=request.user)
+            check_user = CanEditEmployee.objects.get(emp_id=user.id)
+        except:
+            check_user = False
+        all_dep = CommandNumberModel.objects.get_queryset().order_by('command_number')
+        content = {'permission': check_user,
+                   'all_dep': all_dep}
+        return render(request, 'admin_panel_app/command/all_dep.html', content)
+
+
+class AddNewDepView(View):
+    def get(self, request):
+        try:
+            user = EmployeeModel.objects.get(user=request.user)
+            check_user = CanEditEmployee.objects.get(emp_id=user.id)
+        except:
+            check_user = False
+        new_command_form = NewCommandForm()
+        content = {'permission': check_user,
+                   'new_command_form': new_command_form,
+                   'name_page': 'Создать отдел',
+                   'button_text': 'Создать',
+                   }
+        return render(request, 'admin_panel_app/command/new_command.html', content)
 
 
 def username_exists(request):

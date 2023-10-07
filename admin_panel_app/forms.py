@@ -105,7 +105,28 @@ class NewGroupDepForm(ModelForm):
                                                      "aria-label": "Сокращение",
                                                      "placeholder": "Сокращение"}),
                    'group_dep_name': TextInput(attrs={"class": "form-control",
-                                                     "aria-label": "Полное наименование",
-                                                     "placeholder": "Полное наименование"}),
+                                                      "aria-label": "Полное наименование",
+                                                      "placeholder": "Полное наименование"}),
                    'show': CheckboxInput()}
 
+
+class NewCommandForm(ModelForm):
+    class Meta:
+        model = CommandNumberModel
+        fields = '__all__'
+        widgets = {'command_number': NumberInput(attrs={"class": "form-control",
+                                                        "aria-label": "Номер отдела",
+                                                        "placeholder": "Номер отдела"}),
+                   'command_name': TextInput(attrs={"class": "form-control",
+                                                    "aria-label": "Полное наименование",
+                                                    "placeholder": "Полное наименование"}),
+                   'department': Select(attrs={"class": "form-select",
+                                               "aria-label": "Управление",
+                                               "placeholder": "Выбрать управление"}),
+                   'show': CheckboxInput()}
+
+    #
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['department'].queryset = GroupDepartmentModel.objects.filter(show=True).order_by(
+            'group_dep_abr')

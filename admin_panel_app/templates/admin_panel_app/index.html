@@ -29,15 +29,6 @@
         <a href="{% url 'all_employee' %}">Редактирование</a>
         <a href="{% url 'new_employee' %}">Добавить</a>
     </div>
-    {#    <div style="margin-top: 20px">#}
-    {#        <ul class="list-group">#}
-    {#            {% for emp in employyes %}#}
-    {#                <li class="list-group-item d-flex justify-content-start align-items-center hover-mouse"#}
-    {#                    style="cursor: context-menu">{{ emp }}#}
-    {#                </li>#}
-    {#            {% endfor %}#}
-    {#        </ul>#}
-    {#    </div>#}
 
     <div class="text-3-bold" style="text-transform: uppercase">
         Управления
@@ -58,6 +49,21 @@
     <div class="text-3-bold" style="text-transform: uppercase">
         Отделы
     </div>
+
+    <div class="text-3-regular">
+        Всего записей: {{ deps }}
+    </div>
+    <div class="text-3-regular">
+        Отделов отображается: {{ deps_show }}
+    </div>
+    <div class="text-3-regular">
+        Скрытые записи: {{ deps_not_show }}
+    </div>
+    <div>
+        <a href="{% url 'all_dep' %}">Редактирование</a>
+        <a href="{% url 'new_dep' %}">Добавить</a>
+    </div>
+
 
     {#    {% for obj in det %}#}
     {#        {% if obj.photo %}#}

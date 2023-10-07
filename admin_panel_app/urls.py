@@ -27,4 +27,6 @@ urlpatterns = [
     path('admin_hr/all_groupdep/', views.AllDepGroupView.as_view(), name='all_groupdep'),
     path('admin_hr/new_groupdep/', views.AddNewGroupDepView.as_view(), name='new_groupdep'),
     path('admin_hr/change_groupdep/<int:pk>/', views.EditGroupDepView.as_view(), name='edit_groupdep'),
+    path('admin_hr/all_dep/', views.AllDepView.as_view(), name='all_dep'),
+    path('admin_hr/new_dep/', views.AddNewDepView.as_view(), name='new_dep'),
 ]
