@@ -46,12 +46,11 @@ def get_details_modal_view(request):
     request_emp_id = request.GET.get('emp_id')
     emp = EmployeeModel.objects.get(id=request_emp_id)
     user_info = User.objects.get(id=emp.user_id)
-    print(emp)
     try:
         more_details = MoreDetailsEmployeeModel.objects.get(emp_id=request_emp_id)
-    except:
+    except Exception as e:
+        print(e)
         more_details = None
-    print(more_details)
     content = {
         'emp': emp,
         'more_details': more_details,

@@ -16,6 +16,8 @@
                     <div class="row">
                         <div class="col">
                             <div style="margin-bottom: 10px">
+                                <span class="text-3-regular" style="text-transform: uppercase">Login</span>
+                                <input class="form-control disabled" value="{{ login }}" disabled>
                                 <span class="text-3-regular" style="text-transform: uppercase">Фамилия:</span>
                                 {{ emp_form.last_name }}
                                 <span class="text-3-regular" style="text-transform: uppercase">Имя:</span>
@@ -33,13 +35,14 @@
                                 <img style="height: 200px" src="{% get_photo_url emp_id %}">
                             </div>
                             <div style="margin-bottom: 10px">
-                                <span class="text-3-regular" style="text-transform: uppercase">Внешняя почта:</span>
-                                {{ more_details.outside_email }}
-                            </div>
-                            <div style="margin-bottom: 10px">
                                 <span class="text-3-regular" style="text-transform: uppercase">Внутренняя почта:</span>
                                 {{ new_user.email }}
                             </div>
+                            <div style="margin-bottom: 10px">
+                                <span class="text-3-regular" style="text-transform: uppercase">Внешняя почта:</span>
+                                {{ more_details.outside_email }}
+                            </div>
+
 
                         </div>
                     </div>

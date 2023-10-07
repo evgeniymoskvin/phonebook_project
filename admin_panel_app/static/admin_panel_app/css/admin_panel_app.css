@@ -271,3 +271,16 @@ body {
     color: red;
     display: inline;
 }
+
+
+.text-p-16 {
+    font-family: "p22_underground_cy_probook", serif;
+    font-size: 16px;
+    text-align: left;
+}
+
+.text-p-16-bold {
+    font-family: "p22_underground_cy_prodemi", serif;
+    font-size: 16px;
+    text-align: left;
+}

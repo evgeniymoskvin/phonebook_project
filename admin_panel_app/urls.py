@@ -22,6 +22,9 @@ urlpatterns = [
     path('admin_hr/', views.IndexMainPage.as_view(), name='admin_hr'),
     path('admin_hr/new_employee/', views.RegistrationNewUser.as_view(), name='new_employee'),
     path('admin_hr/all_employee/', views.AllEmployeeView.as_view(), name='all_employee'),
-    path('admin_hr/change/<int:pk>', views.EditEmployee.as_view(), name = 'edit_employee'),
-    path('admin_hr/ajax/username_exists/', views.username_exists, name = 'username_exists'),
+    path('admin_hr/change/<int:pk>', views.EditEmployee.as_view(), name='edit_employee'),
+    path('admin_hr/ajax/username_exists/', views.username_exists, name='username_exists'),
+    path('admin_hr/all_groupdep/', views.AllDepGroupView.as_view(), name='all_groupdep'),
+    path('admin_hr/new_groupdep/', views.AddNewGroupDepView.as_view(), name='new_groupdep'),
+    path('admin_hr/change_groupdep/<int:pk>/', views.EditGroupDepView.as_view(), name='edit_groupdep'),
 ]

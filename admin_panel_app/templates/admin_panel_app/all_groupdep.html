@@ -2,16 +2,16 @@
 {% load static %}
 
 {% block title %}
-    Управление персоналом: Сотрудники
+    Управление персоналом: Управления
 {% endblock %}
 
 {% block body %}
     <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
         <div class="text-1" style="display: flex; text-transform: uppercase">
-            Сотрудники
+            Управления
         </div>
         <div style="display: flex">
-            <a class="button-primary-rusatom-v2" href="{% url 'new_employee' %}">Добавить</a>
+            <a class="button-primary-rusatom-v2" href="{% url 'new_groupdep' %}">Добавить</a>
         </div>
     </div>
 
@@ -19,35 +19,22 @@
         <thead>
         <tr>
             <th class="th_tables" scope="col">#</th>
-            <th class="th_tables" scope="col">Ф.И.О.</th>
-            <th class="th_tables" scope="col">Управление</th>
-            <th class="th_tables" scope="col">Отдел</th>
-            <th class="th_tables" scope="col">Телефон</th>
-            <th class="th_tables" scope="col">Работает</th>
+            <th class="th_tables" scope="col">Сокращение</th>
+            <th class="th_tables" scope="col">Наименование</th>
+            <th class="th_tables" scope="col">Показывать</th>
         </tr>
         </thead>
 
         <tbody>
-        {% for emp in employees %}
-            <tr class="tr-tables" onclick="location.href='{% url 'edit_employee' pk=emp.id  %}'" style="cursor: context-menu">
+        {% for groupdep in all_groupdep %}
+            <tr class="tr-tables" onclick="location.href='{% url 'edit_groupdep' pk=groupdep.id  %}'" style="cursor: context-menu">
                 <th class="th_tables" scope="row" style="width: 30px">{{ forloop.counter }}</th>
+                <td class="td_tables" style="width: 80px; text-align: center">
+                    {{ groupdep.group_dep_abr }}</td>
                 <td class="td_tables">
-                    {{ emp.last_name }} {{ emp.first_name }} {{ emp.middle_name }}</td>
+                    {{ groupdep.group_dep_name }}</td>
                 <td class="td_tables" style="width: 50px; text-align: center">
-                    {{ emp.department_group.group_dep_abr }}</td>
-
-                <td class="td_tables" style="width: 50px; text-align: center">
-                    {{ emp.department.command_number }}
-                </td>
-                <td class="td_tables" style="width: 50px; text-align: center">
-                    {% if emp.user_phone %}
-                        {{ emp.user_phone }}
-                    {% else %}
-                        -
-                    {% endif %}
-                </td>
-                <td class="td_tables" style="width: 50px; text-align: center">
-                    {% if emp.work_status is True %}
+                    {% if groupdep.show is True %}
                         Да
                     {% else %}
                         Нет

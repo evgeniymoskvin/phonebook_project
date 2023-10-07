@@ -75,7 +75,7 @@
             <div style=" display: flex; flex-direction: row; justify-content: start; align-items: center">
                 <div class="text-p-15">День рождения:&nbsp;</div>
                 {% if more_details.date_birthday_show is True %}
-                    <div class="text-p-15-bold">{{ more_details.date_birthday }}</div>
+                    <div class="text-p-15-bold">{% get_month_name more_details.date_birthday%}</div>
                 {% else %}
                     <div class="text-p-15-bold">Скрыт</div>
                 {% endif %}

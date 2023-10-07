@@ -1,0 +1,40 @@
+{% extends "admin_panel_app/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ name_page }}
+{% endblock %}
+
+{% block body %}
+    <div class="allign-center-admin">
+        <div class="container-admin-panel">
+            <div class="content-div">
+                <div class="text-1" style="display: flex; text-transform: uppercase">
+                    {{ name_page }}
+                </div>
+
+                <form method="post" enctype="multipart/form-data">
+                    <div style="margin-bottom: 10px; margin-top: 10px">
+                        {% csrf_token %}
+                        <div>
+                            <span class="text-3-regular" style="text-transform: uppercase">Сокращенное название:</span>
+                            {{ dep_form.group_dep_abr }}
+                        </div>
+                        <div style="margin-top: 10px">
+                            <span class="text-3-regular" style="text-transform: uppercase">Полное название:</span>
+                            {{ dep_form.group_dep_name }}
+                        </div>
+                        <div style="margin-top: 10px">
+                            <span class="text-3-regular" style="text-transform: uppercase">Отображать в списках:</span>
+                            {{ dep_form.show }}
+                        </div>
+                    </div>
+                    <button id="submit_button" type="submit" class="button-primary-rusatom"
+                            style="width: 1200px">{{ button_text }}
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

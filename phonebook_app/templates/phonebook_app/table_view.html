@@ -27,7 +27,11 @@
                     {{ emp.department.command_number }}
                 </td>
                 <td class="td_tables" style="width: 50px; text-align: right; padding-right: 0">
-                    {{ emp.user_phone }}
+                    {% if emp.user_phone %}
+                        {{ emp.user_phone }}
+                    {% else %}
+                    -
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

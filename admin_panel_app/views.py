@@ -1,4 +1,8 @@
+import datetime
+
 from django.shortcuts import render
+
+from transliterate import translit
 
 # Create your views here.
 from django.shortcuts import render, redirect
@@ -12,8 +16,8 @@ from django.utils.encoding import escape_uri_path
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 
-from .forms import MoreDetailsEmployeeForm, EmployeeForm, UserRegistration
-from .models import MoreDetailsEmployeeModel, EmployeeModel, CanEditEmployee
+from .forms import MoreDetailsEmployeeForm, EmployeeForm, UserRegistration, NewGroupDepForm
+from .models import MoreDetailsEmployeeModel, EmployeeModel, CanEditEmployee, GroupDepartmentModel, CommandNumberModel
 
 
 class IndexMainPage(View):
@@ -25,17 +29,14 @@ class IndexMainPage(View):
         except:
             check_user = False
         employees = EmployeeModel.objects.get_queryset().order_by('last_name')
-        det = MoreDetailsEmployeeModel.objects.get_queryset()
-        for obj in det:
-            try:
-                print(obj.photo.url)
-            except:
-                print("no photo")
+        group_dep = GroupDepartmentModel.objects.get_queryset()
         content = {
             'count_emp': employees.count(),
             'count_work_emp': employees.filter(work_status=True).count(),
             'count_not_work_emp': employees.filter(work_status=False).count(),
-            'det': det,
+            'group_dep': group_dep.count(),
+            'group_dep_show': group_dep.filter(show=True).count(),
+            'group_dep_not_show': group_dep.filter(show=False).count(),
             'permission': check_user}
         return render(request, 'admin_panel_app/index.html', content)
 
@@ -67,10 +68,8 @@ class RegistrationNewUser(View):
             check_user = False
         emp_form = EmployeeForm()
         more_details = MoreDetailsEmployeeForm()
-        new_user = UserRegistration()
         content = {'emp_form': emp_form,
                    'more_details': more_details,
-                   'new_user': new_user,
                    'permission': check_user,
                    }
         return render(request, 'admin_panel_app/new_employee.html', content)
@@ -86,7 +85,9 @@ class RegistrationNewUser(View):
         if user_form.is_valid():
             new_user = User()
             new_user.username = request.POST.get('username')
-            new_user.password = request.POST.get('password1')
+            # new_user.password = request.POST.get('password1')
+            new_user.password = 'Qwerty123!'
+
             # new_user.password = request.POST.get('password2')
             new_user.email = request.POST.get('email')
             new_user.save()
@@ -124,14 +125,6 @@ class RegistrationNewUser(View):
                 'error': details_form.errors
             }
             return render(request, 'admin_panel_app/ajax/error_list.html', content)
-        # if request.FILES:
-        #     """Копирование списка файлов"""
-        #     list_copy_files = request.FILES.getlist('photo')
-        #     for f in list_copy_files:
-        #         obj = MoreDetailsEmployeeModel.objects.get(id=new_details.emp_id)
-        #         obj.photo = f
-        #         obj.save()
-
         print(new_user, new_employee, new_details)
         return redirect('all_employee')
 
@@ -162,7 +155,8 @@ class EditEmployee(View):
             'more_details': more_details,
             'permission': check_user,
             'new_user': new_user,
-            'emp_id': emp.id}
+            'emp_id': emp.id,
+            'login': emp.user}
         return render(request, 'admin_panel_app/edit_employee.html', content)
 
     @method_decorator(login_required(login_url='login'))
@@ -176,7 +170,15 @@ class EditEmployee(View):
             emp.personnel_number = employee_form.data['personnel_number']
             emp.job_title_id = employee_form.data['job_title']
             emp.department_id = employee_form.data['department']
-            emp.user_phone = employee_form.data['user_phone']
+            try:
+                # Отсекаем все лишнее, кроме цифр
+                user_phone = int(''.join(filter(str.isdigit, employee_form.data['user_phone'])))
+                if user_phone != '':
+                    # Если получилась не пустая строка
+                    emp.user_phone = user_phone
+            except Exception as e:
+                print(e)
+                emp.user_phone = None
             emp.department_group_id = employee_form.data['department_group']
             # Проверка права подписи
             try:
@@ -215,6 +217,7 @@ class EditEmployee(View):
             except:
                 emp.work_status = False
             emp.save()
+        # Заполняем таблицу дополнительной информации
         details_form = MoreDetailsEmployeeForm(request.POST, request.FILES)
         if details_form.is_valid():
             more_information_emp = None
@@ -225,11 +228,13 @@ class EditEmployee(View):
             try:
                 more_information_emp.photo = request.FILES['photo']
             except Exception as e:
-                print(e)
+                print(f'exception: {e}')
             more_information_emp.outside_email = details_form.data['outside_email']
             more_information_emp.mobile_phone = details_form.data['mobile_phone']
             try:
-                more_information_emp.date_birthday = details_form.data['date_birthday']
+                # Проверка правильности записи дня рождения
+                if datetime.date.fromisoformat(details_form.data['date_birthday']):
+                    more_information_emp.date_birthday = details_form.data['date_birthday']
             except Exception as e:
                 print(e)
             more_information_emp.room = details_form.data['room']
@@ -246,9 +251,83 @@ class EditEmployee(View):
         return redirect('all_employee')
 
 
+class AllDepGroupView(View):
+    @method_decorator(login_required(login_url='login'))
+    def get(self, request):
+        try:
+            user = EmployeeModel.objects.get(user=request.user)
+            check_user = CanEditEmployee.objects.get(emp_id=user.id)
+        except:
+            check_user = False
+        all_groupdep = GroupDepartmentModel.objects.get_queryset().order_by('group_dep_abr')
+        content = {'permission': check_user,
+                   'all_groupdep': all_groupdep}
+        return render(request, 'admin_panel_app/all_groupdep.html', content)
+
+
+class AddNewGroupDepView(View):
+    @method_decorator(login_required(login_url='login'))
+    def get(self, request):
+        try:
+            user = EmployeeModel.objects.get(user=request.user)
+            check_user = CanEditEmployee.objects.get(emp_id=user.id)
+        except:
+            check_user = False
+        dep_form = NewGroupDepForm()
+        content = {'permission': check_user,
+                   'dep_form': dep_form,
+                   'name_page': 'Добавить управление',
+                   'button_text': 'Создать'}
+        return render(request, 'admin_panel_app/new_groupdep.html', content)
+
+    def post(self, request):
+        dep_form = NewGroupDepForm(request.POST)
+        if dep_form.is_valid():
+            dep_form.save()
+        else:
+            print(dep_form.errors)
+            content = {
+                'error': dep_form.errors
+            }
+            return render(request, 'admin_panel_app/ajax/error_list.html', content)
+        return redirect('all_groupdep')
+
+class EditGroupDepView(View):
+    @method_decorator(login_required(login_url='login'))
+    def get(self, request, pk):
+        try:
+            user = EmployeeModel.objects.get(user=request.user)
+            check_user = CanEditEmployee.objects.get(emp_id=user.id)
+        except:
+            check_user = False
+        dep = GroupDepartmentModel.objects.get(id=pk)
+        dep_form = NewGroupDepForm(instance=dep)
+        content = {'permission': check_user,
+                   'dep_form': dep_form,
+                   'name_page': 'Редактировать управление',
+                   'button_text': 'Сохранить'}
+        return render(request, 'admin_panel_app/new_groupdep.html', content)
+
+    def post(self, request, pk):
+        dep_form = NewGroupDepForm(request.POST)
+        if dep_form.is_valid():
+            edit_dep = dep_form.save(commit=False)
+            edit_dep.id = pk
+            dep_form.save()
+
+        else:
+            print(dep_form.errors)
+            content = {
+                'error': dep_form.errors
+            }
+            return render(request, 'admin_panel_app/ajax/error_list.html', content)
+        return redirect('all_groupdep')
+
+
 def username_exists(request):
+    """ajax функция проверки существования пользователя"""
     username = request.GET.get('username')
-    print(username)
+    print(f'checking {username}')
     if User.objects.filter(username=username).exists():
         username_back = True
     else:

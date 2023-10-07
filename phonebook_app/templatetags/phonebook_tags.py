@@ -25,9 +25,16 @@ def get_days_to_birthday(emp_hb):
         if delta.days > 0:
             return delta.days
         else:
-            hb_in_next_year = date(date.today().year+1, emp_hb.month, emp_hb.day)
-            print(hb_in_next_year)
+            hb_in_next_year = date(date.today().year + 1, emp_hb.month, emp_hb.day)
+            # print(hb_in_next_year)
             delta = abs(hb_in_next_year - date.today())
             return delta.days
     except:
         return None
+
+
+@register.simple_tag()
+def get_month_name(date_hb):
+    months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+              'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+    return f'{date_hb.day} {months[date_hb.month-1]}'

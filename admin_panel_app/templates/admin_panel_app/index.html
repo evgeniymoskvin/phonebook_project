@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    Главная
+    Управление персоналом
 {% endblock %}
 
 {% block body %}
@@ -39,19 +39,31 @@
     {#        </ul>#}
     {#    </div>#}
 
-
     <div class="text-3-bold" style="text-transform: uppercase">
         Управления
+    </div>
+    <div class="text-3-regular">
+        Всего записей: {{ group_dep }}
+    </div>
+    <div class="text-3-regular">
+        Управлений отображается: {{ group_dep_show }}
+    </div>
+    <div class="text-3-regular">
+        Скрытые записи: {{ group_dep_not_show }}
+    </div>
+    <div>
+        <a href="{% url 'all_groupdep' %}">Редактирование</a>
+        <a href="{% url 'new_groupdep' %}">Добавить</a>
     </div>
     <div class="text-3-bold" style="text-transform: uppercase">
         Отделы
     </div>
 
-{#    {% for obj in det %}#}
-{#        {% if obj.photo %}#}
-{#            {{ obj.photo.url }}#}
-{#        {% endif %}#}
-{#    {% endfor %}#}
+    {#    {% for obj in det %}#}
+    {#        {% if obj.photo %}#}
+    {#            {{ obj.photo.url }}#}
+    {#        {% endif %}#}
+    {#    {% endfor %}#}
 
 {% endblock %}
 
