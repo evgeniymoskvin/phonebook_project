@@ -18,19 +18,22 @@ from django.contrib.auth import authenticate, login
 
 from .forms import MoreDetailsEmployeeForm, EmployeeForm, UserRegistration, NewGroupDepForm, NewCommandForm
 from .models import MoreDetailsEmployeeModel, EmployeeModel, CanEditEmployee, GroupDepartmentModel, CommandNumberModel
+from .functions import check_permission_user
 
 
 class IndexMainPage(View):
     @method_decorator(login_required(login_url='login'))
     def get(self, request):
-        try:
-            user = EmployeeModel.objects.get(user=request.user)
-            check_user = CanEditEmployee.objects.get(emp_id=user.id)
-        except:
-            check_user = False
+
+        # try:
+        #     user = EmployeeModel.objects.get(user=request.user)
+        #     check_user = CanEditEmployee.objects.get(emp_id=user.id)
+        # except:
+        #     check_user = False
         employees = EmployeeModel.objects.get_queryset().order_by('last_name')
         group_dep = GroupDepartmentModel.objects.get_queryset()
         deps = CommandNumberModel.objects.get_queryset()
+        permission = check_permission_user(request)
         content = {
             'count_emp': employees.count(),
             'count_work_emp': employees.filter(work_status=True).count(),
@@ -41,7 +44,8 @@ class IndexMainPage(View):
             'deps': deps.count(),
             'deps_show': deps.filter(show=True).count(),
             'deps_not_show': deps.filter(show=False).count(),
-            'permission': check_user}
+        }
+        content = {**permission, **content}
         return render(request, 'admin_panel_app/index.html', content)
 
 
@@ -346,6 +350,8 @@ class AllDepView(View):
 
 
 class AddNewDepView(View):
+    """Создание новых отделов"""
+    @method_decorator(login_required(login_url='login'))
     def get(self, request):
         try:
             user = EmployeeModel.objects.get(user=request.user)
@@ -359,6 +365,50 @@ class AddNewDepView(View):
                    'button_text': 'Создать',
                    }
         return render(request, 'admin_panel_app/command/new_command.html', content)
+
+    def post(self, request):
+        command_form = NewCommandForm(request.POST)
+        if command_form.is_valid():
+            command_form.save()
+        else:
+            print(command_form.errors)
+            content = {
+                'error': command_form.errors
+            }
+            return render(request, 'admin_panel_app/ajax/error_list.html', content)
+        return redirect('all_dep')
+
+
+class EditCommandView(View):
+    """Редактирование отдела"""
+    def get(self, request, pk):
+        try:
+            user = EmployeeModel.objects.get(user=request.user)
+            check_user = CanEditEmployee.objects.get(emp_id=user.id)
+        except:
+            check_user = False
+        command = CommandNumberModel.objects.get(id=pk)
+        command_form = NewCommandForm(instance=command)
+        content = {'permission': check_user,
+                   'new_command_form': command_form,
+                   'name_page': 'Редактировать отдел',
+                   'button_text': 'Сохранить'}
+        return render(request, 'admin_panel_app/command/new_command.html', content)
+
+    def post(self, request, pk):
+        command = CommandNumberModel.objects.get(id=pk)
+        command_form = NewCommandForm(request.POST)
+        if command_form.is_valid():
+            edit_command = command_form.save(commit=False)
+            edit_command.id = command.id
+            command_form.save()
+            return redirect('all_dep')
+        else:
+            print(command_form.errors)
+            content = {
+                'error': command_form.errors
+            }
+            return render(request, 'admin_panel_app/ajax/error_list.html', content)
 
 
 def username_exists(request):

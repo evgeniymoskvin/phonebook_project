@@ -70,10 +70,12 @@ body {
 
 .centered_div {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    text-align: center;
+    position: relative;
+    padding-top: 15px;
+    padding-bottom: 75px;
+    padding-left: 15px;
+    padding-right: 15px;
     /*min-height: 100vh;*/
 }
 
@@ -178,6 +180,7 @@ body {
     /*background-color: #ffffff;*/
     display: flex;
     width: 1230px;
+    min-width: 500px;
     height: 50px;
     padding-left: 15px;
     padding-right: 15px;
@@ -215,6 +218,7 @@ body {
     padding-bottom: 75px;
     padding-left: 15px;
     padding-right: 15px;
+    max-width: 100%;
 }
 
 .content-div {
@@ -236,7 +240,6 @@ body {
     text-transform: uppercase;
     cursor: context-menu;
     font-size: 14px;
-    margin-right: 15px
 }
 
 .text-1-admin:hover {
@@ -246,16 +249,32 @@ body {
 
 .text-3-bold {
     font-family: "p22_underground_cy_prodemi", serif;
-    font-size: 15px;
-    margin-top: 15px;
+    font-size: 16px;
     transition: .05s ease-in-out;
 }
 
 .text-3-regular {
+    display: flex;
     font-family: "p22_underground_cy_probook", serif;
-    font-size: 15px;
+    font-size: 16px;
     transition: .05s ease-in-out;
 }
+
+
+
+.text-24-bold {
+    font-family: "p22_underground_cy_prodemi", serif;
+    font-size: 24px;
+    transition: .05s ease-in-out;
+    display: flex;
+}
+
+.text-24-regular {
+    font-family: "p22_underground_cy_probook", serif;
+    font-size: 24px;
+    transition: .05s ease-in-out;
+}
+
 
 .hover-mouse {
     transition-duration: .2s;
@@ -284,3 +303,48 @@ body {
     font-size: 16px;
     text-align: left;
 }
+
+
+
+.text-p-15-green {
+    font-family: "p22_underground_cy_probook", serif;
+    font-size: 15px;
+    text-align: left;
+    color: #8CCE5A;
+}
+
+.text-p-15-green-bold {
+    font-family: "p22_underground_cy_prodemi", serif;
+    font-size: 15px;
+    text-align: left;
+    color: #8CCE5A;
+}
+
+.text-p-15-grey {
+    font-family: "p22_underground_cy_probook", serif;
+    font-size: 15px;
+    text-align: left;
+    color: #80858E;
+}
+
+.text-p-15-grey-bold {
+    font-family: "p22_underground_cy_prodemi", serif;
+    font-size: 15px;
+    text-align: left;
+    color: #80858E;
+}
+
+.text-p-15-orange {
+    font-family: "p22_underground_cy_probook", serif;
+    font-size: 15px;
+    text-align: left;
+    color: #F5AB61;
+}
+
+.text-p-15-orange-bold {
+    font-family: "p22_underground_cy_prodemi", serif;
+    font-size: 15px;
+    text-align: left;
+    color: #F5AB61;
+}
+

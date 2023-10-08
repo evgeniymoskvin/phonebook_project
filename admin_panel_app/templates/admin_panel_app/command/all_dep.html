@@ -28,7 +28,7 @@
 
         <tbody>
         {% for dep in all_dep %}
-            <tr class="tr-tables" style="cursor: context-menu">
+            <tr class="tr-tables" onclick="location.href='{% url 'edit_dep' pk=dep.id  %}'" style="cursor: context-menu">
                 <th class="th_tables" scope="row" style="width: 30px">{{ forloop.counter }}</th>
                 <td class="td_tables" style="width: 80px; text-align: center">
                     {{ dep.command_number }}</td>
