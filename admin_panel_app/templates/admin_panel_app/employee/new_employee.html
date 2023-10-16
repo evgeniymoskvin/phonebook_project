@@ -14,7 +14,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <div style="margin-bottom: 10px">
+                            <div style="margin-bottom: 10px" id="name_form" data-ajax-url="{% url 'translate_name' %}">
                                 <span class="text-3-regular" style="text-transform: uppercase">Фамилия:</span>
                                 {{ emp_form.last_name }}
                                 <span class="text-3-regular" style="text-transform: uppercase">Имя:</span>
@@ -34,19 +34,21 @@
                                 <input id="id_username" class="form-control" placeholder="Login" name="username">
                                 <div id="username_not_free" data-ajax-url="{% url 'username_exists' %}"></div>
                                 <div class="text-p-16">Пароль по умолчанию «Qwerty123!»</div>
-                                <input class="form-control" placeholder="Login" name="password1" value="adminpas" hidden>
-                                <input class="form-control" placeholder="Login" name="password2" value="adminpas" hidden>
+                                <input class="form-control" placeholder="Login" name="password1" value="adminpas"
+                                       hidden>
+                                <input class="form-control" placeholder="Login" name="password2" value="adminpas"
+                                       hidden>
 
-{#                                {{ new_user.username }}#}
+                                {#                                {{ new_user.username }}#}
 
-{#                                <span class="text-3-regular" style="text-transform: uppercase">Пароль:</span>#}
-{#                                {{ new_user.password1 }}#}
-{#                                <span class="text-3-regular" style="text-transform: uppercase">Повторить пароль:</span>#}
-{#                                {{ new_user.password2 }}#}
+                                {#                                <span class="text-3-regular" style="text-transform: uppercase">Пароль:</span>#}
+                                {#                                {{ new_user.password1 }}#}
+                                {#                                <span class="text-3-regular" style="text-transform: uppercase">Повторить пароль:</span>#}
+                                {#                                {{ new_user.password2 }}#}
                                 <div id="divCheckPasswordMatch"></div>
                                 <span class="text-3-regular" style="text-transform: uppercase">Внутренняя почта:</span>
                                 <input class="form-control" placeholder="Внутренняя почта" name="email" type="email">
-{#                                {{ new_user.email }}#}
+                                {#                                {{ new_user.email }}#}
                                 <span class="text-3-regular" style="text-transform: uppercase">Внешняя почта:</span>
                                 {{ more_details.outside_email }}
                             </div>
@@ -162,8 +164,7 @@
     </div>
 
     <script>
-        var username = document.getElementById('id_username')
-        username.addEventListener("change", (event) => {
+        function checkUserName() {
             console.log('input отработал')
             var url = $("#username_not_free").attr("data-ajax-url");
             var username = $('#id_username').val();
@@ -177,34 +178,84 @@
                     $("#username_not_free").html(data)
                 }
             })
+        }
+
+
+        var username = document.getElementById('id_username')
+        username.addEventListener("change", (event) => {
+            checkUserName()
         });
 
-        var password2 = document.getElementById('id_password2')
-        var password1 = document.getElementById('id_password1')
-        password2.addEventListener("change", (event) => {
-            verifyPassword()
-        });
-        password1.addEventListener("change", (event) => {
-            verifyPassword()
-        });
 
-        function verifyPassword() {
-            let pass1 = document.getElementById("id_password1").value;
-            let pass2 = document.getElementById("id_password2").value;
-            var submit_button = $("#submit_button");
-            let match = true;
-            if (pass1 != pass2) {
-                //alert("Passwords Do not match");
-                document.getElementById("id_password1").style.borderColor = "#ff0000";
-                document.getElementById("id_password2").style.borderColor = "#ff0000";
-                submit_button.attr('disabled', true);
-                match = false;
+        /*  var password2 = document.getElementById('id_password2')
+          var password1 = document.getElementById('id_password1')
+          password2.addEventListener("change", (event) => {
+              verifyPassword()
+          });
+          password1.addEventListener("change", (event) => {
+              verifyPassword()
+          });
+
+
+          function verifyPassword() {
+              let pass1 = document.getElementById("id_password1").value;
+              let pass2 = document.getElementById("id_password2").value;
+              var submit_button = $("#submit_button");
+              let match = true;
+              if (pass1 != pass2) {
+                  //alert("Passwords Do not match");
+                  document.getElementById("id_password1").style.borderColor = "#ff0000";
+                  document.getElementById("id_password2").style.borderColor = "#ff0000";
+                  submit_button.attr('disabled', true);
+                  match = false;
+              } else {
+                  document.getElementById("id_password1").style.borderColor = "#19a806";
+                  document.getElementById("id_password2").style.borderColor = "#19a806";
+                  submit_button.attr('disabled', false);
+              }
+              return match;
+          } */
+
+
+        var lastname = document.getElementById('id_last_name')
+        lastname.addEventListener("change", (event) => {
+            translateName()
+        })
+
+        var firstname = document.getElementById('id_first_name')
+        firstname.addEventListener("change", (event) => {
+            translateName()
+        })
+
+        var middlename = document.getElementById('id_middle_name')
+        middlename.addEventListener("change", (event) => {
+            translateName()
+        })
+
+
+        function translateName() {
+            let last_name = document.getElementById('id_last_name').value
+            let first_name = document.getElementById('id_first_name').value
+            let middle_name = document.getElementById('id_middle_name').value
+            if (last_name.length > 0 && first_name.length > 0 && middle_name.length > 0 ) {
+                var login = last_name + first_name[0] + middle_name[0]
+
+                var url = $("#name_form").attr("data-ajax-url");
+
+                $.ajax({                       // формируем AJAX запрос
+                    url: url,                    // подгружаем URL адрес для запроса
+                    data: {
+                        'str': login
+                    },
+                    success: function (data) {
+                        document.getElementById('id_username').value = data.output_str
+                        checkUserName()
+
+                    }
+                })
             } else {
-                document.getElementById("id_password1").style.borderColor = "#19a806";
-                document.getElementById("id_password2").style.borderColor = "#19a806";
-                submit_button.attr('disabled', false);
+                console.log('Username заполнен или ФИО не заполнены полностью')
             }
-            return match;
         }
 
     </script>

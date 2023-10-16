@@ -1,8 +1,9 @@
 import datetime
 
+from django.http import JsonResponse
 from django.shortcuts import render
 
-from transliterate import translit
+from transliterate import translit, get_available_language_codes
 
 # Create your views here.
 from django.shortcuts import render, redirect
@@ -423,3 +424,13 @@ def username_exists(request):
         'username_back': username_back
     }
     return render(request, 'admin_panel_app/ajax/ajax_username.html', content)
+
+def translate_name (request):
+    """ajax функция перевода имени пользователя"""
+    input_str = request.GET.get('str')
+    output_str = translit(input_str, 'ru', reversed=True)
+    print(output_str)
+    content = {
+        'output_str': output_str
+    }
+    return JsonResponse(content, status=200, content_type="application/json")
