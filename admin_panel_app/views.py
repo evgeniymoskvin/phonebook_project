@@ -92,13 +92,17 @@ class RegistrationNewUser(View):
         new_details = None
         # оздание логин/пароль нового сотрудника
         if user_form.is_valid():
-            new_user = User()
-            new_user.username = request.POST.get('username')
+            new_user = User.objects.create_user(email=request.POST.get('email'),
+                                                username=request.POST.get('username'),
+                                                password='Qwerty123!')
+
+            # new_user.username = request.POST.get('username')
             # new_user.password = request.POST.get('password1')
-            new_user.password = 'Qwerty123!'
+            # new_user.password = 'Qwerty123!'
 
             # new_user.password = request.POST.get('password2')
-            new_user.email = request.POST.get('email')
+            # new_user.email = request.POST.get('email')
+            new_user.set_password('Qwerty123!')
             new_user.save()
             print(new_user)
             print(new_user.id)
