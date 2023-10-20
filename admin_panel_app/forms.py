@@ -1,4 +1,5 @@
-from .models import EmployeeModel, MoreDetailsEmployeeModel, User, CommandNumberModel, GroupDepartmentModel
+from .models import EmployeeModel, MoreDetailsEmployeeModel, User, CommandNumberModel, GroupDepartmentModel, \
+    JobTitleModel
 from django.forms import ModelForm, TextInput, Textarea, CheckboxInput, Select, ChoiceField, Form, PasswordInput, \
     CharField, ModelChoiceField, modelformset_factory, ModelMultipleChoiceField, MultipleChoiceField, SelectMultiple, \
     FileField, ClearableFileInput, FileInput, DateTimeField, DateTimeInput, EmailInput, DateInput, NumberInput
@@ -44,8 +45,8 @@ class EmployeeForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['department'].queryset = CommandNumberModel.objects.filter(show=True).order_by('command_number')
-        self.fields['department_group'].queryset = GroupDepartmentModel.objects.filter(show=True).order_by(
-            'group_dep_abr')
+        self.fields['department'].queryset = CommandNumberModel.objects.filter(show=True).order_by('command_number')
+        self.fields['job_title'].queryset = JobTitleModel.objects.order_by('job_title')
 
 
 class DateInputNew(DateInput):
