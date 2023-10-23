@@ -525,6 +525,11 @@ body {
     opacity: 1
 }
 
+.form-control-blue::-webkit-input-placeholder {
+    color: white;
+    opacity: 1
+}
+
 .form-control-blue option {
     background-color: white;
     color: black;
