@@ -31,4 +31,5 @@ urlpatterns = [
     path('admin_hr/new_command/', views.AddNewDepView.as_view(), name='new_dep'),
     path('admin_hr/change_command/<int:pk>', views.EditCommandView.as_view(), name='edit_dep'),
     path('admin_hr/ajax/translate_name', views.translate_name, name='translate_name'),
+    path('admin_hr/service/all_emp_info/', views.ServiceInfoView.as_view(), name='all_info'),
 ]

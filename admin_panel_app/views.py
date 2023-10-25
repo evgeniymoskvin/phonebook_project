@@ -386,6 +386,7 @@ class AddNewDepView(View):
 
 class EditCommandView(View):
     """Редактирование отдела"""
+    @method_decorator(login_required(login_url='login'))
     def get(self, request, pk):
         try:
             user = EmployeeModel.objects.get(user=request.user)
@@ -415,6 +416,21 @@ class EditCommandView(View):
             }
             return render(request, 'admin_panel_app/ajax/error_list.html', content)
 
+class ServiceInfoView(View):
+    @method_decorator(login_required(login_url='login'))
+    def get(self, request):
+        employees = EmployeeModel.objects.get_queryset().filter(work_status=True).order_by('last_name', 'first_name', 'middle_name')
+        try:
+            user = EmployeeModel.objects.get(user=request.user)
+            check_user = CanEditEmployee.objects.get(emp_id=user.id)
+        except:
+            check_user = False
+        content = {
+            'permission': check_user,
+            'employees': employees,
+        }
+        return render(request, 'admin_panel_app/service/all_emp_info.html', content)
+
 
 def username_exists(request):
     """ajax функция проверки существования пользователя"""
@@ -439,3 +455,4 @@ def translate_name (request):
         'output_str': output_str
     }
     return JsonResponse(content, status=200, content_type="application/json")
+

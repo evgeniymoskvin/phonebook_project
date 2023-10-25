@@ -1,0 +1,117 @@
+{% extends "admin_panel_app/base.html" %}
+{% load static %}
+{% load service_tags %}
+
+{% block body %}
+    <div style="width: calc(100vw - 100px); margin-left: -300px">
+
+        <table id="my_tasks_sign_table" class="table table-hover">
+            <thead>
+            <tr>
+                <th class="th_tables" scope="col">#</th>
+                <th class="th_tables" scope="col">Ф.И.О.</th>
+                <th class="th_tables" scope="col">Таб. №</th>
+                <th class="th_tables" scope="col">Упр.</th>
+                <th class="th_tables" scope="col">Отдел</th>
+                <th class="th_tables" scope="col">Должность</th>
+                <th class="th_tables" scope="col">Тел.</th>
+                <th class="th_tables" scope="col">Моб.тел.</th>
+                <th class="th_tables" scope="col">Почта внут.</th>
+                <th class="th_tables" scope="col">Почта внеш.</th>
+                <th class="th_tables" scope="col">Кабинет</th>
+                <th class="th_tables" scope="col">Дата рождения</th>
+                <th class="th_tables" scope="col">Фото</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for emp in employees %}
+                {#            {% if emp.work_status is True %}#}
+                <tr class="tr-tables">
+                    <th class="th_tables" scope="row" style="width: 30px">{{ forloop.counter }}</th>
+                    <td class="td_tables">
+                        {{ emp.last_name }} {{ emp.first_name }} {{ emp.middle_name }}</td>
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {{ emp.personnel_number }}
+                    </td>
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {{ emp.department_group.group_dep_abr }}</td>
+
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {{ emp.department.command_number }}
+                    </td>
+                    <td class="td_tables" style="width: 200px; text-align: left">
+                        {{ emp.job_title }}
+                    </td>
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% if emp.user_phone %}
+                            {{ emp.user_phone }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% get_mobile_phone emp.id %}
+                    </td>
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% if emp.user.email %}
+                            {{ emp.user.email }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% get_outside_email emp.id %}
+                    </td>
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% get_room emp.id %}
+                    </td>
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% get_birthday emp.id %}
+                    </td>
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% get_photo_url emp.id %}
+                    </td>
+
+
+                </tr>
+                {#            {% endif %}#}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#my_tasks_sign_table').DataTable({
+                    {#order: [[1, 'asc']],#}
+                    dom:
+                        "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>" +
+                        "<'col-sm-2 col-md-2 col-xxl-2'B>",
+                    "language": {
+                        "lengthMenu": "Показать _MENU_",
+                        "zeroRecords": "Записи не найдены",
+                        "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
+                        "search": "Поиск:",
+                        "paginate": {
+                            "next": "Следующая",
+                            "previous": "Предыдущая"
+                        }
+                    },
+                    "aLengthMenu": [[1, 5, 10, 15, 20, 25, -1], [1, 5, 10, 15, 20, 25, "Все"]],
+                    "iDisplayLength": -1,
+                    buttons: ['pdf', 'excel']
+                }
+            );
+            table.buttons().container()
+                .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+        });
+    </script>
+
+{% endblock %}
