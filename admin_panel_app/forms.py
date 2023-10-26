@@ -45,7 +45,7 @@ class EmployeeForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['department'].queryset = CommandNumberModel.objects.filter(show=True).order_by('command_number')
-        self.fields['department'].queryset = CommandNumberModel.objects.filter(show=True).order_by('command_number')
+        self.fields['department_group'].queryset = GroupDepartmentModel.objects.filter(show=True).order_by('group_dep_abr')
         self.fields['job_title'].queryset = JobTitleModel.objects.order_by('job_title')
 
 
