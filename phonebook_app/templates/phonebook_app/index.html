@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col">{{ dep_form.department_field }}</div>
                 <div class="col"><input type="text" id="myInput" onkeyup="mySearchFunction()"
-                                        placeholder="Имя/Отдел/Тел."
+                                        placeholder="Поиск"
                                         class="form-control form-control-blue"></div>
                 {#                <div class="col">{{ dep_form.search_text_field }}</div>#}
             </div>
@@ -45,7 +45,15 @@
     <div id="person_view" data-grid-url="{% url 'get_grid' %}" data-list-url="{% url 'get_list' %}">
         {% include 'phonebook_app/table_view.html' %}
     </div>
+    <div id="loader-big" class="div_loader">
+        <div class="centered_div_loader">
 
+            <p class="text-loader">Загрузка...</p>
+
+            <span class="loader"></span>
+
+        </div>
+    </div>
 
     <div class="modal fade" id="detailEmpView" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -60,12 +68,11 @@
 
     <script>
 
-        $("#id_department_field").change(function (){
+        $("#id_department_field").change(function () {
             var listview = document.getElementById('icon-list-view')
-            if ($(listview).hasClass('active')){
+            if ($(listview).hasClass('active')) {
                 onClickList()
-            }
-            else {
+            } else {
                 onClickGrid()
             }
         });
@@ -90,6 +97,27 @@
         };
 
         function onClickGrid() {
+            $(".icon-app-view").addClass("active");
+            $(".icon-list-view").removeClass("active");
+            var person_view = document.getElementById('person_view');
+            var loader_big = document.getElementById('loader-big');
+            loader_big.style.opacity = '0';
+            person_view.style.display = 'none';
+            loader_big.style.display = 'block';
+
+            async function f() {
+                var op = 0;
+                while (op <= 1) {
+                    (function (_op) {
+                        setTimeout(function () {
+                            loader_big.style.opacity = _op;
+                        }, 100 + op * 380);
+                    })(op);
+                    op += 0.1;
+                }
+            }
+
+            f();
             var url = $("#person_view").attr("data-grid-url");
             var dep_field = $('#id_department_field').val();
             console.log(dep_field)
@@ -102,14 +130,41 @@
                     // добавляем objectID в query параметры GET запроса
                 },
                 success: function (data) {
-                    $(".icon-app-view").addClass("active");
-                    $(".icon-list-view").removeClass("active");
+                    //$(".icon-app-view").addClass("active");
+                    //$(".icon-list-view").removeClass("active");
+                    person_view.style.display = 'block';
+                    loader_big.style.display = 'none';
                     $("#person_view").html(data)
+
+
                 }
             })
         };
 
         function onClickList() {
+            $(".icon-app-view").removeClass("active");
+            $(".icon-list-view").addClass("active");
+            var person_view = document.getElementById('person_view');
+            var loader_big = document.getElementById('loader-big');
+            loader_big.style.opacity = '0';
+            person_view.style.display = 'none';
+            loader_big.style.display = 'block';
+
+
+            async function f() {
+                var op = 0;
+                while (op <= 1) {
+                    (function (_op) {
+                        setTimeout(function () {
+                            loader_big.style.opacity = _op;
+                        }, 100 + op * 380);
+                    })(op);
+                    op += 0.1;
+                }
+            }
+
+            f();
+
             var url = $("#person_view").attr("data-list-url");
             var dep_field = $('#id_department_field').val();
 
@@ -119,8 +174,10 @@
                     'dep_field': dep_field
                 },
                 success: function (data) {
-                    $(".icon-app-view").removeClass("active");
-                    $(".icon-list-view").addClass("active");
+                    /*$(".icon-app-view").removeClass("active");
+                    $(".icon-list-view").addClass("active");*/
+                    person_view.style.display = 'block';
+                    loader_big.style.display = 'none';
                     $("#person_view").html(data)
                 }
             })

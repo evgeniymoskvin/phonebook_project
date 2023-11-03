@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from .models import EmployeeModel, MoreDetailsEmployeeModel, User
 from .forms import FilterForm
+import time
 # Create your views here.
 
 class IndexPageView(View):
@@ -16,6 +17,7 @@ class IndexPageView(View):
 
 
 def get_grid_view(request):
+    # time.sleep(1)
     dep_field = request.GET.get('dep_field')
     if dep_field:
         employees = EmployeeModel.objects.get_queryset().filter(work_status=True).filter(department_group_id=dep_field).order_by('last_name', 'first_name',
@@ -31,6 +33,7 @@ def get_grid_view(request):
     return render(request, 'phonebook_app/grid_view.html', content)
 
 def get_list_view(request):
+    # time.sleep(1)
     dep_field = request.GET.get('dep_field')
     if dep_field:
         employees = EmployeeModel.objects.get_queryset().filter(work_status=True).filter(department_group_id=dep_field).order_by('last_name', 'first_name',
