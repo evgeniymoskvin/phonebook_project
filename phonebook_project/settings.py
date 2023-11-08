@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'phonebook_app',
     'admin_panel_app',
-    'login'
+    'login',
+    'cachalot',
+
 ]
 
 MIDDLEWARE = [
@@ -130,7 +132,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
+# SESSION_COOKIE_DOMAIN = '.example.com'
+# SESSION_COOKIE_NAME = 'examplesessionid'
+
 MEDIA_URL = "/media/"
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = MEDIA_DIR
 
+CELERY_BROKER_URL = 'redis://localhost:6379//0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+FORKED_BY_MULTIPROCESSING = 1
+# CELERY_BROKER_URL = 'redis://0.0.0.0:6379//0'
+# CELERY_RESULT_BACKEND = 'redis://0.0.0.0:6379/0'
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://localhost:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
