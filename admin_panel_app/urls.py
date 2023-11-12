@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
+handler404 = 'admin_panel_app.views.page_404_view'
+
 urlpatterns = [
     path('admin_hr/', views.IndexMainPage.as_view(), name='admin_hr'),
     path('admin_hr/new_employee/', views.RegistrationNewUser.as_view(), name='new_employee'),
@@ -33,3 +35,4 @@ urlpatterns = [
     path('admin_hr/ajax/translate_name', views.translate_name, name='translate_name'),
     path('admin_hr/service/all_emp_info/', views.ServiceInfoView.as_view(), name='all_info'),
 ]
+

@@ -25,7 +25,6 @@ from .functions import check_permission_user
 class IndexMainPage(View):
     @method_decorator(login_required(login_url='login'))
     def get(self, request):
-
         # try:
         #     user = EmployeeModel.objects.get(user=request.user)
         #     check_user = CanEditEmployee.objects.get(emp_id=user.id)
@@ -356,6 +355,7 @@ class AllDepView(View):
 
 class AddNewDepView(View):
     """Создание новых отделов"""
+
     @method_decorator(login_required(login_url='login'))
     def get(self, request):
         try:
@@ -386,6 +386,7 @@ class AddNewDepView(View):
 
 class EditCommandView(View):
     """Редактирование отдела"""
+
     @method_decorator(login_required(login_url='login'))
     def get(self, request, pk):
         try:
@@ -416,10 +417,12 @@ class EditCommandView(View):
             }
             return render(request, 'admin_panel_app/ajax/error_list.html', content)
 
+
 class ServiceInfoView(View):
     @method_decorator(login_required(login_url='login'))
     def get(self, request):
-        employees = EmployeeModel.objects.get_queryset().filter(work_status=True).order_by('last_name', 'first_name', 'middle_name')
+        employees = EmployeeModel.objects.get_queryset().filter(work_status=True).order_by('last_name', 'first_name',
+                                                                                           'middle_name')
         try:
             user = EmployeeModel.objects.get(user=request.user)
             check_user = CanEditEmployee.objects.get(emp_id=user.id)
@@ -445,7 +448,8 @@ def username_exists(request):
     }
     return render(request, 'admin_panel_app/ajax/ajax_username.html', content)
 
-def translate_name (request):
+
+def translate_name(request):
     """ajax функция перевода имени пользователя"""
     input_str = request.GET.get('str')
     output_str = translit(input_str, 'ru', reversed=True)
@@ -456,3 +460,9 @@ def translate_name (request):
     }
     return JsonResponse(content, status=200, content_type="application/json")
 
+
+def page_404_view(request, exception):
+    print(exception)
+    content = {'exception': exception}
+    print(123456)
+    return render(request, '404.html', content)
