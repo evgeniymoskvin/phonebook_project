@@ -449,7 +449,8 @@ def translate_name (request):
     """ajax функция перевода имени пользователя"""
     input_str = request.GET.get('str')
     output_str = translit(input_str, 'ru', reversed=True)
-    output_str = output_str.replace("'", "")
+    output_str = output_str.replace("'", "")    # Убираем смягчения
+    output_str = output_str.replace(" ", "")    # Убираем пробелы
     print(output_str)
     content = {
         'output_str': output_str
