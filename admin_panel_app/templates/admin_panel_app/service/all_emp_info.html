@@ -21,7 +21,9 @@
                 <th class="th_tables" scope="col">Кабинет</th>
                 <th class="th_tables" scope="col">Дата рождения</th>
                 <th class="th_tables" scope="col">Фото</th>
-
+                {% comment %}
+                <th class="th_tables" scope="col">Работает</th>
+                {% endcomment %}
             </tr>
             </thead>
 
@@ -74,7 +76,15 @@
                     <td class="td_tables" style="width: 50px; text-align: center">
                         {% get_photo_url emp.id %}
                     </td>
-
+                {% comment %}
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% if emp.work_status %}
+                            {{ emp.work_status }}
+                        {% else %}
+                            {{emp.work_status}}
+                        {% endif %}
+                    </td>
+                {% endcomment %}
 
                 </tr>
                 {#            {% endif %}#}
