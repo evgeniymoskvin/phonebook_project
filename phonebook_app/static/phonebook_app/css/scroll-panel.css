@@ -60,7 +60,7 @@
 }
 
 /* Скрытие панели при маленькой ширине окна */
-@media screen and (max-width: 1380px) {
+@media screen and (max-width: 1430px) {
     #scroll_top {
         display: flex;
         opacity: 0;
