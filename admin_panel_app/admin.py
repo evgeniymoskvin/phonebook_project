@@ -11,16 +11,15 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 
 class MoreDetailsEmployeeAdmin(admin.ModelAdmin):
-    # list_display = ("author", "text_task")
-    ordering = ["emp"]
-    search_fields = ["emp__last_name"]
-    list_filter = ("emp__department_group", "emp__department")
+    ordering = ["emp__last_name", "emp__first_name", "emp__middle_name"]
+    search_fields = ["emp__last_name", "emp__first_name", "emp__middle_name"]
+    list_filter = ("emp__department_group__group_dep_abr", "emp__department__command_number")
     # list_filter = ("author", "task_number")
 
 
 class CommandNumberAdmin(admin.ModelAdmin):
     ordering = ["command_number"]
-    list_filter = ("department",)
+    list_filter = ("department__group_dep_abr",)
 
 class GroupDepartmentAdmin(admin.ModelAdmin):
     ordering = ["group_dep_abr"]
@@ -28,12 +27,16 @@ class GroupDepartmentAdmin(admin.ModelAdmin):
 class JobTitleAdmin(admin.ModelAdmin):
     ordering = ["job_title"]
 
+class CanEditEmployeeAdmin(admin.ModelAdmin):
+    ordering = ["emp__last_name", "emp__first_name", "emp__middle_name"]
+    search_fields = ["emp__last_name", "emp__first_name", "emp__middle_name"]
+
 admin.site.register(EmployeeModel, EmployeeAdmin)
 admin.site.register(MoreDetailsEmployeeModel, MoreDetailsEmployeeAdmin)
 admin.site.register(GroupDepartmentModel, GroupDepartmentAdmin)
 admin.site.register(CityDepModel)
 admin.site.register(CommandNumberModel, CommandNumberAdmin)
 admin.site.register(JobTitleModel, JobTitleAdmin)
-admin.site.register(CanEditEmployee)
+admin.site.register(CanEditEmployee, CanEditEmployeeAdmin)
 
 # Register your models here.
