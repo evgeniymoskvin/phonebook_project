@@ -72,3 +72,11 @@ def get_mobile_phone(emp):
         return more_inf.mobile_phone
     except:
         return '-'
+
+@register.simple_tag()
+def get_city_emp(emp):
+    try:
+        more_inf = MoreDetailsEmployeeModel.objects.get(emp=emp)
+        return more_inf.city_dep.city
+    except:
+        return '-'

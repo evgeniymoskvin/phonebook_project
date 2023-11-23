@@ -19,8 +19,9 @@
                 <th class="th_tables" scope="col">Почта внут.</th>
                 <th class="th_tables" scope="col">Почта внеш.</th>
                 <th class="th_tables" scope="col">Кабинет</th>
-                <th class="th_tables" scope="col">Дата рождения</th>
+                <th class="th_tables" scope="col">Д.Р.</th>
                 <th class="th_tables" scope="col">Фото</th>
+                <th class="th_tables" scope="col">Город</th>
                 {% comment %}
                 <th class="th_tables" scope="col">Работает</th>
                 {% endcomment %}
@@ -76,7 +77,10 @@
                     <td class="td_tables" style="width: 50px; text-align: center">
                         {% get_photo_url emp.id %}
                     </td>
-                {% comment %}
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% get_city_emp emp.id %}
+                    </td>
+                    {% comment %}
                     <td class="td_tables" style="width: 50px; text-align: center">
                         {% if emp.work_status %}
                             {{ emp.work_status }}
