@@ -130,16 +130,3 @@ class MoreDetailsEmployeeModel(models.Model):
 
     def __str__(self):
         return f'{self.emp}'
-
-
-# class CanEditEmployee(models.Model):
-#     emp = models.OneToOneField(EmployeeModel, models.CASCADE, verbose_name="Пользователь")
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'admin_panel_app_caneditemployee'
-#         verbose_name = _("может редактировать сотрудников")
-#         verbose_name_plural = _("может редактировать сотрудников")
-#
-#     def __str__(self):
-#         return f'{self.emp}'

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
-from .models import EmployeeModel, MoreDetailsEmployeeModel, User
-from admin_panel_app.models import CanEditEmployee
+# from .models import EmployeeModel, MoreDetailsEmployeeModel, User
+from admin_panel_app.models import CanEditEmployee, MoreDetailsEmployeeModel, EmployeeModel, User
 from .forms import FilterForm
 import time
 # Create your views here.

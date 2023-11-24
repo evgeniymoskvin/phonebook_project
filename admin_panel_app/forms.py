@@ -108,6 +108,9 @@ class NewGroupDepForm(ModelForm):
                    'group_dep_name': TextInput(attrs={"class": "form-control",
                                                       "aria-label": "Полное наименование",
                                                       "placeholder": "Полное наименование"}),
+                   'city_dep': Select(attrs={"class": "form-select",
+                                               "aria-label": "Город",
+                                               "placeholder": "Выбрать город"}),
                    'show': CheckboxInput()}
 
 

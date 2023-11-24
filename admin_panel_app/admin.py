@@ -19,10 +19,11 @@ class MoreDetailsEmployeeAdmin(admin.ModelAdmin):
 
 class CommandNumberAdmin(admin.ModelAdmin):
     ordering = ["command_number"]
-    list_filter = ("department__group_dep_abr",)
+    list_filter = ("department__group_dep_abr", "department__city_dep__city")
 
 class GroupDepartmentAdmin(admin.ModelAdmin):
     ordering = ["group_dep_abr"]
+    list_filter = ("city_dep__city", "show")
 
 class JobTitleAdmin(admin.ModelAdmin):
     ordering = ["job_title"]

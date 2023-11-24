@@ -21,6 +21,7 @@
             <th class="th_tables" scope="col">#</th>
             <th class="th_tables" scope="col">Сокращение</th>
             <th class="th_tables" scope="col">Наименование</th>
+            <th class="th_tables" scope="col">Город</th>
             <th class="th_tables" scope="col">Показывать</th>
         </tr>
         </thead>
@@ -33,6 +34,8 @@
                     {{ groupdep.group_dep_abr }}</td>
                 <td class="td_tables">
                     {{ groupdep.group_dep_name }}</td>
+                            <td class="td_tables">
+                    {{ groupdep.city_dep.city }}</td>
                 <td class="td_tables" style="width: 50px; text-align: center">
                     {% if groupdep.show is True %}
                         Да

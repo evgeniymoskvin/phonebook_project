@@ -22,11 +22,22 @@ class JobTitleModel(models.Model):
     def __str__(self):
         return f'{self.job_title}'
 
+class CityDepModel(models.Model):
+    city = models.CharField(verbose_name="Город", max_length=100)
+    name_dep = models.CharField(verbose_name="Наименование организации", max_length=350)
+
+    class Meta:
+        verbose_name = _("город/организация")
+        verbose_name_plural = _("города/организации")
+
+    def __str__(self):
+        return f'{self.city} - {self.name_dep}'
 
 class GroupDepartmentModel(models.Model):
     """Список управлений"""
     group_dep_abr = models.CharField("Сокращенное название управления", max_length=10)
     group_dep_name = models.CharField("Полное название управления", max_length=250)
+    city_dep = models.ForeignKey(CityDepModel, verbose_name="Город", on_delete=models.SET_NULL, null=True, blank=True)
     show = models.BooleanField("Отображать отдел", default=True)
 
     def __str__(self):
@@ -86,17 +97,6 @@ class EmployeeModel(models.Model):
         verbose_name_plural = _("сотрудники")
         db_table = 'ToDo_tasks_employee'
 
-
-class CityDepModel(models.Model):
-    city = models.CharField(verbose_name="Город", max_length=100)
-    name_dep = models.CharField(verbose_name="Наименование организации", max_length=350)
-
-    class Meta:
-        verbose_name = _("город/организация")
-        verbose_name_plural = _("города/организации")
-
-    def __str__(self):
-        return f'{self.city} - {self.name_dep}'
 
 
 def upload_to(instance, filename):
