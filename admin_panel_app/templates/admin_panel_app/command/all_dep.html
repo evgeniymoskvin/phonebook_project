@@ -22,13 +22,14 @@
             <th class="th_tables" scope="col">Сокращение</th>
             <th class="th_tables" scope="col">Наименование</th>
             <th class="th_tables" scope="col">Управление</th>
+            <th class="th_tables" scope="col">Город</th>
             <th class="th_tables" scope="col">Показывать</th>
         </tr>
         </thead>
 
         <tbody>
         {% for dep in all_dep %}
-            <tr class="tr-tables" onclick="location.href='{% url 'edit_dep' pk=dep.id  %}'" style="cursor: context-menu">
+            <tr class="tr-tables" onclick="location.href='{% url 'edit_dep' pk=dep.id %}'" style="cursor: context-menu">
                 <th class="th_tables" scope="row" style="width: 30px">{{ forloop.counter }}</th>
                 <td class="td_tables" style="width: 80px; text-align: center">
                     {{ dep.command_number }}</td>
@@ -36,6 +37,8 @@
                     {{ dep.command_name }}</td>
                 <td class="td_tables" style="width: 80px; text-align: center">
                     {{ dep.department.group_dep_abr }}</td>
+                <td class="td_tables" style="width: 80px; text-align: center">
+                    {{ dep.department.city_dep.city }}</td>
                 <td class="td_tables" style="width: 50px; text-align: center">
                     {% if dep.show is True %}
                         Да
