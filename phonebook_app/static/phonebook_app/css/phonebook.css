@@ -581,3 +581,12 @@ body {
 .text-1-admin:hover {
     color: #0a53be;
 }
+
+.link-email{
+    color: black;
+    text-decoration: none
+}
+
+.link-email:hover {
+    color: rgba(2, 94, 161, 1);
+}

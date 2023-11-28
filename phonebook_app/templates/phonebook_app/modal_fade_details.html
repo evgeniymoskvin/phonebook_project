@@ -57,7 +57,7 @@
                 <div>
                     <div class="text-p-18">Почта:</div>
                     {% if  user_info.email %}
-                        <div class="text-p-16-bold">{{ user_info.email }}</div>
+                        <div class="text-p-16-bold"><a class="link-email" href="mailto:{{ user_info.email }}">{{ user_info.email }}</a></div>
                     {% else %}
                         <div class="text-p-16-bold">---</div>
                     {% endif %}
