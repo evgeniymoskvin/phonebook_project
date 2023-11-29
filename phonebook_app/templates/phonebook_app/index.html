@@ -67,6 +67,14 @@
 
 
     <script>
+        window.addEventListener("keypress", function () {
+            let key = event.key
+            var input = document.getElementById("myInput");
+            if (!input.matches(":focus") && (input.value.length == 0)) {
+                input.focus({preventScroll: false});
+                input.value = key
+            }
+        });
 
         $("#id_department_field").change(function () {
             var listview = document.getElementById('icon-list-view')
@@ -185,7 +193,7 @@
         // после загрузки страницы
         document.addEventListener("DOMContentLoaded", function () {
             // инициализации подсказок для всех элементов на странице, имеющих атрибут data-toggle="tooltip"
-            console.log('Load tooltips')
+            /*console.log('Load tooltips')*/
             $('[data-toggle="tooltip"]').tooltip();
         });
 
