@@ -18,6 +18,17 @@ url('../fonts/golos/400/font.ttf') format('ttf');
     font-style: normal;
 }
 
+.hide-scroll{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hide-scroll::-webkit-scrollbar {
+    display: none;
+    background-color: #0a53be;
+    color: #00d1b2;
+}
+
 
 .icon-list-view {
     margin-right: 10px;
@@ -103,6 +114,7 @@ body {
     animation: fade-in 1s ease;
     transition: opacity 0.5s ease;
 }
+
 
 #sec {
     background: #fff;
