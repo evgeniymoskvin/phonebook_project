@@ -86,7 +86,3 @@ def get_details_modal_view(request):
         'user_info': user_info
     }
     return render(request, 'phonebook_app/modal_fade_details.html', content)
-
-
-def jjj():
-    pass
