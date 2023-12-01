@@ -42,10 +42,15 @@ def get_grid_view(request):
                                                                                            'middle_name')
 
     count = employees.count()
+    none_blocks = 6 - count % 6
+    none_list = [i for i in range(none_blocks)]
     content = {
+        'none_blocks': none_list,
         'count': count,
         'employees': employees}
     return render(request, 'phonebook_app/grid_view.html', content)
+
+
 
 def get_list_view(request):
     """
@@ -81,3 +86,7 @@ def get_details_modal_view(request):
         'user_info': user_info
     }
     return render(request, 'phonebook_app/modal_fade_details.html', content)
+
+
+def jjj():
+    pass

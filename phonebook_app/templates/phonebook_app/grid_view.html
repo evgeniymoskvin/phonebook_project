@@ -16,13 +16,18 @@
                 </div>
             </div>
         {% endfor %}
+        {% for i in none_blocks %}
+            <div class="element_full" style="opacity: 0">
+            </div>
+        {% endfor %}
     </div>
 </div>
 
 <script>
     function mySearchFunction() {
         // Объявить переменные
-        var input, filter, table, tr, td, td_1, td_2, td_3, i, txtValue, txtValue2, txtValue3, txtValue4, list_emp, element, count;
+        var input, filter, table, tr, td, td_1, td_2, td_3, i, txtValue, txtValue2, txtValue3, txtValue4, list_emp,
+            element, count;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();
         list_emp = document.getElementById("list-emp");
@@ -43,13 +48,10 @@
                 txtValue3 = td_2.textContent || td_2.innerText;
                 txtValue4 = td_3.textContent || td_3.innerText;
                 if ((txtValue.toUpperCase().indexOf(filter) > -1) || (txtValue2.toUpperCase().indexOf(filter) > -1) ||
-                (txtValue3.toUpperCase().indexOf(filter) > -1) || (txtValue4.toUpperCase().indexOf(filter) > -1))
-                {
+                    (txtValue3.toUpperCase().indexOf(filter) > -1) || (txtValue4.toUpperCase().indexOf(filter) > -1)) {
                     {#if ((txtValue.toUpperCase().indexOf(filter) > -1)) {#}
                     element[i].style.display = "";
-                }
-            else
-                {
+                } else {
                     element[i].style.display = "none";
                 }
             }
