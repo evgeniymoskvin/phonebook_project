@@ -1,0 +1,19 @@
+{% extends "admin_panel_app/base.html" %}
+{% load static %}
+{% load service_tags %}
+
+{% block body %}
+    <form
+    <div style="display: flex; flex-direction: column">
+        {% for citi in cities %}
+            <div style="display: flex; flex-direction: row">
+                <div style="display: flex">
+                    <input type="checkbox">
+                </div>
+                <div style="display: flex">
+                    {{ citi }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

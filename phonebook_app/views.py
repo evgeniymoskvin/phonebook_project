@@ -13,17 +13,16 @@ class IndexPageView(View):
         change_permission = False  # Права пользователя на редактирование сотрудников, для кнопки в хедере
         try:   # Проверяем авторизованного пользователя, если у него есть права редактирвоания, устанавливаем True
             user = EmployeeModel.objects.get(user=request.user)
-            if CanEditEmployee.objects.filter(emp=user.user_id).exists():
-                change_permission = True
+            check_user = CanEditEmployee.objects.get(emp_id=user.id)
         except Exception as e:
-            print(e)
+            check_user = False
         # Получаем список работающих сотрудников
         employees = EmployeeModel.objects.get_queryset().filter(work_status=True).order_by('last_name', 'first_name', 'middle_name')
         dep_form = FilterForm()
         content = {
             'employees': employees,
             'dep_form': dep_form,
-            'change_permission': change_permission,
+            'change_permission': check_user,
         }
         return render(request, 'phonebook_app/index.html', content)
 
