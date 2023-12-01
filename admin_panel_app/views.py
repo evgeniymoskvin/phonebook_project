@@ -18,7 +18,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login
 
 from .forms import MoreDetailsEmployeeForm, EmployeeForm, UserRegistration, NewGroupDepForm, NewCommandForm
-from .models import MoreDetailsEmployeeModel, EmployeeModel, CanEditEmployee, GroupDepartmentModel, CommandNumberModel
+from .models import MoreDetailsEmployeeModel, EmployeeModel, CanEditEmployee, GroupDepartmentModel, CommandNumberModel, CityDepModel
 from .functions import check_permission_user
 
 
@@ -457,3 +457,26 @@ def translate_name (request):
     }
     return JsonResponse(content, status=200, content_type="application/json")
 
+
+class GetEmployeeListView(View):
+    @method_decorator(login_required(login_url='login'))
+    def get(self, request):
+        try:
+            user = EmployeeModel.objects.get(user=request.user)
+            check_user = CanEditEmployee.objects.get(emp_id=user.id)
+        except:
+            check_user = False
+
+        cities = CityDepModel.objects.get_queryset().order_by('city')
+        content = {
+            'permission': check_user,
+            'cities': cities,
+        }
+        return render(request, 'admin_panel_app/service/get_emp_list.html', content)
+
+def get_group_dep(request):
+    print(request)
+    content = {
+
+    }
+    return JsonResponse(content, status=200, content_type="application/json")
