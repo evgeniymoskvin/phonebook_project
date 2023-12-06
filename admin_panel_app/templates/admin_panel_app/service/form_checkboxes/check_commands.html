@@ -1,0 +1,63 @@
+<div class="text-p-16-bold">Выберите отделы:</div>
+
+<form method="POST" id="commands_form" action="{% url 'get_employees' %}" style="margin-top: 15px">
+    {% csrf_token %}
+    <div style="display: flex; flex-direction: column">
+        {% for command in commands %}
+            <div class="div-position">
+                <div style="display: flex">
+                    <input name='command' value="{{ command.id }}" type="checkbox">
+                </div>
+                <div style="display: flex">
+                    <div class="div-position-checkbox">{{ command }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
+    <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToGroupDep()">Назад</div>
+    <button style="display: flex" class="button-primary-rusatom" id="form_command_button" disabled>Далее</button>
+    </div>
+</form>
+
+
+<script>
+    function backToGroupDep() {
+        $("#group_dep_checkboxes").show();
+        $("#command_checkboxes").hide();
+    }
+
+    var checkbox_command = document.querySelectorAll('input[name=command]');
+
+    for (let i = 0; i < checkbox_command.length; i++) {
+        checkbox_command[i].addEventListener("click", function () {
+            for (var l = 0; l < checkbox_command.length; l++) {
+                if (checkbox_command[l].checked) {
+                    $("#form_command_button").prop('disabled', false);
+                    return;
+                } else {
+                    $("#form_command_button").prop('disabled', true);
+                }
+            }
+        })
+    }
+
+    $('#commands_form').submit(function (e) {
+        e.preventDefault();
+        var form = $(this);
+        var actionUrl = form.attr('action')
+
+        $.ajax({
+            type: form.attr('method'),
+            url: actionUrl,
+            data: form.serialize(),
+            success: function (data) {
+                $("#command_checkboxes").hide();
+                $("#employees_checkboxes").show();
+                $("#employees_checkboxes").html(data);
+
+            }
+        })
+
+    })
+</script>

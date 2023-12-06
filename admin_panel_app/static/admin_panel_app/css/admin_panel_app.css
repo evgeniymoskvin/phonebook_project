@@ -171,7 +171,7 @@ body {
     z-index: 100;
 }
 
-.header-fixed{
+.header-fixed {
     position: fixed;
     top: 0;
 }
@@ -261,7 +261,6 @@ body {
 }
 
 
-
 .text-24-bold {
     font-family: "p22_underground_cy_prodemi", serif;
     font-size: 24px;
@@ -303,7 +302,6 @@ body {
     font-size: 16px;
     text-align: left;
 }
-
 
 
 .text-p-15-green {
@@ -348,3 +346,15 @@ body {
     color: #F5AB61;
 }
 
+.div-position {
+    display: flex;
+    flex-direction: row;
+    margin-top: 3px;
+}
+
+.div-position-checkbox {
+    margin-left: 15px;
+    font-family: "p22_underground_cy_probook", serif;
+    font-size: 16px;
+    text-align: left;
+}

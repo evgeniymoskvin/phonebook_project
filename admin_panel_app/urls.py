@@ -34,4 +34,9 @@ urlpatterns = [
     path('admin_hr/service/all_emp_info/', views.ServiceInfoView.as_view(), name='all_info'),
     path('admin_hr/service/get_emp_list/', views.GetEmployeeListView.as_view(), name='get_emp_list'),
     path('admin_hr/ajax/get_dep_group/', views.get_group_dep, name='get_group_dep'),
+    path('admin_hr/ajax/get_commands/', views.get_commands, name='get_commands'),
+    path('admin_hr/ajax/get_employees/', views.get_employees, name='get_employees'),
+    path('admin_hr/ajax/get_columns/', views.get_columns, name='get_columns'),
+    path('admin_hr/ajax/get_employees_list/', views.get_employees_list, name='get_employees_list'),
+
 ]

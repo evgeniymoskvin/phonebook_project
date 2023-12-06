@@ -1,0 +1,183 @@
+<div class="text-p-16-bold">Выберите отображаемые поля:</div>
+
+<form method="POST" id="column_form" action="{% url 'get_employees_list' %}" style="margin-top: 15px">
+    {% csrf_token %}
+    <div style="display: flex; flex-direction: column">
+        <div class="div-position">
+            <div style="display: flex">
+                <input name='column_checkbox' value="1" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Фамилия имя отчество</div>
+            </div>
+        </div>
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="2" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Табельный номер</div>
+            </div>
+        </div>
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="3" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Управление (сокращенное)</div>
+            </div>
+        </div>
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="4" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Управление полное</div>
+            </div>
+        </div>
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="5" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Номер отдела</div>
+            </div>
+        </div>
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="6" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Название отдела</div>
+            </div>
+        </div>
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="7" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Должность</div>
+            </div>
+        </div>
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="8" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">День рождения</div>
+            </div>
+        </div>
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="9" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Номер телефона внутренний</div>
+            </div>
+        </div>
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="10" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Номер телефона внешний</div>
+            </div>
+        </div>
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="11" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Почта внутренняя</div>
+            </div>
+        </div>
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="12" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Почта внешняя</div>
+            </div>
+        </div>
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="13" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Кабинет</div>
+            </div>
+        </div>
+
+
+        <div style="display: flex">
+            <input name='column_checkbox' value="10000" type="checkbox" checked hidden>
+        </div>
+        <div style="display: flex" hidden>
+            Скрытое
+        </div>
+    </div>
+    </div>
+    <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
+        <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToEmpl()">Назад</div>
+        <button class="button-primary-rusatom" id="form_column_button" disabled>Далее</button>
+    </div>
+</form>
+
+
+<script>
+
+
+    function backToEmpl() {
+        $("#employees_checkboxes").show();
+        $("#check_columns").hide();
+    }
+
+
+    var checkbox_column = document.querySelectorAll('input[name=column_checkbox]');
+
+    for (let i = 0; i < checkbox_column.length - 1; i++) {
+        checkbox_column[i].addEventListener("click", function () {
+            for (var l = 0; l < checkbox_column.length - 1; l++) {
+                if (checkbox_column[l].checked) {
+                    $("#form_column_button").prop('disabled', false);
+                    return;
+                } else {
+                    $("#form_column_button").prop('disabled', true);
+                }
+            }
+        })
+    }
+
+    $('#column_form').submit(function (e) {
+        e.preventDefault();
+        var form = $(this);
+        var form_emp = $('#employee_form')
+        var actionUrl = form.attr('action')
+        console.log(form.serialize())
+        console.log(form_emp.serialize())
+
+        $.ajax({
+            type: form.attr('method'),
+            url: actionUrl,
+            data: form.serialize() + form_emp.serialize(),
+            success: function (data) {
+                $("#check_columns").hide();
+                $("#employees_table").show();
+                $("#employees_table").html(data);
+
+            }
+        })
+
+    })
+</script>
