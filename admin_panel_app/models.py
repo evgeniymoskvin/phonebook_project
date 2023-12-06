@@ -131,6 +131,9 @@ class MoreDetailsEmployeeModel(models.Model):
 
 class CanEditEmployee(models.Model):
     emp = models.OneToOneField(EmployeeModel, models.CASCADE, verbose_name="Пользователь")
+    can_change_emp = models.BooleanField(verbose_name="Редактировать данные сотрудников", default=False, null=True)
+    can_upload = models.BooleanField(verbose_name="Делать выгрузки списков", default=False, null=True)
+    can_change_rules = models.BooleanField(verbose_name="Назначать права сотрудников", default=False, null=True)
 
     class Meta:
         verbose_name = _("может редактировать сотрудников")
