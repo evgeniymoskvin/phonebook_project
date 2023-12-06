@@ -1,0 +1,190 @@
+{% load service_tags %}
+<div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToColumn()">Назад</div>
+
+<div style="width: calc(100vw - 100px); margin-left: -300px">
+    <table id="my_tasks_sign_table" class="table table-hover">
+        <thead>
+        <tr>
+            <th class="th_tables" scope="col">#</th>
+            {% if fio_flag %}
+                <th class="th_tables" scope="col">Ф.И.О.</th>
+            {% endif %}
+            {% if personnel_number_flag %}
+                <th class="th_tables" scope="col" style="text-align: center">Таб. №</th>
+            {% endif %}
+            {% if group_dep_abr_flag %}
+                <th class="th_tables" scope="col" style="text-align: center">Упр. сокр.</th>
+            {% endif %}
+            {% if group_dep_flag %}
+                <th class="th_tables" scope="col" style="text-align: center">Упр. полное.</th>
+            {% endif %}
+            {% if command_number_flag %}
+                <th class="th_tables" scope="col" style="text-align: center">Номер отдела</th>
+            {% endif %}
+            {% if command_name_flag %}
+                <th class="th_tables" scope="col" style="text-align: center">Название отдела</th>
+            {% endif %}
+            {% if job_title_flag %}
+                <th class="th_tables" scope="col" style="text-align: center">Должность</th>
+            {% endif %}
+            {% if birthday_flag %}
+                <th class="th_tables" scope="col" style="text-align: center">Д.Р.</th>
+            {% endif %}
+            {% if phone_flag %}
+                <th class="th_tables" scope="col" style="text-align: center">Тел.</th>
+            {% endif %}
+            {% if mobile_phone_flag %}
+                <th class="th_tables" scope="col" style="text-align: center">Моб.тел.</th>
+            {% endif %}
+            {% if email_flag %}
+                <th class="th_tables" scope="col" style="text-align: center">Почта внут.</th>
+            {% endif %}
+            {% if email2_flag %}
+                <th class="th_tables" scope="col" style="text-align: center">Почта внеш.</th>
+            {% endif %}
+            {% if room %}
+                <th class="th_tables" scope="col" style="text-align: center">Кабинет</th>
+            {% endif %}
+
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for emp in employees %}
+            <tr class="tr-tables">
+                <th class="th_tables" scope="row" style="width: 30px">{{ forloop.counter }}</th>
+                {% if fio_flag %}
+                    <td class="td_tables">
+                        {{ emp.last_name }} {{ emp.first_name }} {{ emp.middle_name }}</td>
+                {% endif %}
+                {% if personnel_number_flag %}
+                    <td class="td_tables" style="width: 75px; text-align: center">
+                        {{ emp.personnel_number }}
+                    </td>
+                {% endif %}
+                {% if group_dep_abr_flag %}
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {{ emp.department_group.group_dep_abr }}</td>
+                {% endif %}
+                {% if group_dep_flag %}
+                    <td class="td_tables" style="width: 200px; text-align: center">
+                        {{ emp.department_group.group_dep_name }}</td>
+                {% endif %}
+                {% if command_number_flag %}
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {{ emp.department.command_number }}
+                    </td>
+                {% endif %}
+                {% if command_name_flag %}
+                    <td class="td_tables" style="width: 200px; text-align: center">
+                        {{ emp.department.command_name }}
+                    </td>
+                {% endif %}
+                {% if job_title_flag %}
+                    <td class="td_tables" style="width: 200px; text-align: left">
+                        {{ emp.job_title }}
+                    </td>
+                {% endif %}
+                {% if birthday_flag %}
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% get_birthday emp.id %}
+                    </td>
+                {% endif %}
+                {% if phone_flag %}
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% if emp.user_phone %}
+                            {{ emp.user_phone }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                {% endif %}
+                {% if mobile_phone_flag %}
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% get_mobile_phone emp.id %}
+                    </td>
+                {% endif %}
+                {% if email_flag %}
+                    <td class="td_tables" style="width: 125px; text-align: center">
+                        {% if emp.user.email %}
+                            {{ emp.user.email }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                {% endif %}
+                {% if email2_flag %}
+                    <td class="td_tables" style="width: 125px; text-align: center">
+                        {% get_outside_email emp.id %}
+                    </td>
+                {% endif %}
+                {% if room %}
+                    <td class="td_tables" style="width: 50px; text-align: center">
+                        {% get_room emp.id %}
+                    </td>
+                {% endif %}
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+
+    function backToColumn() {
+        $("#check_columns").show();
+        $("#employees_table").hide();
+    }
+
+    function newStyleButton() {
+        const pdf_button = document.getElementsByClassName("btn btn-secondary buttons-pdf buttons-html5")[0]
+        console.log(pdf_button);
+        pdf_button.classList.remove("btn")
+        pdf_button.classList.remove("btn-secondary")
+        pdf_button.classList.remove("buttons-pdf")
+        pdf_button.classList.remove("buttons-html5")
+        pdf_button.textContent = ''
+        pdf_button.classList.add("pdf_button_icon")
+
+        const exel_button = document.getElementsByClassName("btn btn-secondary buttons-excel buttons-html5")[0]
+        console.log(exel_button);
+        exel_button.classList.remove("btn")
+        exel_button.textContent = ''
+        exel_button.classList.add("exel_button_icon")
+    }
+
+    {#document.getElementById('test_checkbox').onchange = toggle;#}
+    /*document.querySelectorAll('input[type=checkbox]').onchange = toggle;*/
+
+    $(document).ready(function () {
+        var table = $('#my_tasks_sign_table').DataTable({
+                {#order: [[1, 'asc']],#}
+                dom:
+                /*"<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +*/
+                    "<'row'<'col-sm-12'tr>>" +
+                    /*"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>" +*/
+                    "<br><'col-sm-2 col-md-2 col-xxl-2'B>",
+                "language": {
+                    "lengthMenu": "Показать _MENU_",
+                    "zeroRecords": "Записи не найдены",
+                    "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
+                    "search": "Поиск:",
+                    "paginate": {
+                        "next": "Следующая",
+                        "previous": "Предыдущая"
+                    }
+                },
+                "aLengthMenu": [[1, 5, 10, 15, 20, 25, -1], [1, 5, 10, 15, 20, 25, "Все"]],
+                "iDisplayLength": -1,
+                buttons: ['pdf', 'excel']
+            }
+        );
+        table.buttons().container()
+            .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+        newStyleButton()
+    });
+
+
+</script>

@@ -1,0 +1,68 @@
+<div class="text-p-16-bold">Выберите управления:</div>
+
+<form method="POST" id='group_deps_form' action="{% url 'get_commands' %}" style="margin-top: 15px">
+    {% csrf_token %}
+    <div style="display: flex; flex-direction: column">
+        {% for group_dep in group_deps %}
+            <div class="div-position">
+                <div style="display: flex">
+                    <input name='group_dep' value="{{ group_dep.id }}" type="checkbox">
+                </div>
+                <div style="display: flex">
+                    <div class="div-position-checkbox">{{ group_dep }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
+    <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToCity()">Назад</div>
+    <button style="display: flex" class="button-primary-rusatom" id="form_group_button" disabled>Далее</button>
+            </div>
+</form>
+
+
+<script>
+    function backToCity(){
+        $("#city_checkboxes").show();
+        $("#group_dep_checkboxes").hide();
+    }
+
+    var checkbox_group_dep = document.querySelectorAll('input[name=group_dep]');
+
+    for (let i = 0; i < checkbox_group_dep.length; i++) {
+
+        checkbox_group_dep[i].addEventListener("click", function () {
+            console.log('event group_dep')
+            for (var l = 0; l < checkbox_group_dep.length; l++) {
+                if (checkbox_group_dep[l].checked) {
+                    $("#form_group_button").prop('disabled', false);
+                    return;
+                } else {
+                    $("#form_group_button").prop('disabled', true);
+                }
+            }
+        })
+    }
+
+
+    $('#group_deps_form').submit(function (e) {
+        e.preventDefault();
+        var form = $(this);
+        var actionUrl = form.attr('action')
+
+        $.ajax({
+            type: form.attr('method'),
+            url: actionUrl,
+            data: form.serialize(),
+            success: function (data) {
+
+                $("#group_dep_checkboxes").hide();
+                $("#command_checkboxes").html(data);
+                $("#command_checkboxes").show();
+
+
+            }
+        })
+
+    })
+</script>

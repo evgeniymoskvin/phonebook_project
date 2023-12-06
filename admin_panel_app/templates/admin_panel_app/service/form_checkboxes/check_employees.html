@@ -1,0 +1,64 @@
+<div class="text-p-16-bold">Выберите сотрудников:</div>
+
+<form method="POST" id="employee_form" action="{% url 'get_columns' %}" style="margin-top: 15px">
+    {% csrf_token %}
+    <div style="display: flex; flex-direction: column">
+        {% for emp in emps %}
+            <div class="div-position">
+                <div style="display: flex">
+                    <input name='employee' value="{{ emp.id }}" type="checkbox">
+                </div>
+                <div style="display: flex">
+                    <div class="div-position-checkbox">{{ emp }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
+    <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToCommand()">Назад</div>
+    <button class="button-primary-rusatom" id="form_employee_button" disabled>Далее</button>
+    </div>
+</form>
+
+
+<script>
+    function backToCommand() {
+        $("#command_checkboxes").show();
+        $("#employees_checkboxes").hide();
+    }
+
+
+    var checkbox_employee = document.querySelectorAll('input[name=employee]');
+
+    for (let i = 0; i < checkbox_employee.length; i++) {
+        checkbox_employee[i].addEventListener("click", function () {
+            for (var l = 0; l < checkbox_employee.length; l++) {
+                if (checkbox_employee[l].checked) {
+                    $("#form_employee_button").prop('disabled', false);
+                    return;
+                } else {
+                    $("#form_employee_button").prop('disabled', true);
+                }
+            }
+        })
+    }
+
+    $('#employee_form').submit(function (e) {
+        e.preventDefault();
+        var form = $(this);
+        var actionUrl = form.attr('action')
+
+        $.ajax({
+            type: form.attr('method'),
+            url: actionUrl,
+            data: form.serialize(),
+            success: function (data) {
+                $("#employees_checkboxes").hide();
+                $("#check_columns").show();
+                $("#check_columns").html(data);
+
+            }
+        })
+
+    })
+</script>

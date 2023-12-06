@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block body %}
+
     {#    <div style="width: 100%; display: flex; justify-content: center">#}
     {#        <img src="{% static 'admin_panel_app/icons/logo.png' %}" width="154px" height="70px">#}
     {#    </div>#}
@@ -90,14 +91,42 @@
                 <a class="button-primary-rusatom-admin" style="display: flex" href="{% url 'all_groupdep' %}">Редактирование</a>
             </div>
         </div>
-
-
     </div>
-    {#    {% for obj in det %}#}
-    {#        {% if obj.photo %}#}
-    {#            {{ obj.photo.url }}#}
-    {#        {% endif %}#}
-    {#    {% endfor %}#}
+
+</div>
+    {% comment %}
+    <div class="element_full_index_admin">
+        <div class="text-admin-grid">
+            <div class="text-24-bold">
+                ГИП-ы по объектам
+            </div>
+            <div class="text-numbers">
+                <div class="text-p-16">
+                    Всего записей: {{ group_dep }}
+                </div>
+                <div class="text-admin-grid-work">
+                    <div class="text-p-15-green">
+                        Отображается: {{ group_dep_show }}
+                    </div>
+                    <div class="text-p-15-grey">
+                        Скрыты: {{ group_dep_not_show }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttons-admin-grid">
+            <a class="button-primary-rusatom-admin" href="{% url 'new_groupdep' %}">Добавить</a>
+            <a class="button-primary-rusatom-admin" style="display: flex"
+               href="{% url 'all_groupdep' %}">Редактирование</a>
+        </div>
+    </div>
+
+
+
+    <div class="text-1" style="display: flex">
+        Формирование списков
+    </div>
+{% endcomment %}
 
 {% endblock %}
 

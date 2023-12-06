@@ -18,14 +18,14 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login
 
 from .forms import MoreDetailsEmployeeForm, EmployeeForm, UserRegistration, NewGroupDepForm, NewCommandForm
-from .models import MoreDetailsEmployeeModel, EmployeeModel, CanEditEmployee, GroupDepartmentModel, CommandNumberModel, CityDepModel
+from .models import MoreDetailsEmployeeModel, EmployeeModel, CanEditEmployee, GroupDepartmentModel, CommandNumberModel, \
+    CityDepModel
 from .functions import check_permission_user
 
 
 class IndexMainPage(View):
     @method_decorator(login_required(login_url='login'))
     def get(self, request):
-
         # try:
         #     user = EmployeeModel.objects.get(user=request.user)
         #     check_user = CanEditEmployee.objects.get(emp_id=user.id)
@@ -356,6 +356,7 @@ class AllDepView(View):
 
 class AddNewDepView(View):
     """Создание новых отделов"""
+
     @method_decorator(login_required(login_url='login'))
     def get(self, request):
         try:
@@ -386,6 +387,7 @@ class AddNewDepView(View):
 
 class EditCommandView(View):
     """Редактирование отдела"""
+
     @method_decorator(login_required(login_url='login'))
     def get(self, request, pk):
         try:
@@ -416,10 +418,12 @@ class EditCommandView(View):
             }
             return render(request, 'admin_panel_app/ajax/error_list.html', content)
 
+
 class ServiceInfoView(View):
     @method_decorator(login_required(login_url='login'))
     def get(self, request):
-        employees = EmployeeModel.objects.get_queryset().filter(work_status=True).order_by('last_name', 'first_name', 'middle_name')
+        employees = EmployeeModel.objects.get_queryset().filter(work_status=True).order_by('last_name', 'first_name',
+                                                                                           'middle_name')
         try:
             user = EmployeeModel.objects.get(user=request.user)
             check_user = CanEditEmployee.objects.get(emp_id=user.id)
@@ -445,12 +449,13 @@ def username_exists(request):
     }
     return render(request, 'admin_panel_app/ajax/ajax_username.html', content)
 
-def translate_name (request):
+
+def translate_name(request):
     """ajax функция перевода имени пользователя"""
     input_str = request.GET.get('str')
     output_str = translit(input_str, 'ru', reversed=True)
-    output_str = output_str.replace("'", "")    # Убираем смягчения
-    output_str = output_str.replace(" ", "")    # Убираем пробелы
+    output_str = output_str.replace("'", "")  # Убираем смягчения
+    output_str = output_str.replace(" ", "")  # Убираем пробелы
     print(output_str)
     content = {
         'output_str': output_str
@@ -474,9 +479,106 @@ class GetEmployeeListView(View):
         }
         return render(request, 'admin_panel_app/service/get_emp_list.html', content)
 
+
+# Функции выгрузки данных по сотрудникам
+
 def get_group_dep(request):
-    print(request)
+    cities = request.POST.getlist('city')
+    group_deps = GroupDepartmentModel.objects.get_queryset().filter(city_dep__in=cities).filter(show=True).order_by(
+        'group_dep_abr')
     content = {
+        'group_deps': group_deps,
+    }
+    return render(request, 'admin_panel_app/service/form_checkboxes/check_group_dep.html', content)
+
+
+def get_commands(request):
+    group_deps = request.POST.getlist('group_dep')
+    commands = CommandNumberModel.objects.get_queryset().filter(department__in=group_deps).filter(show=True).order_by(
+        'command_number')
+    content = {
+        'commands': commands,
+    }
+    return render(request, 'admin_panel_app/service/form_checkboxes/check_commands.html', content)
+    # return JsonResponse(content, status=200, content_type="application/json")
+
+
+def get_employees(request):
+    commands = request.POST.getlist('command')
+    emp = EmployeeModel.objects.get_queryset().filter(work_status=True).filter(department__in=commands).order_by(
+        'last_name', 'first_name')
+    content = {
+        'emps': emp
+    }
+    return render(request, 'admin_panel_app/service/form_checkboxes/check_employees.html', content)
+
+
+def get_columns(request):
+    content = {
+    }
+    return render(request, 'admin_panel_app/service/form_checkboxes/check_columns.html', content)
+
+
+def get_employees_list(request):
+    columns = request.POST.getlist('column_checkbox')
+    del columns[-1]
+    fio_flag = False
+    personnel_number_flag = False
+    group_dep_abr_flag = False
+    group_dep_flag = False
+    command_number_flag = False
+    command_name_flag = False
+    job_title_flag = False
+    birthday_flag = False
+    phone_flag = False
+    mobile_phone_flag = False
+    email_flag = False
+    email2_flag = False
+    room = False
+    for val in columns:
+        if int(val) == 1:
+            fio_flag = True
+        if int(val) == 2:
+            personnel_number_flag = True
+        if int(val) == 3:
+            group_dep_abr_flag = True
+        if int(val) == 4:
+            group_dep_flag = True
+        if int(val) == 5:
+            command_number_flag = True
+        if int(val) == 6:
+            command_name_flag = True
+        if int(val) == 7:
+            job_title_flag = True
+        if int(val) == 8:
+            birthday_flag = True
+        if int(val) == 9:
+            phone_flag = True
+        if int(val) == 10:
+            mobile_phone_flag = True
+        if int(val) == 11:
+            email_flag = True
+        if int(val) == 12:
+            email2_flag = True
+        if int(val) == 13:
+            room = True
+    employees = request.POST.getlist('employee')
+    emps = EmployeeModel.objects.get_queryset().filter(id__in=employees)
+    content = {
+        'employees': emps,
+        'fio_flag': fio_flag,
+        'personnel_number_flag': personnel_number_flag,
+        'group_dep_abr_flag': group_dep_abr_flag,
+        'group_dep_flag': group_dep_flag,
+        'command_number_flag': command_number_flag,
+        'command_name_flag': command_name_flag,
+        'job_title_flag': job_title_flag,
+        'birthday_flag': birthday_flag,
+        'phone_flag': phone_flag,
+        'mobile_phone_flag': mobile_phone_flag,
+        'email_flag': email_flag,
+        'email2_flag': email2_flag,
+        'room': room,
 
     }
-    return JsonResponse(content, status=200, content_type="application/json")
+    return render(request, 'admin_panel_app/service/form_checkboxes/selected_emp_info.html', content)

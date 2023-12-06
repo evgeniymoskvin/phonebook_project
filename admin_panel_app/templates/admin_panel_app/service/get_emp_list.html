@@ -2,18 +2,26 @@
 {% load static %}
 {% load service_tags %}
 
-{% block body %}
-    <form
-    <div style="display: flex; flex-direction: column">
-        {% for citi in cities %}
-            <div style="display: flex; flex-direction: row">
-                <div style="display: flex">
-                    <input type="checkbox">
-                </div>
-                <div style="display: flex">
-                    {{ citi }}
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+{% block title %}
+    Выгрузка сотрудников
 {% endblock %}
+
+{% block body %}
+    <div class="text-1">
+        Выгрузка списка сотрудников
+    </div>
+    <div style="margin-top: 25px">
+        <div id="city_checkboxes">
+            {% include 'admin_panel_app/service/form_checkboxes/check_city.html' %}
+        </div>
+        <div id="group_dep_checkboxes"></div>
+        <div id="command_checkboxes"></div>
+        <div id="employees_checkboxes"></div>
+        <div id="check_columns"></div>
+        <div id="employees_table"></div>
+    </div>
+
+
+
+{% endblock %}
+

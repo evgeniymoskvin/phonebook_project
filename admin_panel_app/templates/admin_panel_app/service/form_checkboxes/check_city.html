@@ -1,0 +1,63 @@
+<div class="text-p-16-bold">Выберите город:</div>
+
+<form method="POST" id='city_form' action="{% url 'get_group_dep' %}" style="margin-top: 15px">
+    {% csrf_token %}
+    <div style="display: flex; flex-direction: column">
+        {% for citi in cities %}
+            <div class="div-position">
+                <div style="display: flex">
+                    <input name='city' value="{{ citi.id }}" type="checkbox">
+                </div>
+                <div style="display: flex">
+                    <div class="div-position-checkbox">{{ citi }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
+{#        <div class="button-primary-rusatom" style="width: 100px"> Отмена</div>#}
+        <button style="display: flex" class="button-primary-rusatom" id="form_city_button" disabled>Далее</button>
+    </div>
+</form>
+
+<div id="inbox"></div>
+
+
+<script>
+    var checkbox_city = document.querySelectorAll('input[name=city]');
+
+    for (let i = 0; i < checkbox_city.length; i++) {
+        checkbox_city[i].addEventListener("click", function () {
+            for (var l = 0; l < checkbox_city.length; l++) {
+                if (checkbox_city[l].checked) {
+                    $("#form_city_button").prop('disabled', false);
+                    return;
+                } else {
+                    $("#form_city_button").prop('disabled', true);
+                }
+            }
+        })
+    }
+
+    $('#city_form').submit(function (e) {
+            var checkbox = document.querySelectorAll('input[name=city]');
+            console.log(checkbox)
+
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                success: function (data) {
+                    $("#city_checkboxes").hide();
+                    $("#group_dep_checkboxes").html(data);
+                    $("#group_dep_checkboxes").show();
+
+                }
+            })
+        }
+    )
+    ;
+</script>
