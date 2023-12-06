@@ -3,6 +3,16 @@
 <form method="POST" id="column_form" action="{% url 'get_employees_list' %}" style="margin-top: 15px">
     {% csrf_token %}
     <div style="display: flex; flex-direction: column">
+
+        <div class="div-position">
+            <div style="display: flex ">
+                <input name='column_checkbox' value="14" type="checkbox">
+            </div>
+            <div style="display: flex">
+                <div class="div-position-checkbox">Login</div>
+            </div>
+        </div>
+
         <div class="div-position">
             <div style="display: flex">
                 <input name='column_checkbox' value="1" type="checkbox">
@@ -118,7 +128,6 @@
                 <div class="div-position-checkbox">Кабинет</div>
             </div>
         </div>
-
 
         <div style="display: flex">
             <input name='column_checkbox' value="10000" type="checkbox" checked hidden>

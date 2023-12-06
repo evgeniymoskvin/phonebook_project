@@ -6,6 +6,9 @@
         <thead>
         <tr>
             <th class="th_tables" scope="col">#</th>
+            {% if login_flag %}
+                <th class="th_tables" scope="col">Login</th>
+            {% endif %}
             {% if fio_flag %}
                 <th class="th_tables" scope="col">Ф.И.О.</th>
             {% endif %}
@@ -53,6 +56,10 @@
         {% for emp in employees %}
             <tr class="tr-tables">
                 <th class="th_tables" scope="row" style="width: 30px">{{ forloop.counter }}</th>
+                {% if login_flag %}
+                    <td class="td_tables" style="width: 110px; text-align: left">
+                        {{ emp.user }}</td>
+                {% endif %}
                 {% if fio_flag %}
                     <td class="td_tables">
                         {{ emp.last_name }} {{ emp.first_name }} {{ emp.middle_name }}</td>

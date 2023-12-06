@@ -535,6 +535,7 @@ def get_employees_list(request):
     email_flag = False
     email2_flag = False
     room = False
+    login_flag = False
     for val in columns:
         if int(val) == 1:
             fio_flag = True
@@ -562,6 +563,8 @@ def get_employees_list(request):
             email2_flag = True
         if int(val) == 13:
             room = True
+        if int(val) == 14:
+            login_flag = True
     employees = request.POST.getlist('employee')
     emps = EmployeeModel.objects.get_queryset().filter(id__in=employees)
     content = {
@@ -579,6 +582,7 @@ def get_employees_list(request):
         'email_flag': email_flag,
         'email2_flag': email2_flag,
         'room': room,
+        'login_flag': login_flag,
 
     }
     return render(request, 'admin_panel_app/service/form_checkboxes/selected_emp_info.html', content)
