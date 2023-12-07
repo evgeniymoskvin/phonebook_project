@@ -4,129 +4,82 @@
     {% csrf_token %}
     <div style="display: flex; flex-direction: column">
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="14" type="checkbox">
+        <div class="input-flex-box">
+            <input id="all-columns" class="input-flex" value="check-all" type="checkbox">
+            <div class="div-position-checkbox">
+                <span class="text-p-16-bold">Выбрать все</span>
             </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Login</div>
-            </div>
+        </div>
+        <hr>
+
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="14" type="checkbox">
+            <div class="div-position-checkbox">Login</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex">
-                <input name='column_checkbox' value="1" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Фамилия имя отчество</div>
-            </div>
-        </div>
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="2" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Табельный номер</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="1" type="checkbox">
+            <div class="div-position-checkbox">Фамилия имя отчество</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="3" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Управление (сокращенное)</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="2" type="checkbox">
+            <div class="div-position-checkbox">Табельный номер</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="4" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Управление полное</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="3" type="checkbox">
+            <div class="div-position-checkbox">Управление (сокращенное)</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="5" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Номер отдела</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="4" type="checkbox">
+            <div class="div-position-checkbox">Управление полное</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="6" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Название отдела</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="5" type="checkbox">
+            <div class="div-position-checkbox">Номер отдела</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="7" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Должность</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="6" type="checkbox">
+            <div class="div-position-checkbox">Название отдела</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="8" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">День рождения</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="7" type="checkbox">
+            <div class="div-position-checkbox">Должность</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="9" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Номер телефона внутренний</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="8" type="checkbox">
+            <div class="div-position-checkbox">День рождения</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="10" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Номер телефона внешний</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="9" type="checkbox">
+            <div class="div-position-checkbox">Номер телефона внутренний</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="11" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Почта внутренняя</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="10" type="checkbox">
+            <div class="div-position-checkbox">Номер телефона внешний</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="12" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Почта внешняя</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="11" type="checkbox">
+            <div class="div-position-checkbox">Почта внутренняя</div>
         </div>
 
-        <div class="div-position">
-            <div style="display: flex ">
-                <input name='column_checkbox' value="13" type="checkbox">
-            </div>
-            <div style="display: flex">
-                <div class="div-position-checkbox">Кабинет</div>
-            </div>
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="12" type="checkbox">
+            <div class="div-position-checkbox">Почта внешняя</div>
+        </div>
+
+        <div class="input-flex-box">
+            <input class="input-flex" name='column_checkbox' value="13" type="checkbox">
+            <div class="div-position-checkbox">Кабинет</div>
         </div>
 
         <div style="display: flex">
@@ -154,6 +107,22 @@
 
 
     var checkbox_column = document.querySelectorAll('input[name=column_checkbox]');
+    var checkbox_column_all = document.getElementById('all-columns');
+
+    checkbox_column_all.addEventListener('click', function () {
+        if (checkbox_column_all.checked) {
+            for (let i = 0; i < checkbox_column.length; i++) {
+                checkbox_column[i].checked = true;
+                $("#form_column_button").prop('disabled', false);
+            }
+        } else {
+            for (let i = 0; i < checkbox_column.length; i++) {
+                checkbox_column[i].checked = false;
+                $("#form_column_button").prop('disabled', true);
+            }
+
+        }
+    })
 
     for (let i = 0; i < checkbox_column.length - 1; i++) {
         checkbox_column[i].addEventListener("click", function () {

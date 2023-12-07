@@ -3,20 +3,26 @@
 <form method="POST" id="employee_form" action="{% url 'get_columns' %}" style="margin-top: 15px">
     {% csrf_token %}
     <div style="display: flex; flex-direction: column">
+
+        <div class="input-flex-box">
+            <input id="all-emps" class="input-flex" value="check-all" type="checkbox">
+            <div class="div-position-checkbox">
+                <span class="text-p-16-bold">Выбрать все</span>
+            </div>
+        </div>
+        <hr>
+
+
         {% for emp in emps %}
-            <div class="div-position">
-                <div style="display: flex">
-                    <input name='employee' value="{{ emp.id }}" type="checkbox">
-                </div>
-                <div style="display: flex">
-                    <div class="div-position-checkbox">{{ emp }}</div>
-                </div>
+            <div class="input-flex-box">
+                <input class="input-flex" name='employee' value="{{ emp.id }}" type="checkbox">
+                <div class="div-position-checkbox">{{ emp }}</div>
             </div>
         {% endfor %}
     </div>
     <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
-    <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToCommand()">Назад</div>
-    <button class="button-primary-rusatom" id="form_employee_button" disabled>Далее</button>
+        <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToCommand()">Назад</div>
+        <button class="button-primary-rusatom" id="form_employee_button" disabled>Далее</button>
     </div>
 </form>
 
@@ -29,6 +35,22 @@
 
 
     var checkbox_employee = document.querySelectorAll('input[name=employee]');
+    var checkbox_employee_all = document.getElementById('all-emps');
+
+    checkbox_employee_all.addEventListener('click', function () {
+        if (checkbox_employee_all.checked) {
+            for (let i = 0; i < checkbox_employee.length; i++) {
+                checkbox_employee[i].checked = true;
+                $("#form_employee_button").prop('disabled', false);
+            }
+        } else {
+            for (let i = 0; i < checkbox_employee.length; i++) {
+                checkbox_employee[i].checked = false;
+                $("#form_employee_button").prop('disabled', true);
+            }
+
+        }
+    })
 
     for (let i = 0; i < checkbox_employee.length; i++) {
         checkbox_employee[i].addEventListener("click", function () {

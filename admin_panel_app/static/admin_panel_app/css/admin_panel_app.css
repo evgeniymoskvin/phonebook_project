@@ -346,15 +346,22 @@ body {
     color: #F5AB61;
 }
 
-.div-position {
+.input-flex-box{
+    min-width: 100%;
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
     margin-top: 3px;
 }
 
 .div-position-checkbox {
+    display: flex;
     margin-left: 15px;
     font-family: "p22_underground_cy_probook", serif;
     font-size: 16px;
     text-align: left;
+}
+
+.input-flex {
+    display: flex;
 }

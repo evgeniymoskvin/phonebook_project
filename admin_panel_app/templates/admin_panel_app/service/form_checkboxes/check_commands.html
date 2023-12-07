@@ -2,21 +2,26 @@
 
 <form method="POST" id="commands_form" action="{% url 'get_employees' %}" style="margin-top: 15px">
     {% csrf_token %}
+
     <div style="display: flex; flex-direction: column">
+        <div class="input-flex-box">
+            <input id="all-command" class="input-flex" value="check-all" type="checkbox">
+            <div class="div-position-checkbox">
+                <span class="text-p-16-bold">Выбрать все</span>
+            </div>
+        </div>
+        <hr>
+
         {% for command in commands %}
-            <div class="div-position">
-                <div style="display: flex">
-                    <input name='command' value="{{ command.id }}" type="checkbox">
-                </div>
-                <div style="display: flex">
-                    <div class="div-position-checkbox">{{ command }}</div>
-                </div>
+            <div class="input-flex-box">
+                <input class="input-flex" name='command' value="{{ command.id }}" type="checkbox">
+                <div class="div-position-checkbox">{{ command }}</div>
             </div>
         {% endfor %}
     </div>
     <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
-    <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToGroupDep()">Назад</div>
-    <button style="display: flex" class="button-primary-rusatom" id="form_command_button" disabled>Далее</button>
+        <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToGroupDep()">Назад</div>
+        <button style="display: flex" class="button-primary-rusatom" id="form_command_button" disabled>Далее</button>
     </div>
 </form>
 
@@ -28,6 +33,22 @@
     }
 
     var checkbox_command = document.querySelectorAll('input[name=command]');
+    var checkbox_command_all = document.getElementById('all-command');
+
+    checkbox_command_all.addEventListener('click', function () {
+        if (checkbox_command_all.checked) {
+            for (let i = 0; i < checkbox_command.length; i++) {
+                checkbox_command[i].checked = true;
+                $("#form_command_button").prop('disabled', false);
+            }
+        } else {
+            for (let i = 0; i < checkbox_command.length; i++) {
+                checkbox_command[i].checked = false;
+                $("#form_command_button").prop('disabled', true);
+            }
+
+        }
+    })
 
     for (let i = 0; i < checkbox_command.length; i++) {
         checkbox_command[i].addEventListener("click", function () {

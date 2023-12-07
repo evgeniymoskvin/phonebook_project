@@ -2,32 +2,53 @@
 
 <form method="POST" id='group_deps_form' action="{% url 'get_commands' %}" style="margin-top: 15px">
     {% csrf_token %}
+
     <div style="display: flex; flex-direction: column">
+        <div class="input-flex-box">
+            <input id="all-group-dep" class="input-flex" value="check-all" type="checkbox">
+            <div class="div-position-checkbox">
+                <span class="text-p-16-bold">Выбрать все</span>
+            </div>
+        </div>
+        <hr>
+
         {% for group_dep in group_deps %}
-            <div class="div-position">
-                <div style="display: flex">
-                    <input name='group_dep' value="{{ group_dep.id }}" type="checkbox">
-                </div>
-                <div style="display: flex">
-                    <div class="div-position-checkbox">{{ group_dep }}</div>
-                </div>
+            <div class="input-flex-box">
+                <input class="input-flex" name='group_dep' value="{{ group_dep.id }}" type="checkbox">
+                <div class="div-position-checkbox">{{ group_dep }}</div>
             </div>
         {% endfor %}
     </div>
     <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
-    <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToCity()">Назад</div>
-    <button style="display: flex" class="button-primary-rusatom" id="form_group_button" disabled>Далее</button>
-            </div>
+        <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToCity()">Назад</div>
+        <button style="display: flex" class="button-primary-rusatom" id="form_group_button" disabled>Далее</button>
+    </div>
 </form>
 
 
 <script>
-    function backToCity(){
+    function backToCity() {
         $("#city_checkboxes").show();
         $("#group_dep_checkboxes").hide();
     }
 
     var checkbox_group_dep = document.querySelectorAll('input[name=group_dep]');
+    var checkbox_group_dep_all = document.getElementById('all-group-dep');
+
+    checkbox_group_dep_all.addEventListener('click', function () {
+        if (checkbox_group_dep_all.checked) {
+            for (let i = 0; i < checkbox_group_dep.length; i++) {
+                checkbox_group_dep[i].checked = true;
+                $("#form_group_button").prop('disabled', false);
+            }
+        } else {
+            for (let i = 0; i < checkbox_group_dep.length; i++) {
+                checkbox_group_dep[i].checked = false;
+                $("#form_group_button").prop('disabled', true);
+            }
+
+        }
+    })
 
     for (let i = 0; i < checkbox_group_dep.length; i++) {
 
