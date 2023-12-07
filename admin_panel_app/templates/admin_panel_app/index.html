@@ -182,6 +182,29 @@
                     <a class="button-primary-rusatom-admin" href="{% url 'get_emp_list' %}">Сформировать список</a>
                 </div>
             </div>
+
+            <div class="element_full_index_admin">
+                <div class="text-admin-grid">
+                    <div class="text-p-16-bold">
+                        Скачать XML
+                    </div>
+                </div>
+                <div class="text-numbers">
+                    <div class="text-p-16">
+                        Скачать xml файл с телефонами сотрудников
+                    </div>
+                </div>
+
+                <div class="buttons-admin-grid">
+                    <a class="button-primary-rusatom-admin" href="{% url 'download_xml' %}">Загрузить</a>
+                </div>
+            </div>
+
+        <div class="element_full_index_admin" style="opacity: 0;">
+
+        </div>
+
+
         </div>
     {% endif %}
 

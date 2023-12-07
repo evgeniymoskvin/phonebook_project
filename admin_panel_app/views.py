@@ -1,6 +1,9 @@
 import datetime
+import mimetypes
+import xml.etree.ElementTree as ET
+import os
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 
 from transliterate import translit, get_available_language_codes
@@ -586,3 +589,22 @@ def get_employees_list(request):
 
     }
     return render(request, 'admin_panel_app/service/form_checkboxes/selected_emp_info.html', content)
+
+class DownloadFileView(View):
+    def get(self, request):
+        first = ET.Element('YealinkIPPhoneDirectory')
+        employees = EmployeeModel.objects.get_queryset().filter(work_status=True)
+        for emp in employees:
+            directory = ET.SubElement(first, 'DirectoryEntry')
+            name = ET.SubElement(directory, 'Name')
+            tel = ET.SubElement(directory, 'Telephone')
+            name.text = f'{emp.last_name} {emp.first_name} {emp.middle_name}'
+            tel.text = f'{emp.user_phone}'
+        if not os.path.exists(os.path.join(settings.BASE_DIR, 'media', 'files', 'xml')):
+            os.makedirs(os.path.join(settings.BASE_DIR, 'media', 'files', 'xml'))
+        link_xml = os.path.join(settings.BASE_DIR, 'media', 'files', 'xml', 'xml.xml')
+        ET.ElementTree(first).write(link_xml, encoding='UTF-8')
+        with open(link_xml, 'rb') as f:
+            mime_type, _ = mimetypes.guess_type(link_xml)
+            response = HttpResponse(f.read(), content_type=mime_type)
+        return response
