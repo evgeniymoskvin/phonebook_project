@@ -3,23 +3,19 @@
 <form method="POST" id='city_form' action="{% url 'get_group_dep' %}" style="margin-top: 15px">
     {% csrf_token %}
 
-    <div style="display: flex; flex-direction: column">
-        <div class="input-flex-box">
-            <input id="all-city" class="input-flex" value="check-all" type="checkbox">
-            <div class="div-position-checkbox">
-                <span class="text-p-16-bold">Выбрать все</span>
-            </div>
-        </div>
-    <hr>
+    <div class="input-flex-box">
+        <input id="all-city" class="input-flex" value="check-all" type="checkbox">
+        <span class="text-p-16-bold" style="margin-left: 15px">Выбрать все</span>
 
-
-        {% for citi in cities %}
-            <div class="input-flex-box">
-                <input class="input-flex" name='city' value="{{ citi.id }}" type="checkbox">
-                <div class="div-position-checkbox">{{ citi }}</div>
-            </div>
-        {% endfor %}
     </div>
+    <hr>
+    {% for citi in cities %}
+        <div class="input-flex-box">
+            <input class="input-flex" name='city' value="{{ citi.id }}" type="checkbox">
+            <span class="text-p-16" style="margin-left: 15px">{{ citi }}</span>
+        </div>
+    {% endfor %}
+
 
     <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
         {#        <div class="button-primary-rusatom" style="width: 100px"> Отмена</div>#}

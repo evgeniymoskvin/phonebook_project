@@ -3,22 +3,20 @@
 <form method="POST" id='group_deps_form' action="{% url 'get_commands' %}" style="margin-top: 15px">
     {% csrf_token %}
 
-    <div style="display: flex; flex-direction: column">
-        <div class="input-flex-box">
-            <input id="all-group-dep" class="input-flex" value="check-all" type="checkbox">
-            <div class="div-position-checkbox">
-                <span class="text-p-16-bold">Выбрать все</span>
-            </div>
-        </div>
-        <hr>
 
-        {% for group_dep in group_deps %}
-            <div class="input-flex-box">
-                <input class="input-flex" name='group_dep' value="{{ group_dep.id }}" type="checkbox">
-                <div class="div-position-checkbox">{{ group_dep }}</div>
-            </div>
-        {% endfor %}
+    <div class="input-flex-box">
+        <input id="all-group-dep" class="input-flex" value="check-all" type="checkbox">
+        <span class="text-p-16-bold" style="margin-left: 15px">Выбрать все</span>
     </div>
+    <hr>
+
+    {% for group_dep in group_deps %}
+        <div class="input-flex-box">
+            <input class="input-flex" name='group_dep' value="{{ group_dep.id }}" type="checkbox">
+            <span class="text-p-16" style="margin-left: 15px">{{ group_dep }}</span>
+        </div>
+    {% endfor %}
+
     <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
         <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToCity()">Назад</div>
         <button style="display: flex" class="button-primary-rusatom" id="form_group_button" disabled>Далее</button>

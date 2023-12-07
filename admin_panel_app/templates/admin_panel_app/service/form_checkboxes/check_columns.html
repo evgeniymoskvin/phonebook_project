@@ -2,94 +2,92 @@
 
 <form method="POST" id="column_form" action="{% url 'get_employees_list' %}" style="margin-top: 15px">
     {% csrf_token %}
-    <div style="display: flex; flex-direction: column">
+    {#    <div style="display: flex; flex-direction: column">#}
 
-        <div class="input-flex-box">
-            <input id="all-columns" class="input-flex" value="check-all" type="checkbox">
-            <div class="div-position-checkbox">
-                <span class="text-p-16-bold">Выбрать все</span>
-            </div>
-        </div>
-        <hr>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="14" type="checkbox">
-            <div class="div-position-checkbox">Login</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="1" type="checkbox">
-            <div class="div-position-checkbox">Фамилия имя отчество</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="2" type="checkbox">
-            <div class="div-position-checkbox">Табельный номер</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="3" type="checkbox">
-            <div class="div-position-checkbox">Управление (сокращенное)</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="4" type="checkbox">
-            <div class="div-position-checkbox">Управление полное</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="5" type="checkbox">
-            <div class="div-position-checkbox">Номер отдела</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="6" type="checkbox">
-            <div class="div-position-checkbox">Название отдела</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="7" type="checkbox">
-            <div class="div-position-checkbox">Должность</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="8" type="checkbox">
-            <div class="div-position-checkbox">День рождения</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="9" type="checkbox">
-            <div class="div-position-checkbox">Номер телефона внутренний</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="10" type="checkbox">
-            <div class="div-position-checkbox">Номер телефона внешний</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="11" type="checkbox">
-            <div class="div-position-checkbox">Почта внутренняя</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="12" type="checkbox">
-            <div class="div-position-checkbox">Почта внешняя</div>
-        </div>
-
-        <div class="input-flex-box">
-            <input class="input-flex" name='column_checkbox' value="13" type="checkbox">
-            <div class="div-position-checkbox">Кабинет</div>
-        </div>
-
-        <div style="display: flex">
-            <input name='column_checkbox' value="10000" type="checkbox" checked hidden>
-        </div>
-        <div style="display: flex" hidden>
-            Скрытое
-        </div>
+    <div class="input-flex-box">
+        <input id="all-columns" class="input-flex" value="check-all" type="checkbox">
+            <span class="text-p-16-bold" style="margin-left: 15px">Выбрать все</span>
     </div>
+    <hr>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="14" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Login</span>
     </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="1" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Фамилия имя отчество</span>>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="2" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Табельный номер</span>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="3" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Управление (сокращенное)</span>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="4" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Управление полное</span>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="5" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Номер отдела</span>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="6" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Название отдела</span>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="7" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Должность</span>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="8" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">День рождения</span>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="9" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Номер телефона внутренний</span>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="10" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Номер телефона внешний</span>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="11" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Почта внутренняя</span>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="12" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Почта внешняя</span>
+    </div>
+
+    <div class="input-flex-box">
+        <input class="input-flex" name='column_checkbox' value="13" type="checkbox">
+        <span class="text-p-16" style="margin-left: 15px">Кабинет</span>
+    </div>
+
+    <div style="display: flex">
+        <input name='column_checkbox' value="10000" type="checkbox" checked hidden>
+    </div>
+    <div style="display: flex" hidden>
+        Скрытое
+    </div>
+    {#    </div>#}
+
     <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
         <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToEmpl()">Назад</div>
         <button class="button-primary-rusatom" id="form_column_button" disabled>Далее</button>

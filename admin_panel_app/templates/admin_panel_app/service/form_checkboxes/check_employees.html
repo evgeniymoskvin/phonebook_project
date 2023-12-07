@@ -2,24 +2,21 @@
 
 <form method="POST" id="employee_form" action="{% url 'get_columns' %}" style="margin-top: 15px">
     {% csrf_token %}
-    <div style="display: flex; flex-direction: column">
-
-        <div class="input-flex-box">
-            <input id="all-emps" class="input-flex" value="check-all" type="checkbox">
-            <div class="div-position-checkbox">
-                <span class="text-p-16-bold">Выбрать все</span>
-            </div>
-        </div>
-        <hr>
 
 
-        {% for emp in emps %}
-            <div class="input-flex-box">
-                <input class="input-flex" name='employee' value="{{ emp.id }}" type="checkbox">
-                <div class="div-position-checkbox">{{ emp }}</div>
-            </div>
-        {% endfor %}
+    <div class="input-flex-box">
+        <input id="all-emps" class="input-flex" value="check-all" type="checkbox">
+        <span class="text-p-16-bold" style="margin-left: 15px">Выбрать все</span>
+
     </div>
+    <hr>
+    {% for emp in emps %}
+        <div class="input-flex-box">
+            <input class="input-flex" name='employee' value="{{ emp.id }}" type="checkbox">
+            <span class="text-p-16" style="margin-left: 15px"> {{ emp }}</span>
+        </div>
+    {% endfor %}
+
     <div style="display: flex; flex-direction: row; margin-top: 25px; gap: 1em">
         <div class="button-cancel-rusatom" style="width: 100px;cursor: pointer" onclick="backToCommand()">Назад</div>
         <button class="button-primary-rusatom" id="form_employee_button" disabled>Далее</button>
