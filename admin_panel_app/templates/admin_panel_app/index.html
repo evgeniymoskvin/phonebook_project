@@ -10,90 +10,92 @@
     {#    <div style="width: 100%; display: flex; justify-content: center">#}
     {#        <img src="{% static 'admin_panel_app/icons/logo.png' %}" width="154px" height="70px">#}
     {#    </div>#}
-    <div class="text-1">
-        Управление персоналом
-    </div>
+    {% if permission.can_change_emp %}
 
-
-    <div class="list-emp" style="margin-top: 15px">
-        <div class="element_full_index_admin">
-            <div class="text-admin-grid">
-                <div class="text-24-bold">
-                    Сотрудники
-                </div>
-                <div class="text-numbers">
-                    <div class="text-p-16">
-                        Всего записей: {{ count_emp }}
-                    </div>
-                    <div class="text-admin-grid-work">
-                        <div class="text-p-15-green">
-                            Работает: {{ count_work_emp }}
-                        </div>
-                        <div class="text-p-15-orange">
-                            Не работают: {{ count_not_work_emp }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="buttons-admin-grid">
-                <a class="button-primary-rusatom-admin" href="{% url 'new_employee' %}">Добавить</a>
-                <a class="button-primary-rusatom-admin" href="{% url 'all_employee' %}">Редактирование</a>
-            </div>
+        <div class="text-1">
+            Управление персоналом
         </div>
 
-        <div class="element_full_index_admin">
-            <div class="text-admin-grid">
-                <div class="text-24-bold">
-                    Отделы
-                </div>
-                <div class="text-numbers">
-                    <div class="text-p-16">
-                        Всего записей: {{ deps }}
+
+        <div class="list-emp" style="margin-top: 15px">
+            <div class="element_full_index_admin">
+                <div class="text-admin-grid">
+                    <div class="text-24-bold">
+                        Сотрудники
                     </div>
-                    <div class="text-admin-grid-work">
-                        <div class="text-p-15-green">
-                            Отображается: {{ deps_show }}
+                    <div class="text-numbers">
+                        <div class="text-p-16">
+                            Всего записей: {{ count_emp }}
                         </div>
-                        <div class="text-p-15-grey">
-                            Скрыты: {{ deps_not_show }}
+                        <div class="text-admin-grid-work">
+                            <div class="text-p-15-green">
+                                Работает: {{ count_work_emp }}
+                            </div>
+                            <div class="text-p-15-orange">
+                                Не работают: {{ count_not_work_emp }}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="buttons-admin-grid">
-                <a class="button-primary-rusatom-admin" href="{% url 'new_dep' %}">Добавить</a>
-                <a class="button-primary-rusatom-admin" href="{% url 'all_dep' %}">Редактирование</a>
+                <div class="buttons-admin-grid">
+                    <a class="button-primary-rusatom-admin" href="{% url 'new_employee' %}">Добавить</a>
+                    <a class="button-primary-rusatom-admin" href="{% url 'all_employee' %}">Редактирование</a>
+                </div>
             </div>
 
+            <div class="element_full_index_admin">
+                <div class="text-admin-grid">
+                    <div class="text-24-bold">
+                        Отделы
+                    </div>
+                    <div class="text-numbers">
+                        <div class="text-p-16">
+                            Всего записей: {{ deps }}
+                        </div>
+                        <div class="text-admin-grid-work">
+                            <div class="text-p-15-green">
+                                Отображается: {{ deps_show }}
+                            </div>
+                            <div class="text-p-15-grey">
+                                Скрыты: {{ deps_not_show }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons-admin-grid">
+                    <a class="button-primary-rusatom-admin" href="{% url 'new_dep' %}">Добавить</a>
+                    <a class="button-primary-rusatom-admin" href="{% url 'all_dep' %}">Редактирование</a>
+                </div>
+
+            </div>
+
+            <div class="element_full_index_admin">
+                <div class="text-admin-grid">
+                    <div class="text-24-bold">
+                        Управления
+                    </div>
+                    <div class="text-numbers">
+                        <div class="text-p-16">
+                            Всего записей: {{ group_dep }}
+                        </div>
+                        <div class="text-admin-grid-work">
+                            <div class="text-p-15-green">
+                                Отображается: {{ group_dep_show }}
+                            </div>
+                            <div class="text-p-15-grey">
+                                Скрыты: {{ group_dep_not_show }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons-admin-grid">
+                    <a class="button-primary-rusatom-admin" href="{% url 'new_groupdep' %}">Добавить</a>
+                    <a class="button-primary-rusatom-admin" style="display: flex"
+                       href="{% url 'all_groupdep' %}">Редактирование</a>
+                </div>
+            </div>
         </div>
-
-        <div class="element_full_index_admin">
-            <div class="text-admin-grid">
-                <div class="text-24-bold">
-                    Управления
-                </div>
-                <div class="text-numbers">
-                    <div class="text-p-16">
-                        Всего записей: {{ group_dep }}
-                    </div>
-                    <div class="text-admin-grid-work">
-                        <div class="text-p-15-green">
-                            Отображается: {{ group_dep_show }}
-                        </div>
-                        <div class="text-p-15-grey">
-                            Скрыты: {{ group_dep_not_show }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="buttons-admin-grid">
-                <a class="button-primary-rusatom-admin" href="{% url 'new_groupdep' %}">Добавить</a>
-                <a class="button-primary-rusatom-admin" style="display: flex"
-                   href="{% url 'all_groupdep' %}">Редактирование</a>
-            </div>
-        </div>
-    </div>
-
+    {% endif %}
     {% comment %}
     <div class="text-1" style="display: flex">
         Назначение прав для "ДРОЗД"-а
@@ -157,30 +159,31 @@
     </div>
 
 {% endcomment %}
+    {% if permission.can_upload %}
+        <div class="text-1" style="display: flex">
+            Формирование списков
+        </div>
 
-    <div class="text-1" style="display: flex">
-        Формирование списков
-    </div>
+        <div class="list-emp" style="margin-top: 15px">
 
-    <div class="list-emp" style="margin-top: 15px">
-
-        <div class="element_full_index_admin">
-            <div class="text-admin-grid">
-                <div class="text-p-16-bold">
-                    Выгрузка списка сотрудников
+            <div class="element_full_index_admin">
+                <div class="text-admin-grid">
+                    <div class="text-p-16-bold">
+                        Выгрузка списка сотрудников
+                    </div>
                 </div>
-            </div>
-            <div class="text-numbers">
-                <div class="text-p-16">
-                    Формирование настраиваемого списка сотрудников
+                <div class="text-numbers">
+                    <div class="text-p-16">
+                        Формирование настраиваемого списка сотрудников
+                    </div>
                 </div>
-            </div>
 
-            <div class="buttons-admin-grid">
-                <a class="button-primary-rusatom-admin" href="{% url 'get_emp_list' %}">Сформировать список</a>
+                <div class="buttons-admin-grid">
+                    <a class="button-primary-rusatom-admin" href="{% url 'get_emp_list' %}">Сформировать список</a>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 
 
 {% endblock %}
