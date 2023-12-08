@@ -603,7 +603,7 @@ class DownloadFileView(View):
         if not os.path.exists(os.path.join(settings.BASE_DIR, 'media', 'files', 'xml')):
             os.makedirs(os.path.join(settings.BASE_DIR, 'media', 'files', 'xml'))
         link_xml = os.path.join(settings.BASE_DIR, 'media', 'files', 'xml', 'xml.xml')
-        ET.ElementTree(first).write(link_xml, encoding='UTF-8')
+        ET.ElementTree(first).write(link_xml, encoding='utf-8-sig')
         with open(link_xml, 'rb') as f:
             mime_type, _ = mimetypes.guess_type(link_xml)
             response = HttpResponse(f.read(), content_type=mime_type)
