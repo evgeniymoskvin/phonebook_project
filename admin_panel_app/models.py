@@ -141,3 +141,24 @@ class CanEditEmployee(models.Model):
 
     def __str__(self):
         return f'{self.emp}'
+
+class  StatsEmployeeModel(models.Model):
+
+    class StatusWork(models.IntegerChoices):
+        """        Статус задания       """
+        WORK = 1, _('Работает')
+        NOT_WORK = 0, _('Уволился')
+
+
+    stat_date = models.DateTimeField("Дата", auto_now_add=True, null=True)
+    count_people_in_company = models.IntegerField("Количество человек", null=True, default=None, blank=True)
+    employee = models.ForeignKey(EmployeeModel, models.CASCADE, verbose_name="Пользователь")
+    employee_action = models.IntegerField("Статус задания", choices=StatusWork.choices, default=StatusWork.WORK)
+
+    class Meta:
+        verbose_name = _("статистика сотрудника")
+        verbose_name_plural = _("статистика сотрудников")
+
+    def __str__(self):
+        return f'Всего сотрудников {self.count_people_in_company} | {self.employee} - {self.employee_action} | {self.stat_date}'
+

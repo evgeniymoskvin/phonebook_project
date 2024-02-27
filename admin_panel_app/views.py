@@ -23,7 +23,7 @@ from django.contrib.auth import authenticate, login
 from .forms import MoreDetailsEmployeeForm, EmployeeForm, UserRegistration, NewGroupDepForm, NewCommandForm
 from .models import MoreDetailsEmployeeModel, EmployeeModel, CanEditEmployee, GroupDepartmentModel, CommandNumberModel, \
     CityDepModel
-from .functions import check_permission_user
+from .functions import check_permission_user, add_stats_work_people
 
 
 class IndexMainPage(View):
@@ -142,6 +142,7 @@ class RegistrationNewUser(View):
             }
             return render(request, 'admin_panel_app/ajax/error_list.html', content)
         print(new_user, new_employee, new_details)
+        add_stats_work_people(new_employee)
         return redirect('all_employee')
 
 
@@ -165,7 +166,6 @@ class EditEmployee(View):
             more_details = MoreDetailsEmployeeForm()
         user = User.objects.get(id=emp.user_id)
         new_user = UserRegistration(instance=user)
-
         content = {
             'emp_form': emp_form,
             'more_details': more_details,
@@ -233,6 +233,7 @@ class EditEmployee(View):
             except:
                 emp.work_status = False
             emp.save()
+            add_stats_work_people(emp)
         # Заполняем таблицу дополнительной информации
         details_form = MoreDetailsEmployeeForm(request.POST, request.FILES)
         if details_form.is_valid():

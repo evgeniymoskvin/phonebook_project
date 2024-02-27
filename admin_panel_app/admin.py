@@ -1,6 +1,6 @@
 from django.contrib import admin
 from admin_panel_app.models import EmployeeModel, MoreDetailsEmployeeModel, GroupDepartmentModel, CityDepModel, \
-    CommandNumberModel, JobTitleModel, CanEditEmployee
+    CommandNumberModel, JobTitleModel, CanEditEmployee, StatsEmployeeModel
 
 
 class EmployeeAdmin(admin.ModelAdmin):
@@ -39,5 +39,6 @@ admin.site.register(CityDepModel)
 admin.site.register(CommandNumberModel, CommandNumberAdmin)
 admin.site.register(JobTitleModel, JobTitleAdmin)
 admin.site.register(CanEditEmployee, CanEditEmployeeAdmin)
+admin.site.register(StatsEmployeeModel)
 
 # Register your models here.
