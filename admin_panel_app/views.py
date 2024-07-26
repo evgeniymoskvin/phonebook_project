@@ -2,6 +2,8 @@ import datetime
 import mimetypes
 import xml.etree.ElementTree as ET
 import os
+import re
+
 
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
@@ -19,11 +21,17 @@ from django.utils.decorators import method_decorator
 from django.utils.encoding import escape_uri_path
 from django.conf import settings
 from django.contrib.auth import authenticate, login
+from django.core.mail import EmailMessage
 
-from .forms import MoreDetailsEmployeeForm, EmployeeForm, UserRegistration, NewGroupDepForm, NewCommandForm
+from .forms import MoreDetailsEmployeeForm, EmployeeForm, UserRegistration, NewGroupDepForm, NewCommandForm, \
+    UploadFileForm
 from .models import MoreDetailsEmployeeModel, EmployeeModel, CanEditEmployee, GroupDepartmentModel, CommandNumberModel, \
     CityDepModel
 from .functions import check_permission_user, add_stats_work_people
+from .email_functions import send_employees_salary_blank
+from .tasks import celery_send_employees_salary_blank
+
+
 
 
 class IndexMainPage(View):
@@ -177,6 +185,7 @@ class EditEmployee(View):
 
     @method_decorator(login_required(login_url='login'))
     def post(self, request, pk):
+        print(request.POST)
         employee_form = EmployeeForm(request.POST)
         emp = EmployeeModel.objects.get(id=pk)
         if employee_form.is_valid():
@@ -236,32 +245,44 @@ class EditEmployee(View):
             add_stats_work_people(emp)
         # Заполняем таблицу дополнительной информации
         details_form = MoreDetailsEmployeeForm(request.POST, request.FILES)
-        if details_form.is_valid():
-            more_information_emp = None
-            try:
-                more_information_emp = MoreDetailsEmployeeModel.objects.get(emp_id=emp.id)
-            except:
-                more_information_emp = MoreDetailsEmployeeModel(emp_id=emp.id)
-            try:
-                more_information_emp.photo = request.FILES['photo']
-            except Exception as e:
-                print(f'exception: {e}')
+
+        more_information_emp = None
+        try:
+            more_information_emp = MoreDetailsEmployeeModel.objects.get(emp_id=emp.id)
+        except Exception as e:
+            print(f'MoreDetailsEmployeeModel.objects.get: {e}')
+            more_information_emp = MoreDetailsEmployeeModel(emp_id=emp.id)
+        try:
+            more_information_emp.photo = request.FILES['photo']
+        except Exception as e:
+            print(f'Photo exception: {e}')
+        try:
             more_information_emp.outside_email = details_form.data['outside_email']
+        except Exception as e:
+            print(f'Photo exception: {e}')
+        try:
             more_information_emp.mobile_phone = details_form.data['mobile_phone']
-            try:
-                # Проверка правильности записи дня рождения
-                if datetime.date.fromisoformat(details_form.data['date_birthday']):
-                    more_information_emp.date_birthday = details_form.data['date_birthday']
-            except Exception as e:
-                print(e)
-            more_information_emp.room = details_form.data['room']
-            more_information_emp.city_dep_id = details_form.data['city_dep']
-            try:
-                if employee_form.data['date_birthday_show'] == 'on':
-                    more_information_emp.date_birthday_show = True
-            except:
-                more_information_emp.date_birthday_show = False
-            more_information_emp.save()
+        except Exception as e:
+            print(f'Photo exception: {e}')
+        try:
+            # Проверка правильности записи дня рождения
+            if datetime.date.fromisoformat(details_form.data['date_birthday']):
+                more_information_emp.date_birthday = details_form.data['date_birthday']
+        except Exception as e:
+            print(f'Проверка дня рождения: {e}')
+        more_information_emp.room = details_form.data['room']
+        more_information_emp.city_dep_id = details_form.data['city_dep']
+        try:
+            if employee_form.data['date_birthday_show'] == 'on':
+                more_information_emp.date_birthday_show = True
+        except:
+            more_information_emp.date_birthday_show = False
+        try:
+            if employee_form.data['send_email_salary_blank'] == 'on':
+                more_information_emp.send_email_salary_blank = True
+        except:
+            more_information_emp.send_email_salary_blank = False
+        more_information_emp.save()
         change_user = User.objects.get(id=emp.user_id)
         change_user.email = request.POST.get('email')
         change_user.save()
@@ -591,6 +612,7 @@ def get_employees_list(request):
     }
     return render(request, 'admin_panel_app/service/form_checkboxes/selected_emp_info.html', content)
 
+
 class DownloadFileView(View):
     def get(self, request):
         first = ET.Element('YealinkIPPhoneDirectory')
@@ -609,3 +631,53 @@ class DownloadFileView(View):
             mime_type, _ = mimetypes.guess_type(link_xml)
             response = HttpResponse(f.read(), content_type=mime_type)
         return response
+
+
+def handle_upload_file(f):
+    with open(f"uploads/{f.name}", "wb+") as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+
+SMTP_SERVER = '161.11.16.20'
+SMTP_PORT = 587
+SMTP_USERNAME = 'print@el-spb.local'
+SMTP_PASSWORD = 'Istok123'
+
+
+class SendEmailSalaryBlankView(View):
+    """Страница загрузки файла для рассылки расчетных листков сотрдникам"""
+    @method_decorator(login_required(login_url='login'))
+    def get(self, request):
+        try:
+            user = EmployeeModel.objects.get(user=request.user)
+            check_user = CanEditEmployee.objects.get(emp_id=user.id)
+        except:
+            check_user = False
+
+        content = {'form': UploadFileForm(),
+                   'permission': check_user,
+                   }
+        return render(request, 'admin_panel_app/upload_file_to_send_salary.html', content)
+
+    def post(self, request):
+        print(f'request.POST: {request.POST}')
+        print(f'request.FILES: {request.FILES}')
+        money_list = request.FILES['file']
+        temp_file_path = os.path.join(settings.MEDIA_ROOT, str(money_list.name))
+        # Создаем физически файл
+        with open(temp_file_path, "wb+") as dest_file:
+            for chunk in money_list.chunks():
+                dest_file.write(chunk)
+            # Разбираем файл в список results_people
+            re_pattern = re.compile(r"АО КИС(.*?)---\n\n\n\n\n", re.DOTALL)
+            results_people = []
+            with open(dest_file.name, encoding='cp1251') as f:
+                for m in re_pattern.findall(f.read()):
+                    results_people.append(f'АО КИС{m}')  #Добавляем отрезанные в начале буквы
+            celery_send_employees_salary_blank.delay(results_people)
+        # Удаляем загруженный файл
+        if os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
+        resp = HttpResponse(status=200)
+        return resp

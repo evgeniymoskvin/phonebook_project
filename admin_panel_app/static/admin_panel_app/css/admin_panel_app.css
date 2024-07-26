@@ -290,6 +290,18 @@ body {
     display: inline;
 }
 
+.text-32px-bold {
+    font-size: 32px;
+    font-family: "p22_underground_cy_prodemi", serif;
+    color: #1D222A;
+}
+
+.text-32px-light {
+    font-size: 32px;
+    font-family: "p22_underground_cy_probook", serif;
+    color: #1D222A;
+}
+
 
 .text-p-16 {
     font-family: "p22_underground_cy_probook", serif;
@@ -364,4 +376,39 @@ body {
 
 .input-flex {
     display: flex;
+}
+
+
+.input_my_form {
+    display: none;
+}
+
+.my_form label {
+    display: flex;
+    min-width: 100%;
+    min-height: 100px;
+    margin-top: 35px;
+    justify-content: start;
+    align-items: start;
+    text-align: start;
+    padding-left: 11px;
+    padding-top: 5px;
+    /*border: 0;*/
+    border-radius: 8px;
+    background-color: rgb(249, 249, 249);
+    border: 1.5px solid rgb(108, 172, 228);
+    font-size: 20px;
+    font-family: "p22_underground_cy_probook", serif;
+    /*text-transform: uppercase;*/
+    color: rgb(108, 172, 228);
+    transition-duration: .15s;
+}
+
+.my_form label:hover {
+    box-shadow: 0px 0px 8px 0px rgba(2, 94, 161, 0.2);
+}
+
+.my_form label:active {
+    background-color: rgb(234, 234, 234);
+    box-shadow: 2px 4px 11px -3px rgba(2, 94, 161, 0.45);
 }

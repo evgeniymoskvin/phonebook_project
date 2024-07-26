@@ -199,13 +199,32 @@
                     <a class="button-primary-rusatom-admin" href="{% url 'download_xml' %}">Загрузить</a>
                 </div>
             </div>
-
-        <div class="element_full_index_admin" style="opacity: 0;">
-
+            <div class="element_full_index_admin" style="opacity: 0;">
+            </div>
         </div>
 
-
+        <div class="text-1" style="display: flex">
+            Рассылки
         </div>
+        <div class="list-emp" style="margin-top: 15px">
+            <div class="element_full_index_admin">
+                <div class="text-admin-grid">
+                    <div class="text-p-16-bold">
+                        Расчетные листки
+                    </div>
+                </div>
+                <div class="text-numbers">
+                    <div class="text-p-16">
+                        Рассылка расчетных листков
+                    </div>
+                </div>
+
+                <div class="buttons-admin-grid">
+                    <a class="button-primary-rusatom-admin" href="{% url 'upload_salary' %}">Сделать</a>
+                </div>
+            </div>
+        </div>
+
     {% endif %}
 
 

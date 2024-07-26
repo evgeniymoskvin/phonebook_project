@@ -45,7 +45,8 @@ class EmployeeForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['department'].queryset = CommandNumberModel.objects.filter(show=True).order_by('command_number')
-        self.fields['department_group'].queryset = GroupDepartmentModel.objects.filter(show=True).order_by('group_dep_abr')
+        self.fields['department_group'].queryset = GroupDepartmentModel.objects.filter(show=True).order_by(
+            'group_dep_abr')
         self.fields['job_title'].queryset = JobTitleModel.objects.order_by('job_title')
 
 
@@ -109,8 +110,8 @@ class NewGroupDepForm(ModelForm):
                                                       "aria-label": "Полное наименование",
                                                       "placeholder": "Полное наименование"}),
                    'city_dep': Select(attrs={"class": "form-select",
-                                               "aria-label": "Город",
-                                               "placeholder": "Выбрать город"}),
+                                             "aria-label": "Город",
+                                             "placeholder": "Выбрать город"}),
                    'show': CheckboxInput()}
 
 
@@ -134,3 +135,34 @@ class NewCommandForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['department'].queryset = GroupDepartmentModel.objects.filter(show=True).order_by(
             'group_dep_abr')
+
+
+class MultipleFileInput(ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = [single_file_clean(data, initial)]
+        return result
+
+
+#
+# class UploadFileForm(Form):
+#     file = MultipleFileField(label="Прикрепите файл:",
+#                              widget=MultipleFileInput(attrs={'class': 'd-flex'
+#                                                                       # 'input_my_form'
+#                                  ,
+#                                                              'multiple': 'True'
+#                                                              }))
+class UploadFileForm(Form):
+    file = FileField(label="Прикрепите файл",
+                     widget=FileInput(attrs={'class': 'd-flex, input_my_form'}))

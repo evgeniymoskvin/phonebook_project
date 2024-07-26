@@ -19,3 +19,5 @@ def add_stats_work_people(emp):
     new_stat.count_people_in_company = EmployeeModel.objects.get_queryset().filter(work_status=True).count()
     new_stat.save()
     return None
+
+

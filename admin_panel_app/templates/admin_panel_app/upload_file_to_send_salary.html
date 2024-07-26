@@ -1,0 +1,128 @@
+{% extends "admin_panel_app/base.html" %}
+{% load static %}
+
+{% block title %}
+    Загрузка расчетного листка
+{% endblock %}
+
+{% block body %}
+
+    {#    <div style="width: 100%; display: flex; justify-content: center">#}
+    {#        <img src="{% static 'admin_panel_app/icons/logo.png' %}" width="154px" height="70px">#}
+    {#    </div>#}
+    {% if permission.can_change_emp %}
+        <div class="d-flex w-100 justify-content-center flex-column align-items-center">
+            <div class="d-flex w-50 flex-column">
+
+                <div class="d-flex text-32px-bold">
+                    Загрузить файл для рассылки
+                </div>
+                <div class="text-32px-light" style="margin-top: -14px">расчетных листков</div>
+
+                <form method="POST" class="my_form d-flex w-100 flex-column align-items-center justify-content-center"
+                      id="form_send_file"
+                      enctype="multipart/form-data"
+                      data-ajax-url="{% url 'upload_salary' %}">
+                    {% csrf_token %}
+                    <div class="d-flex w-100">
+                        {{ form }}
+                    </div>
+                    <div class="d-flex mt-4 w-100 justify-content-end">
+                        <button class="d-flex button-primary-rusatom justify-content-center align-items-center"
+                                type="submit">Начать рассылку
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Модальное окно успешной отправки-->
+    <div class="modal fade" id="done_modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog_clearance">
+            <div class="modal-content modal-content_clearance">
+                <div class="modal-header modal-header_clearance">
+                    <h5 class="modal-title text-24px-regular" style="cursor: context-menu">Ура!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body modal-body_clearance">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                        <div class="d-flex text-20px-light">Отправка расчетных листков запущена</div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer_clearance justify-content-center">
+
+                    <button class="button_blue_clearance"
+                            onclick="location.href = '{% url 'admin_hr' %}'">
+                        Ок
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно ошибки-->
+    <div class="modal fade" id="error_modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog_clearance">
+            <div class="modal-content modal-content_clearance">
+                <div class="modal-header modal-header_clearance">
+                    <h5 class="modal-title text-24px-regular" style="cursor: context-menu">Ошибка</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body modal-body_clearance">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                        <div class="d-flex text-20px-light">Что-то пошло не так...</div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer_clearance justify-content-center">
+
+                    <button class="button_blue_clearance"
+                            onclick="$('#error_modal').modal('hide');">
+                        Очень жаль
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+        $(document).ready(function () {
+            document.getElementsByTagName('label')[0].innerHTML = 'Прикрепите файл'
+        })
+
+        document.getElementById('id_file').onchange = function () {
+            if (this.files[0]) {
+                console.log(this.files[0].name)
+                document.getElementsByTagName('label')[0].innerHTML = this.files[0].name
+            } //если выбрали файл
+        }
+
+        $('#form_send_file').submit(function (e) {
+            e.preventDefault()
+            var form_url = $("#form_send_file").attr("data-ajax-url")
+            var data = new FormData($('#form_send_file').get(0))
+            $.ajax({
+                type: "POST",
+                url: form_url,
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $('#done_modal').modal('show');
+                },
+                error: function () {
+                    $('#error_modal').modal('show');
+                }
+            })
+        })
+    </script>
+{% endblock %}
+
