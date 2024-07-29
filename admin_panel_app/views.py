@@ -675,6 +675,7 @@ class SendEmailSalaryBlankView(View):
             with open(dest_file.name, encoding='cp1251') as f:
                 for m in re_pattern.findall(f.read()):
                     results_people.append(f'АО КИС{m}')  #Добавляем отрезанные в начале буквы
+            print('Отправка списка для рассылки в celery')
             celery_send_employees_salary_blank.delay(results_people)
         # Удаляем загруженный файл
         if os.path.exists(temp_file_path):

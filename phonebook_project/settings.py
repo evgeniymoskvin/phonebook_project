@@ -153,7 +153,7 @@ FORKED_BY_MULTIPROCESSING = 1
 #         }
 #     }
 # }
-EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = '161.11.16.20'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'print@el-spb.local'
