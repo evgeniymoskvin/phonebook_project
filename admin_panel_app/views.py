@@ -8,7 +8,7 @@ import re
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 
-# from transliterate import translit, get_available_language_codes
+from transliterate import translit, get_available_language_codes
 
 # Create your views here.
 from django.shortcuts import render, redirect
