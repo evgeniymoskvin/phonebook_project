@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
+handler404 = 'admin_panel_app.views.page_404_view'
+
 urlpatterns = [
     path('admin_hr/', views.IndexMainPage.as_view(), name='admin_hr'),
     path('admin_hr/new_employee/', views.RegistrationNewUser.as_view(), name='new_employee'),
@@ -42,3 +44,4 @@ urlpatterns = [
     path('admin_hr/upload_salary/', views.SendEmailSalaryBlankView.as_view(), name='upload_salary'),
 
 ]
+
