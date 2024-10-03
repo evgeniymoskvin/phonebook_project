@@ -464,7 +464,6 @@ class ServiceInfoView(View):
 def username_exists(request):
     """ajax функция проверки существования пользователя"""
     username = request.GET.get('username')
-    print(f'checking {username}')
     if User.objects.filter(username=username).exists():
         username_back = True
     else:
@@ -639,10 +638,10 @@ def handle_upload_file(f):
             destination.write(chunk)
 
 
-SMTP_SERVER = '161.11.16.20'
-SMTP_PORT = 587
-SMTP_USERNAME = 'print@el-spb.local'
-SMTP_PASSWORD = 'Istok123'
+# SMTP_SERVER = '161.11.16.20'
+# SMTP_PORT = 587
+# SMTP_USERNAME = 'print@el-spb.local'
+# SMTP_PASSWORD = 'Istok123'
 
 
 class SendEmailSalaryBlankView(View):
@@ -675,7 +674,6 @@ class SendEmailSalaryBlankView(View):
             with open(dest_file.name, encoding='cp1251') as f:
                 for m in re_pattern.findall(f.read()):
                     results_people.append(f'АО КИС{m}')  #Добавляем отрезанные в начале буквы
-            print('Отправка списка для рассылки в celery')
             celery_send_employees_salary_blank.delay(results_people)
         # Удаляем загруженный файл
         if os.path.exists(temp_file_path):

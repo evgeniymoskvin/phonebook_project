@@ -1,10 +1,13 @@
 import os
 import re
 import time
+import logging
 from django.conf import settings
 from django.core.mail import EmailMessage
 
 from .models import MoreDetailsEmployeeModel, EmployeeModel
+
+logging.basicConfig(level=logging.INFO, filename="py_log.log", filemode="w")
 
 
 def send_employees_salary_blank(results_people):
@@ -27,10 +30,13 @@ def send_employees_salary_blank(results_people):
                 # Формируем приложенный файл
                 email_to_emp.attach(f'{match_number[0]}-{month_name[0]}.txt', text, mimetype='text/plain')
                 email_to_emp.send()
+                logging.info(f"Письмо отправлено: {emp_to_send}")
                 print(f'Письмо отправлено: {emp_to_send}')
             else:
                 # Если согласие на отправку расчетных листков не подписано
+                logging.info(f'Запрет на отправку письма: {emp_to_send}')
                 print(f'Запрет на отправку письма: {emp_to_send}')
         except Exception as e:
+            logging.warning(f"Сотрудник {match_number} не найден: {e}")
             print(f"Сотрудник {match_number} не найден: {e}")
     return True
