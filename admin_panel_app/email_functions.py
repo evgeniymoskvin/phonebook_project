@@ -16,10 +16,14 @@ def send_employees_salary_blank(results_people):
         time.sleep(1)  # Делаем паузу для отправки сообщений
         text = one_employee  # Достаем текст по каждому сотруднику
         match_number = re.findall(r"Табельный номер:\s\s(.*?)\s", text, re.DOTALL)  # Достаем табельный номер сотрудника
+        print(f'Табельный номер: {match_number[0]}')
+        logging.info(f'Табельный номер: {match_number[0]}')
         month_name = re.findall(r"з/платы за\s(.*?)\n", text, re.DOTALL)  # Достаем месяц и год
         try:
             # Находим сотрудника с таким табельным номером
             emp_to_send = EmployeeModel.objects.get(personnel_number=match_number[0])
+            print(f'Сотрудник: {emp_to_send}')
+            logging.info(f'Сотрудник: {emp_to_send}')
             # Находим дополнительную информацию по нему
             more_info_of_emp = MoreDetailsEmployeeModel.objects.get(emp=emp_to_send)
             # Если подписано согласие на отправку расчетных листков

@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
-handler404 = 'admin_panel_app.views.page_404_view'
+# handler404 = 'admin_panel_app.views.page_404_view'
 
 urlpatterns = [
     path('admin_hr/', views.IndexMainPage.as_view(), name='admin_hr'),
