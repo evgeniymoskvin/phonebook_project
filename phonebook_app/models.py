@@ -110,23 +110,26 @@ def upload_to(instance, filename):
     print(new_path)
     return new_path
 
+
 class MoreDetailsEmployeeModel(models.Model):
     emp = models.OneToOneField(EmployeeModel, models.CASCADE, verbose_name="Пользователь")
     photo = models.ImageField(verbose_name="Файл", null=True, blank=True,
-                            upload_to=upload_to)
+                              upload_to=upload_to)
     outside_email = models.EmailField(verbose_name="Внешняя почта", null=True, blank=True)
     mobile_phone = models.CharField(verbose_name="Мобильный телефон", null=True, blank=True, max_length=30)
     date_birthday = models.DateField(verbose_name="День рождения", null=True, blank=True)
     room = models.CharField(verbose_name="Номер комнаты", null=True, blank=True, max_length=30)
     date_birthday_show = models.BooleanField(verbose_name="Отображать день рождения", default=False, null=True)
-    city_dep = models.ForeignKey(CityDepModel, on_delete=models.PROTECT, null=True, verbose_name="Город/Подразделение", blank=True)
+    city_dep = models.ForeignKey(CityDepModel, on_delete=models.PROTECT, null=True, verbose_name="Город/Подразделение",
+                                 blank=True)
+    send_email_salary_blank = models.BooleanField(verbose_name="Отсылать расчетный листок", default=False)
+    archive_access = models.BooleanField(verbose_name="Доступ к архиву", default=False)
 
     class Meta:
         managed = False
         verbose_name = _("дополнительная информация по сотруднику")
         verbose_name_plural = _("дополнительная информация по сотрудникам")
         db_table = 'admin_panel_app_moredetailsemployeemodel'
-
 
     def __str__(self):
         return f'{self.emp}'

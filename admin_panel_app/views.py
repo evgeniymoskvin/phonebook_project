@@ -4,7 +4,6 @@ import xml.etree.ElementTree as ET
 import os
 import re
 
-
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 
@@ -30,8 +29,6 @@ from .models import MoreDetailsEmployeeModel, EmployeeModel, CanEditEmployee, Gr
 from .functions import check_permission_user, add_stats_work_people
 from .email_functions import send_employees_salary_blank
 from .tasks import celery_send_employees_salary_blank
-
-
 
 
 class IndexMainPage(View):
@@ -280,6 +277,11 @@ class EditEmployee(View):
         try:
             if employee_form.data['send_email_salary_blank'] == 'on':
                 more_information_emp.send_email_salary_blank = True
+        except:
+            more_information_emp.send_email_salary_blank = False
+        try:
+            if employee_form.data['archive_access'] == 'on':
+                more_information_emp.archive_access = True
         except:
             more_information_emp.send_email_salary_blank = False
         more_information_emp.save()
@@ -646,6 +648,7 @@ def handle_upload_file(f):
 
 class SendEmailSalaryBlankView(View):
     """Страница загрузки файла для рассылки расчетных листков сотрдникам"""
+
     @method_decorator(login_required(login_url='login'))
     def get(self, request):
         try:
@@ -673,7 +676,7 @@ class SendEmailSalaryBlankView(View):
             results_people = []
             with open(dest_file.name, encoding='cp1251') as f:
                 for m in re_pattern.findall(f.read()):
-                    results_people.append(f'АО КИС{m}')  #Добавляем отрезанные в начале буквы
+                    results_people.append(f'АО КИС{m}')  # Добавляем отрезанные в начале буквы
             celery_send_employees_salary_blank.delay(results_people)
         # Удаляем загруженный файл
         if os.path.exists(temp_file_path):

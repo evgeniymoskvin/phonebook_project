@@ -121,6 +121,7 @@ class MoreDetailsEmployeeModel(models.Model):
     city_dep = models.ForeignKey(CityDepModel, on_delete=models.PROTECT, null=True, verbose_name="Город/Подразделение",
                                  blank=True)
     send_email_salary_blank = models.BooleanField(verbose_name="Отсылать расчетный листок", default=False)
+    archive_access = models.BooleanField(verbose_name="Доступ к архиву", default=False)
 
     class Meta:
         verbose_name = _("дополнительная информация по сотруднику")
