@@ -283,7 +283,7 @@ class EditEmployee(View):
             if employee_form.data['archive_access'] == 'on':
                 more_information_emp.archive_access = True
         except:
-            more_information_emp.send_email_salary_blank = False
+            more_information_emp.archive_access = False
         more_information_emp.save()
         change_user = User.objects.get(id=emp.user_id)
         change_user.email = request.POST.get('email')
