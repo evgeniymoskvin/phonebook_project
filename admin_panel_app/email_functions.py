@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO, filename="py_log.log", filemode="w")
 def send_employees_salary_blank(results_people):
     """Функция отправки письма с расчетным листком на почту"""
     for one_employee in results_people:
-        time.sleep(1)  # Делаем паузу для отправки сообщений
+        time.sleep(2)  # Делаем паузу для отправки сообщений
         text = one_employee  # Достаем текст по каждому сотруднику
         match_number = re.findall(r"Табельный номер:\s\s(.*?)\s", text, re.DOTALL)  # Достаем табельный номер сотрудника
         print(f'Табельный номер: {match_number[0]}')
@@ -33,9 +33,9 @@ def send_employees_salary_blank(results_people):
                                             to=[emp_to_send.user.email])
                 # Формируем приложенный файл
                 email_to_emp.attach(f'{match_number[0]}-{month_name[0]}.txt', text, mimetype='text/plain')
-                email_to_emp.send()
+                send_result = email_to_emp.send()
                 logging.info(f"Письмо отправлено: {emp_to_send}")
-                print(f'Письмо отправлено: {emp_to_send}')
+                print(f'Письмо отправлено: {emp_to_send} ({send_result})')
             else:
                 # Если согласие на отправку расчетных листков не подписано
                 logging.info(f'Запрет на отправку письма: {emp_to_send}')
